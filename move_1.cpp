@@ -20,7 +20,7 @@ void MoveStrategiyaBall (int* x, int* y, int* vx, int* vy, int dt);
 void Level_game (int* vx, int* vy);
 void Count (int* counter, int* level, int* vx1, int* vy1, int* vx2, int* vy2, int* vx3, int* vy3,
               int* vx4, int* vy4, int* vx5, int* vy5);
-void Drive_ball (int* vx, int* vy);
+void Drive_ball (Ball *ball);
 void CalculateDistance_R_R (double* r_r1, double* r_r2, double* r_r3, double* r_r4, double* r_r5,
                             int* y, int* y1, int* y2, int* y3, int* y4, int* y5,
                             int* x, int* x1, int* x2, int* x3, int* x4, int* x5,
@@ -73,7 +73,7 @@ void MoveBalls ()
 
         DrawBackground ();
 
-        Drive_ball (&ball.vx, &ball.vy);
+        Drive_ball (&ball);
 
         Count (&counter, &level, &ball1.vx, &ball1.vy, &vx2, &vy2, &vx3, &vy3, &vx4, &vy4, &vx5, &vy5);
 
@@ -158,24 +158,24 @@ void Count (int* counter, int* level, int* vx1, int* vy1, int* vx2, int* vy2, in
 
  //-----------------------------------------------------------------------------
 
-void Drive_ball (int* vx, int* vy)
+void Drive_ball (Ball *ball)
     {
-    if (GetAsyncKeyState (VK_RIGHT)) *vx =  4, *vy =  0;
-    if (GetAsyncKeyState (VK_LEFT))  *vx = -4, *vy =  0;
-    if (GetAsyncKeyState (VK_UP))    *vx =  0, *vy = -4;
-    if (GetAsyncKeyState (VK_DOWN))  *vx =  0, *vy =  4;
+    if (GetAsyncKeyState (VK_RIGHT)) (*ball).vx =  4, (*ball).vy =  0;
+    if (GetAsyncKeyState (VK_LEFT))  ball -> vx = -4, ball -> vy =  0;
+    if (GetAsyncKeyState (VK_UP))    ball -> vx =  0, ball -> vy = -4;
+    if (GetAsyncKeyState (VK_DOWN))  ball -> vx =  0, ball -> vy =  4;
 
     if (GetAsyncKeyState (VK_SHIFT))
         {
-        if (*vx != 0)
+        if (ball -> vx != 0)
             {
-            if (*vx > 0) *vx = *vx + 4;
-            else         *vx = *vx - 4;
+            if (ball -> vx > 0) ball -> vx = ball -> vx + 4;
+            else         ball -> vx = ball -> vx - 4;
             }
         else
             {
-            if (*vy > 0) *vy = *vy + 4;
-            else         *vy = *vy - 4;
+            if (ball -> vy > 0) ball -> vy = ball -> vy + 4;
+            else         ball -> vy = ball -> vy - 4;
             }
         }
     }

@@ -73,7 +73,7 @@ void MoveBalls ()
 
         DrawBackground ();
 
-        Drive_ball (&ball);
+        Drive_ball (&ball.vx, &ball.vy);
 
         Count (&counter, &level, &ball1.vx, &ball1.vy, &vx2, &vy2, &vx3, &vy3, &vx4, &vy4, &vx5, &vy5);
 
