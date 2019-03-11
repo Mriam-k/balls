@@ -10,19 +10,20 @@ struct Ball
     int x, y;
     int vx, vy;
     int r;
-    COLORREF color_circuit, color_ball;
+    COLORREF color_contour, color_ball;
+    int thickness_contour;
     };
 
 //-----------------------------------------------------------------------------
 
 void MoveBalls ();
 void DrawBackground ();
-void DrowBall (Ball *b);
-void MoveStrategiyaBall (Ball *b, int dt);
+void DrowBall (Ball *b_drow);
+void MoveStrategiyaBall (Ball *b_Strategiya, int dt);
 void Level_game (int* vx, int* vy);
 void Count (int* counter, int* level, int* vx1, int* vy1, int* vx2, int* vy2, int* vx3, int* vy3,
               int* vx4, int* vy4, int* vx5, int* vy5);
-void Drive_ball (Ball *b);
+void Drive_ball (Ball *b_drive);
 void CalculateDistance_R_R (double* r_r1, double* r_r2, double* r_r3, double* r_r4, double* r_r5,
                             int* y, int* y1, int* y2, int* y3, int* y4, int* y5,
                             int* x, int* x1, int* x2, int* x3, int* x4, int* x5,
@@ -56,12 +57,12 @@ void DrawBackground ()
 
 void MoveBalls ()
     {
-    Ball ball  = {320, 110, 0, 0, 20, RGB (0,   255, 50 ), RGB (0,   128, 0  )};
-    Ball ball1 = {360, 150, 2, 2, 20, RGB (63,  72,  204), RGB (63,  0,   255)};
-    Ball ball2 = {390, 190, 3, 6, 20, RGB (128, 0,   255), RGB (128, 0,   255)};
-    Ball ball3 = {420, 230, 4, 1, 20, RGB (128, 0,   64 ), RGB (170, 0,   85 )};
-    Ball ball4 = {450, 260, 5, 7, 20, RGB (255, 255, 0  ), RGB (255, 255, 50 )};
-    Ball ball5 = {490, 300, 3, 2, 20, RGB (255, 255, 255), RGB (255, 255, 255)};
+    Ball ball  = {320, 110, 0, 0, 20, RGB (0,   255, 50 ), RGB (0,   128, 0  ), 4};
+    Ball ball1 = {360, 150, 2, 2, 20, RGB (63,  72,  204), RGB (63,  0,   170), 6};
+    Ball ball2 = {390, 190, 3, 6, 20, RGB (128, 0,   255), RGB (128, 0,   255)   };
+    Ball ball3 = {420, 230, 4, 1, 20, RGB (128, 0,   64 ), RGB (170, 0,   85 ), 4};
+    Ball ball4 = {450, 260, 5, 7, 20, RGB (255, 255, 0  ), RGB (255, 255, 100), 5};
+    Ball ball5 = {490, 300, 3, 2, 20, RGB (255, 255, 255), RGB (255, 255, 255)   };
 
     int dt = 2;
     int balli = 0;
@@ -110,24 +111,24 @@ void MoveBalls ()
 
 //-----------------------------------------------------------------------------
 
-void DrowBall (Ball *b)
+void DrowBall (Ball *b_drow)
     {
-    txSetColor     (b -> color_circuit, 3);
-    txSetFillColor (b -> color_ball);
-    txCircle (b -> x, b -> y, b -> r);
+    txSetColor     (b_drow -> color_contour, b_drow -> thickness_contour);
+    txSetFillColor (b_drow -> color_ball);
+    txCircle (b_drow -> x, b_drow -> y, b_drow -> r);
     }
 
 //-----------------------------------------------------------------------------
 
-void MoveStrategiyaBall (Ball *b, int dt)
+void MoveStrategiyaBall (Ball *b_Strategiya, int dt)
     {
-    b -> x  = (b -> x) + (b -> vx) * dt;
-    b -> y  = (b -> y) + (b -> vy) * dt;
+    b_Strategiya -> x  = (b_Strategiya -> x) + (b_Strategiya -> vx) * dt;
+    b_Strategiya -> y  = (b_Strategiya -> y) + (b_Strategiya -> vy) * dt;
 
-    if ((b -> x) >= 675)   (b -> vx) = -b -> vx,   b -> x = 675;
-    if ((b -> y) >= 575)   (b -> vy) = -b -> vy,   b -> y = 575;
-    if ((b -> x) <= 205)   (b -> vx) = -b -> vx,   b -> x = 205;
-    if ((b -> y) <= 95)    (b -> vy) = -b -> vy,   b -> y = 95;
+    if ((b_Strategiya -> x) >= 675)   (b_Strategiya -> vx) = -b_Strategiya -> vx,   b_Strategiya -> x = 675;
+    if ((b_Strategiya -> y) >= 575)   (b_Strategiya -> vy) = -b_Strategiya -> vy,   b_Strategiya -> y = 575;
+    if ((b_Strategiya -> x) <= 205)   (b_Strategiya -> vx) = -b_Strategiya -> vx,   b_Strategiya -> x = 205;
+    if ((b_Strategiya -> y) <= 95)    (b_Strategiya -> vy) = -b_Strategiya -> vy,   b_Strategiya -> y = 95;
     }
 
 //-----------------------------------------------------------------------------
@@ -162,24 +163,24 @@ void Count (int* counter, int* level, int* vx1, int* vy1, int* vx2, int* vy2, in
 
  //-----------------------------------------------------------------------------
 
-void Drive_ball (Ball *b)
+void Drive_ball (Ball *b_drive)
     {
-    if (GetAsyncKeyState (VK_RIGHT)) (*b).vx =  4, (*b).vy =  0;
-    if (GetAsyncKeyState (VK_LEFT))  b -> vx = -4, b -> vy =  0;
-    if (GetAsyncKeyState (VK_UP))    b -> vx =  0, b -> vy = -4;
-    if (GetAsyncKeyState (VK_DOWN))  b -> vx =  0, b -> vy =  4;
+    if (GetAsyncKeyState (VK_RIGHT)) (*b_drive).vx =  4, (*b_drive).vy =  0;
+    if (GetAsyncKeyState (VK_LEFT))  b_drive -> vx = -4, b_drive -> vy =  0;
+    if (GetAsyncKeyState (VK_UP))    b_drive -> vx =  0, b_drive -> vy = -4;
+    if (GetAsyncKeyState (VK_DOWN))  b_drive -> vx =  0, b_drive -> vy =  4;
 
     if (GetAsyncKeyState (VK_SHIFT))
         {
-        if (b -> vx != 0)
+        if (b_drive -> vx != 0)
             {
-            if (b -> vx > 0) b -> vx = b -> vx + 4;
-            else         b -> vx = b -> vx - 4;
+            if (b_drive -> vx > 0) b_drive -> vx = b_drive -> vx + 4;
+            else         b_drive -> vx = b_drive -> vx - 4;
             }
         else
             {
-            if (b -> vy > 0) b -> vy = b -> vy + 4;
-            else         b -> vy = b -> vy - 4;
+            if (b_drive -> vy > 0) b_drive -> vy = b_drive -> vy + 4;
+            else         b_drive -> vy = b_drive -> vy - 4;
             }
         }
     }
