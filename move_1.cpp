@@ -20,14 +20,12 @@ void MoveBalls ();
 void DrawBackground ();
 void DrowBall (Ball *b_drow);
 void MoveStrategiyaBall (Ball *b_Strategiya, int dt);
-void Level_game (int* vx, int* vy);
-void Count (int* counter, int* level, int* vx1, int* vy1, int* vx2, int* vy2, int* vx3, int* vy3,
-              int* vx4, int* vy4, int* vx5, int* vy5);
+void Level_game (Ball *b_level);
+void Count (int* counter, int* level, Ball *b1, Ball *b2, Ball *b3, Ball *b4, Ball *b5);
 void Drive_ball (Ball *b_drive);
 void CalculateDistance_R_R (double* r_r1, double* r_r2, double* r_r3, double* r_r4, double* r_r5,
-                            int* y, int* y1, int* y2, int* y3, int* y4, int* y5,
-                            int* x, int* x1, int* x2, int* x3, int* x4, int* x5,
-                            int* vx, int* vy, int* balli);
+                            Ball *b, Ball *b1, Ball *b2, Ball *b3, Ball *b4, Ball *b5,
+                            int* balli);
 
 //-----------------------------------------------------------------------------
 
@@ -80,7 +78,7 @@ void MoveBalls ()
 
         Drive_ball (&ball);
 
-        Count (&counter, &level, &ball1.vx, &ball1.vy, &ball2.vx, &ball2.vy, &ball3.vx, &ball3.vy, &ball4.vx, &ball4.vy, &ball5.vx, &ball5.vy);
+        Count (&counter, &level, &ball1, &ball2, &ball3, &ball4, &ball5);
 
         MoveStrategiyaBall (&ball,  dt);
         MoveStrategiyaBall (&ball1, dt);
@@ -90,9 +88,8 @@ void MoveBalls ()
         MoveStrategiyaBall (&ball5, dt);
 
         CalculateDistance_R_R (&r_r1, &r_r2, &r_r3, &r_r4, &r_r5,
-                               &ball.y, &ball1.y, &ball2.y, &ball3.y, &ball4.y, &ball5.y,
-                               &ball.x, &ball1.x, &ball2.x, &ball3.x, &ball4.x, &ball5.x,
-                               &ball.vx, &ball.vy, &balli);
+                               &ball, &ball1, &ball2, &ball3, &ball4, &ball5,
+                               &balli);
 
         DrowBall (&ball);
         DrowBall (&ball1);
@@ -133,18 +130,17 @@ void MoveStrategiyaBall (Ball *b_Strategiya, int dt)
 
 //-----------------------------------------------------------------------------
 
-void Level_game (int* vx, int* vy)
+void Level_game (Ball *b_level)
     {
-    if (*vx > 0) *vx = *vx + 1;
-    else         *vx = *vx - 1;
-    if (*vy > 0) *vy = *vy + 1;
-    else         *vy = *vy - 1;
+    if ((*b_level).vx > 0) (*b_level).vx = (*b_level).vx + 1;
+    else         (*b_level).vx = (*b_level).vx - 1;
+    if ((*b_level).vy > 0) (*b_level).vy = (*b_level).vy + 1;
+    else         (*b_level).vy = (*b_level).vy - 1;
     }
 
 //-----------------------------------------------------------------------------
 
-void Count (int* counter, int* level, int* vx1, int* vy1, int* vx2, int* vy2, int* vx3, int* vy3,
-              int* vx4, int* vy4, int* vx5, int* vy5)
+void Count (int* counter, int* level, Ball *b1, Ball *b2, Ball *b3, Ball *b4, Ball *b5)
     {
     (*counter) ++;
 
@@ -153,11 +149,11 @@ void Count (int* counter, int* level, int* vx1, int* vy1, int* vx2, int* vy2, in
         (*level) ++;
         *counter = 0;
 
-        Level_game (vx1, vy1);
-        Level_game (vx2, vy2);
-        Level_game (vx3, vy3);
-        Level_game (vx4, vy4);
-        Level_game (vx5, vy5);
+        Level_game (b1);
+        Level_game (b2);
+        Level_game (b3);
+        Level_game (b4);
+        Level_game (b5);
         }
     }
 
@@ -188,20 +184,20 @@ void Drive_ball (Ball *b_drive)
 //-----------------------------------------------------------------------------
 
 void CalculateDistance_R_R (double* r_r1, double* r_r2, double* r_r3, double* r_r4, double* r_r5,
-                            int* y, int* y1, int* y2, int* y3, int* y4, int* y5,
-                            int* x, int* x1, int* x2, int* x3, int* x4, int* x5,
-                            int* vx, int* vy, int* balli)
+                            Ball *b, Ball *b1, Ball *b2, Ball *b3, Ball *b4, Ball *b5,
+                            int* balli)
     {
-    *r_r1 = sqrt((*y - *y1) * (*y - *y1) + (*x - *x1) * (*x - *x1));
-    *r_r2 = sqrt((*y - *y2) * (*y - *y2) + (*x - *x2) * (*x - *x2));
-    *r_r3 = sqrt((*y - *y3) * (*y - *y3) + (*x - *x3) * (*x - *x3));
-    *r_r4 = sqrt((*y - *y4) * (*y - *y4) + (*x - *x4) * (*x - *x4));
-    *r_r5 = sqrt((*y - *y5) * (*y - *y5) + (*x - *x5) * (*x - *x5));
+    *r_r1 = sqrt(((*b.)y - (*b1.)y) * ((*b.)y - (*b1.)y) + ((*b.)x - (*b1.)x) * ((*b.)x - (*b.)x));
+
+    *r_r2 = sqrt(((b -> y) - (b2 -> y)) * ((b -> y) - (b2 -> y)) + ((b -> x) - (b2 -> x)) * ((b -> x) - (b2 -> x)));
+    *r_r3 = sqrt(((b -> y) - (b3 -> y)) * ((b -> y) - (b3 -> y)) + ((b -> x) - (b3 -> x)) * ((b -> x) - (b3 -> x)));
+    *r_r4 = sqrt(((b -> y) - (b4 -> y)) * ((b -> y) - (b4 -> y)) + ((b -> x) - (b4 -> x)) * ((b -> x) - (b4 -> x)));
+    *r_r5 = sqrt(((b -> y) - (b5 -> y)) * ((b -> y) - (b5 -> y)) + ((b -> x) - (b5 -> x)) * ((b -> x) - (b5 -> x)));
 
     if (*r_r1 <= 40 || *r_r2 <= 40 || *r_r3 <= 40 || *r_r4 <= 40 || *r_r5 <= 40)
         {
-        *vx = 0;
-        *vy = 0;
+        b -> vx = 0;
+        b -> vy = 0;
         *balli = *balli - 10;
         }
     else *balli = *balli + 1;
