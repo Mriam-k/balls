@@ -21,7 +21,7 @@ void DrawBackground ();
 void DrowBall (Ball *b_drow);
 void MoveStrategiyaBall (Ball *b_Strategiya, int dt);
 void Level_game (Ball *b_level);
-void Count (int* counter, int* level, Ball *b1, Ball *b2, Ball *b3, Ball *b4, Ball *b5);
+void Count (int* balli, int* level, int* counter, Ball *b1, Ball *b2, Ball *b3, Ball *b4, Ball *b5);
 void Drive_ball (Ball *b_drive);
 void CalculateDistance_R_R (double* r_r1, double* r_r2, double* r_r3, double* r_r4, double* r_r5,
                             Ball *b, Ball *b1, Ball *b2, Ball *b3, Ball *b4, Ball *b5,
@@ -78,7 +78,7 @@ void MoveBalls ()
 
         Drive_ball (&ball);
 
-        Count (&counter, &level, &ball1, &ball2, &ball3, &ball4, &ball5);
+        Count (&balli, &level, &counter, &ball1, &ball2, &ball3, &ball4, &ball5);
 
         MoveStrategiyaBall (&ball,  dt);
         MoveStrategiyaBall (&ball1, dt);
@@ -140,14 +140,12 @@ void Level_game (Ball *b_level)
 
 //-----------------------------------------------------------------------------
 
-void Count (int* counter, int* level, Ball *b1, Ball *b2, Ball *b3, Ball *b4, Ball *b5)
+void Count (int* balli, int* level, int* counter, Ball *b1, Ball *b2, Ball *b3, Ball *b4, Ball *b5)
     {
-    (*counter) ++;
-
-    if (*counter == 1000)
+    if ((*balli) % 500 == 0 && ((*balli) > (*counter)))
         {
         (*level) ++;
-        *counter = 0;
+        *
 
         Level_game (b1);
         Level_game (b2);
@@ -187,7 +185,7 @@ void CalculateDistance_R_R (double* r_r1, double* r_r2, double* r_r3, double* r_
                             Ball *b, Ball *b1, Ball *b2, Ball *b3, Ball *b4, Ball *b5,
                             int* balli)
     {
-    *r_r1 = sqrt(((*b.)y - (*b1.)y) * ((*b.)y - (*b1.)y) + ((*b.)x - (*b1.)x) * ((*b.)x - (*b.)x));
+    *r_r1 = sqrt(((b -> y) - (b1 -> y)) * ((b -> y) - (b1 -> y)) + ((b -> x) - (b1 -> x)) * ((b -> x) - (b1 -> x)));
     *r_r2 = sqrt(((b -> y) - (b2 -> y)) * ((b -> y) - (b2 -> y)) + ((b -> x) - (b2 -> x)) * ((b -> x) - (b2 -> x)));
     *r_r3 = sqrt(((b -> y) - (b3 -> y)) * ((b -> y) - (b3 -> y)) + ((b -> x) - (b3 -> x)) * ((b -> x) - (b3 -> x)));
     *r_r4 = sqrt(((b -> y) - (b4 -> y)) * ((b -> y) - (b4 -> y)) + ((b -> x) - (b4 -> x)) * ((b -> x) - (b4 -> x)));
@@ -198,6 +196,7 @@ void CalculateDistance_R_R (double* r_r1, double* r_r2, double* r_r3, double* r_
         b -> vx = 0;
         b -> vy = 0;
         *balli = *balli - 10;
+        if (*balli < 0) *balli = 0;
         }
     else *balli = *balli + 1;
     }
