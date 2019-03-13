@@ -21,10 +21,10 @@ void DrawBackground ();
 void DrowBall (Ball *b_drow);
 void MoveStrategiyaBall (Ball *b_Strategiya, int dt);
 void Level_game (Ball *b_level);
-void Count (int* balli, int* level, int* counter, Ball *b1, Ball *b2, Ball *b3, Ball *b4, Ball *b5);
+void Count (int* balli, int* level, int* counter, Ball *b1, Ball *b2, Ball *b3, Ball *b4, Ball *b5, Ball *b6);
 void Drive_ball (Ball *b_drive);
-void CalculateDistance_R_R (double* r_r1, double* r_r2, double* r_r3, double* r_r4, double* r_r5,
-                            Ball *b, Ball *b1, Ball *b2, Ball *b3, Ball *b4, Ball *b5,
+void CalculateDistance_R_R (double* r_r1, double* r_r2, double* r_r3, double* r_r4, double* r_r5, double* r_r6,
+                            Ball *b, Ball *b1, Ball *b2, Ball *b3, Ball *b4, Ball *b5, Ball *b6,
                             int* balli);
 
 //-----------------------------------------------------------------------------
@@ -61,11 +61,12 @@ void MoveBalls ()
     Ball ball3 = {420, 230, 4, 1, 20, RGB (128, 0,   64 ), RGB (170, 0,   85 ), 4};
     Ball ball4 = {450, 260, 5, 7, 20, RGB (255, 255, 0  ), RGB (255, 255, 100), 5};
     Ball ball5 = {490, 300, 3, 2, 20, RGB (255, 255, 255), RGB (255, 255, 255)   };
+    Ball ball6 = {510, 600, 2, 5, 20, RGB (240, 96,  0  ), RGB (255, 127, 39 ), 3};
 
     int dt = 2;
     int balli = 0;
     int counter = 0, level = 1;
-    double r_r1 = 100, r_r2 = 100, r_r3 = 100, r_r4 = 100, r_r5 = 100;
+    double r_r1 = 100, r_r2 = 100, r_r3 = 100, r_r4 = 100, r_r5 = 100, r_r6 = 100;
 
     txSetTextAlign (TA_CENTER);
 
@@ -78,7 +79,7 @@ void MoveBalls ()
 
         Drive_ball (&ball);
 
-        Count (&balli, &level, &counter, &ball1, &ball2, &ball3, &ball4, &ball5);
+        Count (&balli, &level, &counter, &ball1, &ball2, &ball3, &ball4, &ball5, &ball6);
 
         MoveStrategiyaBall (&ball,  dt);
         MoveStrategiyaBall (&ball1, dt);
@@ -86,9 +87,10 @@ void MoveBalls ()
         MoveStrategiyaBall (&ball3, dt);
         MoveStrategiyaBall (&ball4, dt);
         MoveStrategiyaBall (&ball5, dt);
+        MoveStrategiyaBall (&ball6, dt);
 
-        CalculateDistance_R_R (&r_r1, &r_r2, &r_r3, &r_r4, &r_r5,
-                               &ball, &ball1, &ball2, &ball3, &ball4, &ball5,
+        CalculateDistance_R_R (&r_r1, &r_r2, &r_r3, &r_r4, &r_r5, &r_r6,
+                               &ball, &ball1, &ball2, &ball3, &ball4, &ball5, &ball6,
                                &balli);
 
         DrowBall (&ball);
@@ -97,8 +99,10 @@ void MoveBalls ()
         DrowBall (&ball3);
         DrowBall (&ball4);
         DrowBall (&ball5);
+        DrowBall (&ball6);
 
         char print [100] = "";
+        txSetColor (RGB(128, 255, 39), 10);
         sprintf (print, "Общая сумма баллов = %d, уровень игры %d       \r", balli, level);
         txTextOut (txGetExtentX()/2, 5, print);
 
@@ -140,7 +144,7 @@ void Level_game (Ball *b_level)
 
 //-----------------------------------------------------------------------------
 
-void Count (int* balli, int* level, int* counter, Ball *b1, Ball *b2, Ball *b3, Ball *b4, Ball *b5)
+void Count (int* balli, int* level, int* counter, Ball *b1, Ball *b2, Ball *b3, Ball *b4, Ball *b5, Ball *b6)
     {
     if ((*balli) % 500 == 0 && ((*balli) > (*counter)))
         {
@@ -152,6 +156,7 @@ void Count (int* balli, int* level, int* counter, Ball *b1, Ball *b2, Ball *b3, 
         Level_game (b3);
         Level_game (b4);
         Level_game (b5);
+        Level_game (b6);
         }
     }
 
@@ -181,8 +186,8 @@ void Drive_ball (Ball *b_drive)
 
 //-----------------------------------------------------------------------------
 
-void CalculateDistance_R_R (double* r_r1, double* r_r2, double* r_r3, double* r_r4, double* r_r5,
-                            Ball *b, Ball *b1, Ball *b2, Ball *b3, Ball *b4, Ball *b5,
+void CalculateDistance_R_R (double* r_r1, double* r_r2, double* r_r3, double* r_r4, double* r_r5, double* r_r6,
+                            Ball *b, Ball *b1, Ball *b2, Ball *b3, Ball *b4, Ball *b5, Ball *b6,
                             int* balli)
     {
     *r_r1 = sqrt(((b -> y) - (b1 -> y)) * ((b -> y) - (b1 -> y)) + ((b -> x) - (b1 -> x)) * ((b -> x) - (b1 -> x)));
@@ -190,8 +195,9 @@ void CalculateDistance_R_R (double* r_r1, double* r_r2, double* r_r3, double* r_
     *r_r3 = sqrt(((b -> y) - (b3 -> y)) * ((b -> y) - (b3 -> y)) + ((b -> x) - (b3 -> x)) * ((b -> x) - (b3 -> x)));
     *r_r4 = sqrt(((b -> y) - (b4 -> y)) * ((b -> y) - (b4 -> y)) + ((b -> x) - (b4 -> x)) * ((b -> x) - (b4 -> x)));
     *r_r5 = sqrt(((b -> y) - (b5 -> y)) * ((b -> y) - (b5 -> y)) + ((b -> x) - (b5 -> x)) * ((b -> x) - (b5 -> x)));
+    *r_r6 = sqrt(((b -> y) - (b6 -> y)) * ((b -> y) - (b6 -> y)) + ((b -> x) - (b6 -> x)) * ((b -> x) - (b6 -> x)));
 
-    if (*r_r1 <= 40 || *r_r2 <= 40 || *r_r3 <= 40 || *r_r4 <= 40 || *r_r5 <= 40)
+    if (*r_r1 <= 40 || *r_r2 <= 40 || *r_r3 <= 40 || *r_r4 <= 40 || *r_r5 <= 40 || *r_r6 <= 40)
         {
         b -> vx = 0;
         b -> vy = 0;
