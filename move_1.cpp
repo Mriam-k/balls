@@ -12,20 +12,20 @@ struct Ball
     int r;
     COLORREF color_contour, color_ball;
     int thickness_contour;
+
+    void Drow ();
+    void Drive ();
+    void MoveStrategiya (int dt);
+    void Level_game ();
     };
 
 //-----------------------------------------------------------------------------
 
 void MoveBalls ();
 void DrawBackground ();
-void DrowBall (Ball *b_drow);
-void MoveStrategiyaBall (Ball *b_Strategiya, int dt);
-void Level_game (Ball *b_level);
 void Count (int* balli, int* level, int* counter, Ball *b1, Ball *b2, Ball *b3, Ball *b4, Ball *b5, Ball *b6);
-void Drive_ball (Ball *b_drive);
-void CalculateDistance_R_R (double* r_r1, double* r_r2, double* r_r3, double* r_r4, double* r_r5, double* r_r6,
-                            Ball *b, Ball *b1, Ball *b2, Ball *b3, Ball *b4, Ball *b5, Ball *b6,
-                            int* balli);
+void CalculateBalli (Ball *b, Ball *b1, Ball *b2, Ball *b3, Ball *b4, Ball *b5, Ball *b6, int* balli);
+double CalculateDistance (Ball *b1, Ball *b2);
 
 //-----------------------------------------------------------------------------
 
@@ -66,7 +66,6 @@ void MoveBalls ()
     int dt = 2;
     int balli = 0;
     int counter = 0, level = 1;
-    double r_r1 = 100, r_r2 = 100, r_r3 = 100, r_r4 = 100, r_r5 = 100, r_r6 = 100;
 
     txSetTextAlign (TA_CENTER);
 
@@ -77,29 +76,28 @@ void MoveBalls ()
 
         DrawBackground ();
 
-        Drive_ball (&ball);
+        ball.Drive ();
 
         Count (&balli, &level, &counter, &ball1, &ball2, &ball3, &ball4, &ball5, &ball6);
 
-        MoveStrategiyaBall (&ball,  dt);
-        MoveStrategiyaBall (&ball1, dt);
-        MoveStrategiyaBall (&ball2, dt);
-        MoveStrategiyaBall (&ball3, dt);
-        MoveStrategiyaBall (&ball4, dt);
-        MoveStrategiyaBall (&ball5, dt);
-        MoveStrategiyaBall (&ball6, dt);
+        ball.MoveStrategiya (dt);
+        ball1.MoveStrategiya (dt);
+        ball2.MoveStrategiya (dt);
+        ball3.MoveStrategiya (dt);
+        ball4.MoveStrategiya (dt);
+        ball5.MoveStrategiya (dt);
+        ball6.MoveStrategiya (dt);
 
-        CalculateDistance_R_R (&r_r1, &r_r2, &r_r3, &r_r4, &r_r5, &r_r6,
-                               &ball, &ball1, &ball2, &ball3, &ball4, &ball5, &ball6,
-                               &balli);
+        CalculateBalli (&ball, &ball1, &ball2, &ball3, &ball4, &ball5, &ball6,
+                        &balli);
 
-        DrowBall (&ball);
-        DrowBall (&ball1);
-        DrowBall (&ball2);
-        DrowBall (&ball3);
-        DrowBall (&ball4);
-        DrowBall (&ball5);
-        DrowBall (&ball6);
+        ball.Drow  ();
+        ball1.Drow ();
+        ball2.Drow ();
+        ball3.Drow ();
+        ball4.Drow ();
+        ball5.Drow ();
+        ball6.Drow ();
 
         char print [100] = "";
         txSetColor (RGB(128, 255, 39), 10);
@@ -112,34 +110,58 @@ void MoveBalls ()
 
 //-----------------------------------------------------------------------------
 
-void DrowBall (Ball *b_drow)
+void Ball::Drive ()
     {
-    txSetColor     (b_drow -> color_contour, b_drow -> thickness_contour);
-    txSetFillColor (b_drow -> color_ball);
-    txCircle (b_drow -> x, b_drow -> y, b_drow -> r);
+    if (GetAsyncKeyState (VK_RIGHT)) this->vx =  4, this->vy =  0;
+    if (GetAsyncKeyState (VK_LEFT))  this->vx = -4, this->vy =  0;
+    if (GetAsyncKeyState (VK_UP))    this->vx =  0, this->vy = -4;
+    if (GetAsyncKeyState (VK_DOWN))  this->vx =  0, this->vy =  4;
+
+    if (GetAsyncKeyState (VK_SHIFT))
+        {
+        if (this->vx != 0)
+            {
+            if (this->vx > 0) this->vx = this->vx + 4;
+            else              this->vx = this->vx - 4;
+            }
+        else
+            {
+            if (this->vy > 0) this->vy = this->vy + 4;
+            else              this->vy = this->vy - 4;
+            }
+        }
     }
 
 //-----------------------------------------------------------------------------
 
-void MoveStrategiyaBall (Ball *b_Strategiya, int dt)
+void Ball::Drow ()
     {
-    b_Strategiya -> x  = (b_Strategiya -> x) + (b_Strategiya -> vx) * dt;
-    b_Strategiya -> y  = (b_Strategiya -> y) + (b_Strategiya -> vy) * dt;
-
-    if ((b_Strategiya -> x) >= 675)   (b_Strategiya -> vx) = -b_Strategiya -> vx,   b_Strategiya -> x = 675;
-    if ((b_Strategiya -> y) >= 575)   (b_Strategiya -> vy) = -b_Strategiya -> vy,   b_Strategiya -> y = 575;
-    if ((b_Strategiya -> x) <= 205)   (b_Strategiya -> vx) = -b_Strategiya -> vx,   b_Strategiya -> x = 205;
-    if ((b_Strategiya -> y) <= 95)    (b_Strategiya -> vy) = -b_Strategiya -> vy,   b_Strategiya -> y = 95;
+    txSetColor     (this->color_contour, this->thickness_contour);
+    txSetFillColor (color_ball);
+    txCircle (x, y, r);
     }
 
 //-----------------------------------------------------------------------------
 
-void Level_game (Ball *b_level)
+void Ball::MoveStrategiya (int dt)
     {
-    if ((*b_level).vx > 0) (*b_level).vx = (*b_level).vx + 1;
-    else         (*b_level).vx = (*b_level).vx - 1;
-    if ((*b_level).vy > 0) (*b_level).vy = (*b_level).vy + 1;
-    else         (*b_level).vy = (*b_level).vy - 1;
+    this->x  = (this->x) + (this->vx) * dt;
+    this->y  = (this->y) + (this->vy) * dt;
+
+    if (this->x >= 675)   this->vx = -this->vx,   this->x = 675;
+    if (this->y >= 575)   this->vy = -this->vy,   this->y = 575;
+    if (this->x <= 205)   this->vx = -this->vx,   this->x = 205;
+    if (this->y <= 95)    this->vy = -this->vy,   this->y = 95;
+    }
+
+//-----------------------------------------------------------------------------
+
+void Ball::Level_game ()
+    {
+    if (this->vx > 0) this->vx = this->vx + 1;
+    else              this->vx = this->vx - 1;
+    if (this->vy > 0) this->vy = this->vy + 1;
+    else              this->vy = this->vy - 1;
     }
 
 //-----------------------------------------------------------------------------
@@ -151,58 +173,49 @@ void Count (int* balli, int* level, int* counter, Ball *b1, Ball *b2, Ball *b3, 
         (*level) ++;
         *counter = *balli;
 
-        Level_game (b1);
-        Level_game (b2);
-        Level_game (b3);
-        Level_game (b4);
-        Level_game (b5);
-        Level_game (b6);
-        }
-    }
-
- //-----------------------------------------------------------------------------
-
-void Drive_ball (Ball *b_drive)
-    {
-    if (GetAsyncKeyState (VK_RIGHT)) (*b_drive).vx =  4, (*b_drive).vy =  0;
-    if (GetAsyncKeyState (VK_LEFT))  b_drive -> vx = -4, b_drive -> vy =  0;
-    if (GetAsyncKeyState (VK_UP))    b_drive -> vx =  0, b_drive -> vy = -4;
-    if (GetAsyncKeyState (VK_DOWN))  b_drive -> vx =  0, b_drive -> vy =  4;
-
-    if (GetAsyncKeyState (VK_SHIFT))
-        {
-        if (b_drive -> vx != 0)
-            {
-            if (b_drive -> vx > 0) b_drive -> vx = b_drive -> vx + 4;
-            else         b_drive -> vx = b_drive -> vx - 4;
-            }
-        else
-            {
-            if (b_drive -> vy > 0) b_drive -> vy = b_drive -> vy + 4;
-            else         b_drive -> vy = b_drive -> vy - 4;
-            }
+        b1->Level_game ();
+        b2->Level_game ();
+        b3->Level_game ();
+        b4->Level_game ();
+        b5->Level_game ();
+        b6->Level_game ();
         }
     }
 
 //-----------------------------------------------------------------------------
 
-void CalculateDistance_R_R (double* r_r1, double* r_r2, double* r_r3, double* r_r4, double* r_r5, double* r_r6,
-                            Ball *b, Ball *b1, Ball *b2, Ball *b3, Ball *b4, Ball *b5, Ball *b6,
-                            int* balli)
+void CalculateBalli (Ball *b, Ball *b1, Ball *b2, Ball *b3, Ball *b4, Ball *b5, Ball *b6, int* balli)
     {
-    *r_r1 = sqrt(((b -> y) - (b1 -> y)) * ((b -> y) - (b1 -> y)) + ((b -> x) - (b1 -> x)) * ((b -> x) - (b1 -> x)));
-    *r_r2 = sqrt(((b -> y) - (b2 -> y)) * ((b -> y) - (b2 -> y)) + ((b -> x) - (b2 -> x)) * ((b -> x) - (b2 -> x)));
-    *r_r3 = sqrt(((b -> y) - (b3 -> y)) * ((b -> y) - (b3 -> y)) + ((b -> x) - (b3 -> x)) * ((b -> x) - (b3 -> x)));
-    *r_r4 = sqrt(((b -> y) - (b4 -> y)) * ((b -> y) - (b4 -> y)) + ((b -> x) - (b4 -> x)) * ((b -> x) - (b4 -> x)));
-    *r_r5 = sqrt(((b -> y) - (b5 -> y)) * ((b -> y) - (b5 -> y)) + ((b -> x) - (b5 -> x)) * ((b -> x) - (b5 -> x)));
-    *r_r6 = sqrt(((b -> y) - (b6 -> y)) * ((b -> y) - (b6 -> y)) + ((b -> x) - (b6 -> x)) * ((b -> x) - (b6 -> x)));
+    double r_r1 = CalculateDistance (b, b1);
+    double r_r2 = CalculateDistance (b, b2);
+    double r_r3 = CalculateDistance (b, b3);
+    double r_r4 = CalculateDistance (b, b4);
+    double r_r5 = CalculateDistance (b, b5);
+    double r_r6 = CalculateDistance (b, b6);
 
-    if (*r_r1 <= 40 || *r_r2 <= 40 || *r_r3 <= 40 || *r_r4 <= 40 || *r_r5 <= 40 || *r_r6 <= 40)
+    if (r_r1 <= b->r + b1->r ||
+        r_r2 <= b->r + b2->r ||
+        r_r3 <= b->r + b3->r ||
+        r_r4 <= b->r + b4->r ||
+        r_r5 <= b->r + b5->r ||
+        r_r6 <= b->r + b6->r)
         {
         b -> vx = 0;
         b -> vy = 0;
+
         *balli = *balli - 10;
         if (*balli < 0) *balli = 0;
         }
-    else *balli = *balli + 1;
+    else
+        *balli = *balli + 1;
     }
+
+//-----------------------------------------------------------------------------
+
+double CalculateDistance (Ball *b1, Ball *b2)
+    {
+    double r_r = sqrt ((b1->y - b2->y) * (b1->y - b2->y) + (b1->x - b2->x) * (b1->x - b2->x));
+    return r_r;
+    }
+
+//-----------------------------------------------------------------------------
