@@ -23,8 +23,8 @@ struct Ball
 
 void MoveBalls ();
 void DrawBackground ();
-void Count (int* balli, int* level, int* counter, Ball *b1, Ball *b2, Ball *b3, Ball *b4, Ball *b5, Ball *b6);
-void CalculateBalli (Ball *b, Ball *b1, Ball *b2, Ball *b3, Ball *b4, Ball *b5, Ball *b6, int* balli);
+void Count (int* balli, int* level, int* counter, Ball balls[]);
+void CalculateBalli (Ball balls[], int* balli);
 double CalculateDistance (Ball *b1, Ball *b2);
 
 //-----------------------------------------------------------------------------
@@ -55,13 +55,13 @@ void DrawBackground ()
 
 void MoveBalls ()
     {
-    Ball ball  = {320, 110, 0, 0, 20, RGB (0,   255, 50 ), RGB (0,   128, 0  ), 4};
-    Ball ball1 = {360, 150, 2, 2, 20, RGB (63,  72,  204), RGB (63,  0,   170), 6};
-    Ball ball2 = {390, 190, 3, 6, 20, RGB (128, 0,   255), RGB (128, 0,   255)   };
-    Ball ball3 = {420, 230, 4, 1, 20, RGB (128, 0,   64 ), RGB (170, 0,   85 ), 4};
-    Ball ball4 = {450, 260, 5, 7, 20, RGB (255, 255, 0  ), RGB (255, 255, 100), 5};
-    Ball ball5 = {490, 300, 3, 2, 20, RGB (255, 255, 255), RGB (255, 255, 255)   };
-    Ball ball6 = {510, 600, 2, 5, 20, RGB (240, 96,  0  ), RGB (255, 127, 39 ), 3};
+    Ball balls[7] = {{320, 110, 0, 0, 20, RGB (0,   255, 50 ), RGB (0,   128, 0  ), 4},
+                     {360, 150, 2, 2, 20, RGB (63,  72,  204), RGB (63,  0,   170), 6},
+                     {390, 190, 3, 6, 20, RGB (128, 0,   255), RGB (128, 0,   255)   },
+                     {420, 230, 4, 1, 20, RGB (128, 0,   64 ), RGB (170, 0,   85 ), 4},
+                     {450, 260, 5, 7, 20, RGB (255, 255, 0  ), RGB (255, 255, 100), 5},
+                     {490, 300, 3, 2, 20, RGB (255, 255, 255), RGB (255, 255, 255)   },
+                     {510, 600, 2, 5, 20, RGB (240, 96,  0  ), RGB (255, 127, 39 ), 3}};
 
     int dt = 2;
     int balli = 0;
@@ -76,28 +76,15 @@ void MoveBalls ()
 
         DrawBackground ();
 
-        ball.Drive ();
+        balls[0].Drive ();
 
-        Count (&balli, &level, &counter, &ball1, &ball2, &ball3, &ball4, &ball5, &ball6);
+        Count (&balli, &level, &counter, balls);
 
-        ball.MoveStrategiya (dt);
-        ball1.MoveStrategiya (dt);
-        ball2.MoveStrategiya (dt);
-        ball3.MoveStrategiya (dt);
-        ball4.MoveStrategiya (dt);
-        ball5.MoveStrategiya (dt);
-        ball6.MoveStrategiya (dt);
+        for (int i = 0; i < 7; i++) balls[i].MoveStrategiya (dt);
 
-        CalculateBalli (&ball, &ball1, &ball2, &ball3, &ball4, &ball5, &ball6,
-                        &balli);
+        CalculateBalli (balls, &balli);
 
-        ball.Drow  ();
-        ball1.Drow ();
-        ball2.Drow ();
-        ball3.Drow ();
-        ball4.Drow ();
-        ball5.Drow ();
-        ball6.Drow ();
+        for (int i = 0; i < 7; i++) balls[i].Drow ();
 
         char print [100] = "";
         txSetColor (RGB(128, 255, 39), 10);
@@ -166,42 +153,42 @@ void Ball::Level_game ()
 
 //-----------------------------------------------------------------------------
 
-void Count (int* balli, int* level, int* counter, Ball *b1, Ball *b2, Ball *b3, Ball *b4, Ball *b5, Ball *b6)
+void Count (int* balli, int* level, int* counter, Ball balls[])
     {
     if ((*balli) % 500 == 0 && ((*balli) > (*counter)))
         {
         (*level) ++;
         *counter = *balli;
 
-        b1->Level_game ();
-        b2->Level_game ();
-        b3->Level_game ();
-        b4->Level_game ();
-        b5->Level_game ();
-        b6->Level_game ();
+        balls[1].Level_game ();
+        balls[2].Level_game ();
+        balls[3].Level_game ();
+        balls[4].Level_game ();
+        balls[5].Level_game ();
+        balls[6].Level_game ();
         }
     }
 
 //-----------------------------------------------------------------------------
 
-void CalculateBalli (Ball *b, Ball *b1, Ball *b2, Ball *b3, Ball *b4, Ball *b5, Ball *b6, int* balli)
+void CalculateBalli (Ball balls[], int* balli)
     {
-    double r_r1 = CalculateDistance (b, b1);
-    double r_r2 = CalculateDistance (b, b2);
-    double r_r3 = CalculateDistance (b, b3);
-    double r_r4 = CalculateDistance (b, b4);
-    double r_r5 = CalculateDistance (b, b5);
-    double r_r6 = CalculateDistance (b, b6);
+    double r_r1 = CalculateDistance (&balls[0], &balls[1]);
+    double r_r2 = CalculateDistance (&balls[0], &balls[2]);
+    double r_r3 = CalculateDistance (&balls[0], &balls[3]);
+    double r_r4 = CalculateDistance (&balls[0], &balls[4]);
+    double r_r5 = CalculateDistance (&balls[0], &balls[5]);
+    double r_r6 = CalculateDistance (&balls[0], &balls[6]);
 
-    if (r_r1 <= b->r + b1->r ||
-        r_r2 <= b->r + b2->r ||
-        r_r3 <= b->r + b3->r ||
-        r_r4 <= b->r + b4->r ||
-        r_r5 <= b->r + b5->r ||
-        r_r6 <= b->r + b6->r)
+    if (r_r1 <= balls[0].r + balls[1].r ||
+        r_r2 <= balls[0].r + balls[2].r ||
+        r_r3 <= balls[0].r + balls[3].r ||
+        r_r4 <= balls[0].r + balls[4].r ||
+        r_r5 <= balls[0].r + balls[5].r ||
+        r_r6 <= balls[0].r + balls[6].r)
         {
-        b -> vx = 0;
-        b -> vy = 0;
+        balls[0].vx = 0;
+        balls[0].vy = 0;
 
         *balli = *balli - 10;
         if (*balli < 0) *balli = 0;
