@@ -2,6 +2,8 @@
 #include <stdio.h>
 
 const double Global_Sleep = txQueryPerformance () * 100;
+const int Capture_Ball = 1;
+const int Free    = 0;
 
 //-----------------------------------------------------------------------------
 
@@ -12,6 +14,7 @@ struct Ball
     int r;
     COLORREF color_contour, color_ball;
     int thickness_contour;
+    int state_ball;
 
     void Drow ();
     void Drive ();
@@ -90,6 +93,7 @@ void MoveBalls ()
         txSetColor (RGB(128, 255, 39), 10);
         sprintf (print, "Общая сумма баллов = %d, уровень игры %d       \r", balli, level);
         txTextOut (txGetExtentX()/2, 5, print);
+        printf ("состояние %d \n", balls[0].state_ball);
 
         txSleep (Global_Sleep);
         }
@@ -168,22 +172,25 @@ void Count (int* balli, int* level, int* counter, Ball balls[])
 
 void CalculateBalli (Ball balls[], int* balli)
     {
-    int n = 0;
     for (int i = 1; i < 7; i++)
         {
         if (CalculateDistance (&balls[0], &balls[i]) <= balls[0].r + balls[i].r)
             {
-            balls[0].vx = 0;
-            balls[0].vy = 0;
+            if (balls[0].state_ball == Free)
+                {
+                balls[0].vx = 0;
+                balls[0].vy = 0;
 
-            *balli = *balli - 10;
-            if (*balli < 0) *balli = 0;
-            n++;
+                *balli = *balli - 10;
+                if (*balli < 0) *balli = 0;
+                }
+            balls[0].state_ball = Capture_Ball;
+            return;
             }
         }
 
-    if (n == 0) *balli = *balli + 1;
-    else n = 0;
+    *balli = *balli + 1;
+    balls[0].state_ball = Free;
     }
 
 //-----------------------------------------------------------------------------
