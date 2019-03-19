@@ -160,12 +160,7 @@ void Count (int* balli, int* level, int* counter, Ball balls[])
         (*level) ++;
         *counter = *balli;
 
-        balls[1].Level_game ();
-        balls[2].Level_game ();
-        balls[3].Level_game ();
-        balls[4].Level_game ();
-        balls[5].Level_game ();
-        balls[6].Level_game ();
+        for (int i = 1; i < 7; i++) balls[i].Level_game ();
         }
     }
 
@@ -173,28 +168,22 @@ void Count (int* balli, int* level, int* counter, Ball balls[])
 
 void CalculateBalli (Ball balls[], int* balli)
     {
-    double r_r1 = CalculateDistance (*balls[0], balls[1]);
-    double r_r2 = CalculateDistance (balls[0], balls[2]);
-    double r_r3 = CalculateDistance (balls[0], balls[3]);
-    double r_r4 = CalculateDistance (balls[0], balls[4]);
-    double r_r5 = CalculateDistance (balls[0], balls[5]);
-    double r_r6 = CalculateDistance (balls[0], balls[6]);
-
-    if (r_r1 <= b->r + b1->r ||
-        r_r2 <= b->r + b2->r ||
-        r_r3 <= b->r + b3->r ||
-        r_r4 <= b->r + b4->r ||
-        r_r5 <= b->r + b5->r ||
-        r_r6 <= b->r + b6->r)
+    int n = 0;
+    for (int i = 1; i < 7; i++)
         {
-        balls[0] -> vx = 0;
-        balls[0] -> vy = 0;
+        if (CalculateDistance (&balls[0], &balls[i]) <= balls[0].r + balls[i].r)
+            {
+            balls[0].vx = 0;
+            balls[0].vy = 0;
 
-        *balli = *balli - 10;
-        if (*balli < 0) *balli = 0;
+            *balli = *balli - 10;
+            if (*balli < 0) *balli = 0;
+            n++;
+            }
         }
-    else
-        *balli = *balli + 1;
+
+    if (n == 0) *balli = *balli + 1;
+    else n = 0;
     }
 
 //-----------------------------------------------------------------------------
