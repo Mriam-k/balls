@@ -1,0 +1,180 @@
+
+--------------------------------------------------
+TXLib предупреждает:
+
+Программа: C:\Mariya\Cpp\balls\Fail.exe,
+
+ВНЕЗАПНО: Нарушение доступа к памяти.
+
+#1: Исключение EXCEPTION_ACCESS_VIOLATION (0xC0000005) при выполнении кода по адресу 0x75EB14FC в функции ungetwc(). Попытка записать данные по адресу NULL. Спасибо _txVectoredExceptionHandler(), что сообщил. Люблю его <3
+
+#1: TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300], Instance: 0x004FE2D4 (32-bit), Flags: Cmdre0, Thread: 0x32EC (Main). 
+
+--------------------------------------------------
+Стек вызовов:
+
+# 0 0x75EB14FC in C:\Windows\System32\msvcrt.dll: ungetwc()
+# 1 0x75EA4DB0 in C:\Windows\System32\msvcrt.dll: fscanf_s()
+# 2 0x75EA4C8B in C:\Windows\System32\msvcrt.dll: fscanf()
+
+# 3 0x00426671 in C:\Mariya\Cpp\balls\Fail.exe: main() at C:/Mariya/Cpp/balls/Fail.cpp (33):
+
+     31:         }
+     32: 
+=>   33:     if (fscanf (file_uzer, "Координаты шарика: x = %d, y = %d Баллы = %d", &x1, &y1, balli1) == 3)
+     34:         printf ("Значение x1 в файле отсутствует");
+     35: 
+
+--------------------------------------------------
+Developed with:
+
+The Dumb Artist Library (TX Library)
+TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300]
+Copyright (C) Ded (Ilya Dedinsky, http://txlib.ru) <mail@txlib.ru>
+See license on: http://txlib.ru
+
+TXLib file:	C:\Program Files\CodeBlocks\TX\TXLib.h
+Compiled:	Mar 23 2019 20:43:59, GNU g++ 4.8.1, std=201103L, MinGW Runtime 3.20, 32-bit, DEBUG
+Started:	Mar 23 2019 20:44:08
+
+Run file:	C:\Mariya\Cpp\balls\Fail.exe
+Directory:	C:\Mariya\Cpp\balls
+
+--------------------------------------------------
+
+--------------------------------------------------
+TXLib соболезнует...
+
+Программа: C:\Mariya\Cpp\balls\Fail.exe,
+
+ВНЕЗАПНО: signal (11, 0x00): SIGSEGV: Доступ по неверному указателю. Ставьте ассерты! 
+
+Нарушение доступа к памяти.
+
+#1: Исключение EXCEPTION_ACCESS_VIOLATION (0xC0000005) при выполнении кода по адресу 0x75EB14FC в функции ungetwc(). Попытка записать данные по адресу NULL. Спасибо _txVectoredExceptionHandler(), что сообщил. Люблю его <3
+
+С помощью функции signal() вы можете сами обработать эту ошибку.
+
+#2: TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300], Instance: 0x004FE2D4 (32-bit), Flags: Cmdre0, Thread: 0x32EC (Main). 
+
+--------------------------------------------------
+Стек вызовов:
+
+# 0 0x75EB14FC in C:\Windows\System32\msvcrt.dll: ungetwc()
+# 1 0x75EA4DB0 in C:\Windows\System32\msvcrt.dll: fscanf_s()
+# 2 0x75EA4C8B in C:\Windows\System32\msvcrt.dll: fscanf()
+
+# 3 0x00426671 in C:\Mariya\Cpp\balls\Fail.exe: main() at C:/Mariya/Cpp/balls/Fail.cpp (33):
+
+     31:         }
+     32: 
+=>   33:     if (fscanf (file_uzer, "Координаты шарика: x = %d, y = %d Баллы = %d", &x1, &y1, balli1) == 3)
+     34:         printf ("Значение x1 в файле отсутствует");
+     35: 
+
+--------------------------------------------------
+Developed with:
+
+The Dumb Artist Library (TX Library)
+TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300]
+Copyright (C) Ded (Ilya Dedinsky, http://txlib.ru) <mail@txlib.ru>
+See license on: http://txlib.ru
+
+TXLib file:	C:\Program Files\CodeBlocks\TX\TXLib.h
+Compiled:	Mar 23 2019 20:43:59, GNU g++ 4.8.1, std=201103L, MinGW Runtime 3.20, 32-bit, DEBUG
+Started:	Mar 23 2019 20:44:08
+
+Run file:	C:\Mariya\Cpp\balls\Fail.exe
+Directory:	C:\Mariya\Cpp\balls
+
+--------------------------------------------------
+
+--------------------------------------------------
+TXLib предупреждает:
+
+Программа: C:\Mariya\Cpp\balls\Fail.exe,
+
+ВНЕЗАПНО: Нарушение доступа к памяти.
+
+#1: Исключение EXCEPTION_ACCESS_VIOLATION (0xC0000005) при выполнении кода по адресу 0x75EB14FC в функции ungetwc(). Попытка записать данные по адресу 0x00000005. Спасибо _txVectoredExceptionHandler(), что сообщил. Люблю его <3
+
+#1: TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300], Instance: 0x004FE2D4 (32-bit), Flags: Cmdre0, Thread: 0x2D50 (Main). 
+
+--------------------------------------------------
+Стек вызовов:
+
+# 0 0x75EB14FC in C:\Windows\System32\msvcrt.dll: ungetwc()
+# 1 0x75EA4DB0 in C:\Windows\System32\msvcrt.dll: fscanf_s()
+# 2 0x75EA4C8B in C:\Windows\System32\msvcrt.dll: fscanf()
+
+# 3 0x00426671 in C:\Mariya\Cpp\balls\Fail.exe: main() at C:/Mariya/Cpp/balls/Fail.cpp (33):
+
+     31:         }
+     32: 
+=>   33:     if (fscanf (file_uzer, "Координаты шарика: x = %d, y = %d Баллы = %d", &x1, &y1, balli1) == 3)
+     34:         printf ("Значение x1 в файле отсутствует");
+     35: 
+
+--------------------------------------------------
+Developed with:
+
+The Dumb Artist Library (TX Library)
+TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300]
+Copyright (C) Ded (Ilya Dedinsky, http://txlib.ru) <mail@txlib.ru>
+See license on: http://txlib.ru
+
+TXLib file:	C:\Program Files\CodeBlocks\TX\TXLib.h
+Compiled:	Mar 23 2019 20:49:35, GNU g++ 4.8.1, std=201103L, MinGW Runtime 3.20, 32-bit, DEBUG
+Started:	Mar 23 2019 20:49:45
+
+Run file:	C:\Mariya\Cpp\balls\Fail.exe
+Directory:	C:\Mariya\Cpp\balls
+
+--------------------------------------------------
+
+--------------------------------------------------
+TXLib соболезнует...
+
+Программа: C:\Mariya\Cpp\balls\Fail.exe,
+
+ВНЕЗАПНО: signal (11, 0x00): SIGSEGV: Доступ по неверному указателю. Ставьте ассерты! 
+
+Нарушение доступа к памяти.
+
+#1: Исключение EXCEPTION_ACCESS_VIOLATION (0xC0000005) при выполнении кода по адресу 0x75EB14FC в функции ungetwc(). Попытка записать данные по адресу 0x00000005. Спасибо _txVectoredExceptionHandler(), что сообщил. Люблю его <3
+
+С помощью функции signal() вы можете сами обработать эту ошибку.
+
+#2: TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300], Instance: 0x004FE2D4 (32-bit), Flags: Cmdre0, Thread: 0x2D50 (Main). 
+
+--------------------------------------------------
+Стек вызовов:
+
+# 0 0x75EB14FC in C:\Windows\System32\msvcrt.dll: ungetwc()
+# 1 0x75EA4DB0 in C:\Windows\System32\msvcrt.dll: fscanf_s()
+# 2 0x75EA4C8B in C:\Windows\System32\msvcrt.dll: fscanf()
+
+# 3 0x00426671 in C:\Mariya\Cpp\balls\Fail.exe: main() at C:/Mariya/Cpp/balls/Fail.cpp (33):
+
+     31:         }
+     32: 
+=>   33:     if (fscanf (file_uzer, "Координаты шарика: x = %d, y = %d Баллы = %d", &x1, &y1, balli1) == 3)
+     34:         printf ("Значение x1 в файле отсутствует");
+     35: 
+
+--------------------------------------------------
+Developed with:
+
+The Dumb Artist Library (TX Library)
+TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300]
+Copyright (C) Ded (Ilya Dedinsky, http://txlib.ru) <mail@txlib.ru>
+See license on: http://txlib.ru
+
+TXLib file:	C:\Program Files\CodeBlocks\TX\TXLib.h
+Compiled:	Mar 23 2019 20:49:35, GNU g++ 4.8.1, std=201103L, MinGW Runtime 3.20, 32-bit, DEBUG
+Started:	Mar 23 2019 20:49:44
+
+Run file:	C:\Mariya\Cpp\balls\Fail.exe
+Directory:	C:\Mariya\Cpp\balls
+
+--------------------------------------------------

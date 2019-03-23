@@ -93,7 +93,6 @@ void MoveBalls ()
         txSetColor (RGB(128, 255, 39), 10);
         sprintf (print, "Общая сумма баллов = %d, уровень игры %d       \r", balli, level);
         txTextOut (txGetExtentX()/2, 5, print);
-        printf ("состояние %d \n", balls[0].state_ball);
 
         txSleep (Global_Sleep);
         }

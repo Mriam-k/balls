@@ -1,0 +1,40 @@
+#include <stdio.h>
+#include "TXLib.h"
+
+//-----------------------------------------------------------------------------
+int main ()
+    {
+    FILE *file_uzer = fopen ("uzer1.txt", "w");
+
+    if (file_uzer == NULL)   //if (!file_uzer)
+        {
+        printf ("Нет доступа к файлу");
+        return 1;
+        }
+
+    int x = 20, y = 50;
+    int balli = 123;
+
+    fprintf (file_uzer, "Координаты шарика: x = %d, y = %d\n"
+                        "Баллы = %d\n", x, y, balli);
+    fclose  (file_uzer);
+
+    int x1 = 0, y1 = 0;
+    int balli1 = 0;
+
+    file_uzer = fopen ("uzer1.txt", "r");
+
+    if (file_uzer == NULL)
+        {
+        printf ("Нет доступа к файлу");
+        return 1;
+        }
+
+    if (fscanf (file_uzer, "Координаты шарика: x = %d, y = %d Б", &x1, &y1) == 3) 
+        printf ("Значение x1 в файле отсутствует");
+
+
+    return 0;
+    }
+
+//-----------------------------------------------------------------------------
