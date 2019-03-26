@@ -4,6 +4,7 @@
 const double Global_Sleep = txQueryPerformance () * 100;
 const int Capture_Ball = 1;
 const int Free    = 0;
+const int N_Ball = 7;
 
 //-----------------------------------------------------------------------------
 
@@ -58,7 +59,7 @@ void DrawBackground ()
 
 void MoveBalls ()
     {
-    Ball balls[7] = {{320, 110, 0, 0, 20, RGB (0,   255, 50 ), RGB (0,   128, 0  ), 4},
+    Ball balls[N_Ball] = {{320, 110, 0, 0, 20, RGB (0,   255, 50 ), RGB (0,   128, 0  ), 4},
                      {360, 150, 2, 2, 20, RGB (63,  72,  204), RGB (63,  0,   170), 6},
                      {390, 190, 3, 6, 20, RGB (128, 0,   255), RGB (128, 0,   255)   },
                      {420, 230, 4, 1, 20, RGB (128, 0,   64 ), RGB (170, 0,   85 ), 4},
@@ -77,36 +78,36 @@ void MoveBalls ()
 
     if (file_uzer != NULL)
         {
-        fscanf (file_uzer, "Баллы = %d\n Уровень игры = %d\n"
-                           "vx[0] = %d, vy[0] = %d\n"
-                           "vx[1] = %d, vy[1] = %d\n"
-                           "vx[2] = %d, vy[2] = %d\n"
-                           "vx[3] = %d, vy[3] = %d\n"
-                           "vx[4] = %d, vy[4] = %d\n"
-                           "vx[5] = %d, vy[5] = %d\n"
-                           "vx[6] = %d, vy[6] = %d\n"
-                           "x[0] = %d, y[0] = %d\n"
-                           "x[1] = %d, y[1] = %d\n"
-                           "x[2] = %d, y[2] = %d\n"
-                           "x[3] = %d, y[3] = %d\n"
-                           "x[4] = %d, y[4] = %d\n"
-                           "x[5] = %d, y[5] = %d\n"
-                           "x[6] = %d, y[6] = %d\n",
-                           &balli, &level,
-                           &balls[0].vx, &balls[0].vy,
-                           &balls[1].vx, &balls[1].vy,
-                           &balls[2].vx, &balls[2].vy,
-                           &balls[3].vx, &balls[3].vy,
-                           &balls[4].vx, &balls[4].vy,
-                           &balls[5].vx, &balls[5].vy,
-                           &balls[6].vx, &balls[6].vy,
-                           &balls[0].x, &balls[0].y,
-                           &balls[1].x, &balls[1].y,
-                           &balls[2].x, &balls[2].y,
-                           &balls[3].x, &balls[3].y,
-                           &balls[4].x, &balls[4].y,
-                           &balls[5].x, &balls[5].y,
-                           &balls[6].x, &balls[6].y);
+        if (fscanf (file_uzer, "Баллы = %d\n Уровень игры = %d\n", &balli, &level) != 2)
+            {
+            printf ("Ошибка при чтении файла uzer.txt\n");
+            //break;
+            }
+
+        for (int str = 3; !feof (file_uzer); str++)
+            {
+            int n = 0;
+
+            if (fscanf (file_uzer, " [%d]", &n) != 1)
+                {
+                printf ("Ошибка при чтении файла uzer.txt в строке %d\n", str);
+                break;
+                }
+
+            if (0 <= n && n < N_Ball)
+                {
+                if (fscanf (file_uzer, "x = %d, y = %d, vx = %d, vy = %d", &balls[n].x, &balls[n].y, &balls[n].vx, &balls[n].vy) != 4)
+                    {
+                    printf ("Ошибка при чтении файла uzer.txt в строке %d\n", str);
+                    break;
+                    }
+                }
+            else
+                {
+                printf ("Не допустимый номер шарика %d в файле uzer.txt в строке %d\n", n, str);
+                break;
+                }
+            }
         }
 
     fclose  (file_uzer);
@@ -122,11 +123,11 @@ void MoveBalls ()
 
         Count (&balli, &level, &counter, balls);
 
-        for (int i = 0; i < 7; i++) balls[i].MoveStrategiya (dt);
+        for (int i = 0; i < N_Ball; i++) balls[i].MoveStrategiya (dt);
 
         CalculateBalli (balls, &balli);
 
-        for (int i = 0; i < 7; i++) balls[i].Drow ();
+        for (int i = 0; i < N_Ball; i++) balls[i].Drow ();
 
         char print [100] = "";
         txSetColor (RGB(128, 255, 39), 10);
@@ -138,14 +139,19 @@ void MoveBalls ()
 
     file_uzer = fopen ("uzer.txt", "w");
 
-    if (file_uzer == NULL) printf ("Результат игры не сохранён");
-    else
+    if (file_uzer != NULL)
         {
         fprintf (file_uzer, "Баллы = %d\n"
                             "Уровень игры = %d\n", balli, level);
-        for (int i = 0; i < 7; i++) fprintf (file_uzer, "vx[%d] = %d, vy[%d] = %d\n", i, balls[i].vx, i, balls[i].vy);
-        for (int i = 0; i < 7; i++) fprintf (file_uzer, "x[%d] = %d, y[%d] = %d\n", i, balls[i].x, i, balls[i].y);
+        for (int i = 0; i < N_Ball; i++)
+            {
+            fprintf (file_uzer, "[%d] ", i);
+            fprintf (file_uzer, "x  = %d, y  = %d, ", balls[i].x,  balls[i].y);
+            fprintf (file_uzer, "vx = %d, vy = %d\n", balls[i].vx, balls[i].vy);
+            }
         }
+    else
+        printf ("Результат игры не сохранён");
 
     fclose  (file_uzer);
     }
