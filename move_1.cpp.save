@@ -66,11 +66,18 @@ void MoveBalls ()
                      {490, 300, 3, 2, 20, RGB (255, 255, 255), RGB (255, 255, 255)   },
                      {510, 600, 2, 5, 20, RGB (240, 96,  0  ), RGB (255, 127, 39 ), 3}};
 
-    int dt = 2;
     int balli = 0;
-    int counter = 0, level = 1;
+    int level = 1;
+    int dt = 2;
+    int counter = 0;
 
     txSetTextAlign (TA_CENTER);
+
+    FILE *file_uzer = fopen ("uzer.txt", "r");
+
+    if (file_uzer != NULL) fscanf (file_uzer, "Баллы = %d\n Уровень игры = %d", &balli, &level);
+
+    fclose  (file_uzer);
 
     while (!txGetAsyncKeyState (VK_ESCAPE))
         {
@@ -96,6 +103,19 @@ void MoveBalls ()
 
         txSleep (Global_Sleep);
         }
+
+    file_uzer = fopen ("uzer.txt", "w");
+
+    if (file_uzer == NULL) printf ("Результат игры не сохранён");
+    else
+        {
+        fprintf (file_uzer, "Баллы = %d\n"
+                            "Уровень игры = %d\n", balli, level);
+        
+        fprintf (file_uzer, "vx[1] = %d, vy[1] = %d", balls[1].vx, balls[1].vy);
+        }
+
+    fclose  (file_uzer);
     }
 
 //-----------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-//#include "TXLib.h"
+#include "TXLib.h"
 #include <stdio.h>
 
 const double Global_Sleep = txQueryPerformance () * 100;
@@ -7,7 +7,7 @@ const int Free    = 0;
 
 //-----------------------------------------------------------------------------
 
-//struct Ball
+struct Ball
     {
     int x, y;
     int vx, vy;
@@ -66,11 +66,50 @@ void MoveBalls ()
                      {490, 300, 3, 2, 20, RGB (255, 255, 255), RGB (255, 255, 255)   },
                      {510, 600, 2, 5, 20, RGB (240, 96,  0  ), RGB (255, 127, 39 ), 3}};
 
-    int dt = 2;
     int balli = 0;
-    int counter = 0, level = 1;
+    int level = 1;
+    int dt = 2;
+    int counter = 0;
 
     txSetTextAlign (TA_CENTER);
+
+    FILE *file_uzer = fopen ("uzer.txt", "r");
+
+    if (file_uzer != NULL)
+        {
+        fscanf (file_uzer, "Баллы = %d\n Уровень игры = %d\n"
+                           "vx[0] = %d, vy[0] = %d\n"
+                           "vx[1] = %d, vy[1] = %d\n"
+                           "vx[2] = %d, vy[2] = %d\n"
+                           "vx[3] = %d, vy[3] = %d\n"
+                           "vx[4] = %d, vy[4] = %d\n"
+                           "vx[5] = %d, vy[5] = %d\n"
+                           "vx[6] = %d, vy[6] = %d\n"
+                           "x[0] = %d, y[0] = %d\n"
+                           "x[1] = %d, y[1] = %d\n"
+                           "x[2] = %d, y[2] = %d\n"
+                           "x[3] = %d, y[3] = %d\n"
+                           "x[4] = %d, y[4] = %d\n"
+                           "x[5] = %d, y[5] = %d\n"
+                           "x[6] = %d, y[6] = %d\n",
+                           &balli, &level,
+                           &balls[0].vx, &balls[0].vy,
+                           &balls[1].vx, &balls[1].vy,
+                           &balls[2].vx, &balls[2].vy,
+                           &balls[3].vx, &balls[3].vy,
+                           &balls[4].vx, &balls[4].vy,
+                           &balls[5].vx, &balls[5].vy,
+                           &balls[6].vx, &balls[6].vy,
+                           &balls[0].x, &balls[0].y,
+                           &balls[1].x, &balls[1].y,
+                           &balls[2].x, &balls[2].y,
+                           &balls[3].x, &balls[3].y,
+                           &balls[4].x, &balls[4].y,
+                           &balls[5].x, &balls[5].y,
+                           &balls[6].x, &balls[6].y);
+        }
+
+    fclose  (file_uzer);
 
     while (!txGetAsyncKeyState (VK_ESCAPE))
         {
@@ -96,6 +135,19 @@ void MoveBalls ()
 
         txSleep (Global_Sleep);
         }
+
+    file_uzer = fopen ("uzer.txt", "w");
+
+    if (file_uzer == NULL) printf ("Результат игры не сохранён");
+    else
+        {
+        fprintf (file_uzer, "Баллы = %d\n"
+                            "Уровень игры = %d\n", balli, level);
+        for (int i = 0; i < 7; i++) fprintf (file_uzer, "vx[%d] = %d, vy[%d] = %d\n", i, balls[i].vx, i, balls[i].vy);
+        for (int i = 0; i < 7; i++) fprintf (file_uzer, "x[%d] = %d, y[%d] = %d\n", i, balls[i].x, i, balls[i].y);
+        }
+
+    fclose  (file_uzer);
     }
 
 //-----------------------------------------------------------------------------

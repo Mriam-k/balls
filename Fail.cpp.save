@@ -20,7 +20,7 @@ int main ()
     fclose  (file_uzer);
 
     int x1 = 0, y1 = 0;
-    int balli1 = 0;
+    int balli1 = 5;
 
     file_uzer = fopen ("uzer1.txt", "r");
 
@@ -30,7 +30,7 @@ int main ()
         return 1;
         }
 
-    if (fscanf (file_uzer, "Координаты шарика: x = %d, y = %d Б", &x1, &y1) == 3) 
+    if (fscanf (file_uzer, "Координаты шарика: x = %d, y = %d Баллы = %d", &x1, &y1, &balli1) == 3)
         printf ("Значение x1 в файле отсутствует");
 
 
