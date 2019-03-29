@@ -25,11 +25,14 @@ struct Ball
 
 //-----------------------------------------------------------------------------
 
-void MoveBalls ();
+void MoveBalls (char* name_user);
 void DrawBackground ();
 void Count (int* balli, int* level, int* counter, Ball balls[]);
 void CalculateBalli (Ball balls[], int* balli);
 double CalculateDistance (Ball *b1, Ball *b2);
+int ReadFromFile (int* balli, int* level, Ball balls[], char* name_user);
+int WriteToFile (int* balli, int* level, Ball balls[], char* name_user);
+int DialogueWithUser(char* name_user);
 
 //-----------------------------------------------------------------------------
 
@@ -37,9 +40,12 @@ int main ()
     {
     txCreateWindow (900, 700);
 
+    char name_user[100] = "user";
+    DialogueWithUser(name_user);
+
     txBegin ();
 
-    MoveBalls ();
+    MoveBalls (name_user);
 
     txEnd ();
 
@@ -57,7 +63,7 @@ void DrawBackground ()
 
 //-----------------------------------------------------------------------------
 
-void MoveBalls ()
+void MoveBalls (char* name_user)
     {
     Ball balls[N_Ball] = {{320, 110, 0, 0, 20, RGB (0,   255, 50 ), RGB (0,   128, 0  ), 4},
                      {360, 150, 2, 2, 20, RGB (63,  72,  204), RGB (63,  0,   170), 6},
@@ -67,50 +73,18 @@ void MoveBalls ()
                      {490, 300, 3, 2, 20, RGB (255, 255, 255), RGB (255, 255, 255)   },
                      {510, 600, 2, 5, 20, RGB (240, 96,  0  ), RGB (255, 127, 39 ), 3}};
 
-    int balli = 0;
-    int level = 1;
-    int dt = 2;
-    int counter = 0;
+    int  balli = 0;
+    int  level = 1;
+    int  dt = 2;
+    int  counter = 0;
+    //int continue_game;
+    //char name_user[100] = "user";
 
     txSetTextAlign (TA_CENTER);
 
-    FILE *file_uzer = fopen ("uzer.txt", "r");
+    //DialogueWithUser(name_user);
 
-    if (file_uzer != NULL)
-        {
-        if (fscanf (file_uzer, "Баллы = %d\n Уровень игры = %d\n", &balli, &level) != 2)
-            {
-            printf ("Ошибка при чтении файла uzer.txt\n");
-            //break;
-            }
-
-        for (int str = 3; !feof (file_uzer); str++)
-            {
-            int n = 0;
-
-            if (fscanf (file_uzer, " [%d]", &n) != 1)
-                {
-                printf ("Ошибка при чтении файла uzer.txt в строке %d\n", str);
-                break;
-                }
-
-            if (0 <= n && n < N_Ball)
-                {
-                if (fscanf (file_uzer, "x = %d, y = %d, vx = %d, vy = %d", &balls[n].x, &balls[n].y, &balls[n].vx, &balls[n].vy) != 4)
-                    {
-                    printf ("Ошибка при чтении файла uzer.txt в строке %d\n", str);
-                    break;
-                    }
-                }
-            else
-                {
-                printf ("Не допустимый номер шарика %d в файле uzer.txt в строке %d\n", n, str);
-                break;
-                }
-            }
-        }
-
-    fclose  (file_uzer);
+    ReadFromFile (&balli, &level, balls, name_user);
 
     while (!txGetAsyncKeyState (VK_ESCAPE))
         {
@@ -137,23 +111,8 @@ void MoveBalls ()
         txSleep (Global_Sleep);
         }
 
-    file_uzer = fopen ("uzer.txt", "w");
+    WriteToFile (&balli, &level, balls, name_user);
 
-    if (file_uzer != NULL)
-        {
-        fprintf (file_uzer, "Баллы = %d\n"
-                            "Уровень игры = %d\n", balli, level);
-        for (int i = 0; i < N_Ball; i++)
-            {
-            fprintf (file_uzer, "[%d] ", i);
-            fprintf (file_uzer, "x  = %d, y  = %d, ", balls[i].x,  balls[i].y);
-            fprintf (file_uzer, "vx = %d, vy = %d\n", balls[i].vx, balls[i].vy);
-            }
-        }
-    else
-        printf ("Результат игры не сохранён");
-
-    fclose  (file_uzer);
     }
 
 //-----------------------------------------------------------------------------
@@ -259,3 +218,108 @@ double CalculateDistance (Ball *b1, Ball *b2)
     }
 
 //-----------------------------------------------------------------------------
+
+int ReadFromFile (int* balli, int* level, Ball balls[], char* name_user)
+    {
+    FILE *file_uzer = fopen (name_user, "r");
+
+    if (file_uzer != NULL)
+        {
+        if (fscanf (file_uzer, "Баллы = %d\n Уровень игры = %d", balli, level) != 2)
+            {
+            printf ("\n Ошибка при чтении баллов или уровня в файле uzer.txt\n");
+
+            fclose  (file_uzer);
+            return 0;
+            }
+
+        for (int str = 3; !feof (file_uzer); str++)
+            {
+            int n = 0;
+
+            if (fscanf (file_uzer, " [%d] ", &n) != 1)
+                {
+                printf ("\n Ошибка при чтении номера шарика в файле uzer.txt в строке %d\n", str);
+                break;
+                }
+
+            if (0 <= n && n < N_Ball)
+                {
+                if (fscanf (file_uzer, "x = %d, y = %d, vx = %d, vy = %d", &balls[n].x, &balls[n].y, &balls[n].vx, &balls[n].vy) != 4)
+                    {
+                    printf ("\n Ошибка при чтении координат или скоростей в файле uzer.txt в строке %d\n", str);
+                    break;
+                    }
+                if (balls[n].x < 205) balls[n].x = 205;
+                if (balls[n].x > 675) balls[n].x = 675;
+                if (balls[n].y < 95 ) balls[n].y = 95;
+                if (balls[n].y > 575) balls[n].y = 575;
+                if (30 < balls[n].vx || balls[n].vx < -30) balls[n].vx = 3;
+                if (30 < balls[n].vy || balls[n].vy < -30) balls[n].vy = 3;
+                }
+            else
+                {
+                printf ("\n Не допустимый номер шарика %d в файле uzer.txt в строке %d\n", n, str);
+                break;
+                }
+            }
+        }
+    else
+        {
+        return 1;
+        }
+
+    fclose (file_uzer);
+
+    return 1;
+    }
+
+//-----------------------------------------------------------------------------
+
+int WriteToFile (int* balli, int* level, Ball balls[], char* name_user)
+    {
+    FILE *file_uzer = fopen (name_user, "w");
+
+    if (file_uzer != NULL)
+        {
+        fprintf (file_uzer, "Баллы = %d\n"
+                            "Уровень игры = %d", *balli, *level);
+        for (int i = 0; i < N_Ball; i++)
+            {
+            fprintf (file_uzer, "\n[%d] ", i);
+            fprintf (file_uzer, "x  = %d, y  = %d, ", balls[i].x,  balls[i].y);
+            fprintf (file_uzer, "vx = %d, vy = %d", balls[i].vx, balls[i].vy);
+            }
+        }
+    else
+        printf ("Результат игры не сохранён");
+
+    fclose  (file_uzer);
+
+    return 0;
+    }
+
+//-----------------------------------------------------------------------------
+
+int DialogueWithUser(char* name_user)
+    {
+    txSetFillColor (TX_BLACK);
+
+    printf ("\nВведите ваше Имя\n");
+    scanf ("%s", name_user);
+    printf ("Приветствую тебя %s\n", name_user);
+
+    strcat (name_user, ".txt");
+
+    //printf ("Если хочешь начать игру заново, нажми: 0, если продолжить: 1\n");
+    //scanf ("%d", &continue_game);
+
+    //if (continue_game == 0 || continue_game == 1)
+    //    printf ("Введено %d\n", continue_game);
+    //else
+     //   printf ("Ты ввел не верные символы, введи либо 1, либо 0");
+
+    txClear ();
+
+    return 0;
+    }
