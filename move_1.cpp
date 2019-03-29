@@ -220,9 +220,9 @@ int ReadFromFile (int* balli, int* level, Ball balls[], char* name_user)
     {
     FILE *file_uzer = fopen (name_user, "r");
 
-    if (file_uzer != NULL)
-        {
-        if (fscanf (file_uzer, "Баллы = %d\n Уровень игры = %d", balli, level) != 2)
+    if (file_uzer == NULL) return 1;
+
+    if (fscanf (file_uzer, "Баллы = %d\n Уровень игры = %d", balli, level) != 2)
             {
             printf ("\n Ошибка при чтении баллов или уровня в файле uzer.txt\n");
 
@@ -240,31 +240,25 @@ int ReadFromFile (int* balli, int* level, Ball balls[], char* name_user)
                 break;
                 }
 
-            if (0 <= n && n < N_Ball)
-                {
-                if (fscanf (file_uzer, "x = %d, y = %d, vx = %d, vy = %d", &balls[n].x, &balls[n].y, &balls[n].vx, &balls[n].vy) != 4)
-                    {
-                    printf ("\n Ошибка при чтении координат или скоростей в файле uzer.txt в строке %d\n", str);
-                    break;
-                    }
-                if (balls[n].x < 205) balls[n].x = 205;
-                if (balls[n].x > 675) balls[n].x = 675;
-                if (balls[n].y < 95 ) balls[n].y = 95;
-                if (balls[n].y > 575) balls[n].y = 575;
-                if (30 < balls[n].vx || balls[n].vx < -30) balls[n].vx = 3;
-                if (30 < balls[n].vy || balls[n].vy < -30) balls[n].vy = 3;
-                }
-            else
+            if (!(0 <= n && n < N_Ball))
                 {
                 printf ("\n Не допустимый номер шарика %d в файле uzer.txt в строке %d\n", n, str);
                 break;
                 }
+
+            if (fscanf (file_uzer, "x = %d, y = %d, vx = %d, vy = %d", &balls[n].x, &balls[n].y, &balls[n].vx, &balls[n].vy) != 4)
+                {
+                printf ("\n Ошибка при чтении координат или скоростей в файле uzer.txt в строке %d\n", str);
+                break;
+                }
+
+            if (balls[n].x < 205) balls[n].x = 205;
+            if (balls[n].x > 675) balls[n].x = 675;
+            if (balls[n].y < 95 ) balls[n].y = 95;
+            if (balls[n].y > 575) balls[n].y = 575;
+            if (30 < balls[n].vx || balls[n].vx < -30) balls[n].vx = 3;
+            if (30 < balls[n].vy || balls[n].vy < -30) balls[n].vy = 3;
             }
-        }
-    else
-        {
-        return 1;
-        }
 
     fclose (file_uzer);
 
@@ -277,23 +271,25 @@ int WriteToFile (int* balli, int* level, Ball balls[], char* name_user)
     {
     FILE *file_uzer = fopen (name_user, "w");
 
-    if (file_uzer != NULL)
+    if (file_uzer == NULL)
         {
-        fprintf (file_uzer, "Баллы = %d\n"
-                            "Уровень игры = %d", *balli, *level);
-        for (int i = 0; i < N_Ball; i++)
-            {
-            fprintf (file_uzer, "\n[%d] ", i);
-            fprintf (file_uzer, "x  = %d, y  = %d, ", balls[i].x,  balls[i].y);
-            fprintf (file_uzer, "vx = %d, vy = %d", balls[i].vx, balls[i].vy);
-            }
-        }
-    else
         printf ("Результат игры не сохранён");
+        return 0;
+        }
+
+    fprintf (file_uzer, "Баллы = %d\n"
+                        "Уровень игры = %d", *balli, *level);
+
+    for (int i = 0; i < N_Ball; i++)
+        {
+        fprintf (file_uzer, "\n[%d] ", i);
+        fprintf (file_uzer, "x  = %d, y  = %d, ", balls[i].x,  balls[i].y);
+        fprintf (file_uzer, "vx = %d, vy = %d",   balls[i].vx, balls[i].vy);
+        }
 
     fclose  (file_uzer);
 
-    return 0;
+    return 1;
     }
 
 //-----------------------------------------------------------------------------
@@ -301,7 +297,7 @@ int WriteToFile (int* balli, int* level, Ball balls[], char* name_user)
 int DialogueWithUser(char* name_user, int* continue_game)
     {
     printf ("\nВведите ваше Имя\n");
-    scanf ("%s", name_user);
+    scanf ("%90s", name_user);
     printf ("Приветствую тебя %s\n", name_user);
 
     strcat (name_user, ".txt");
