@@ -25,14 +25,14 @@ struct Ball
 
 //-----------------------------------------------------------------------------
 
-void MoveBalls (char* name_user);
+void MoveBalls (char* name_user, int* continue_game);
 void DrawBackground ();
 void Count (int* balli, int* level, int* counter, Ball balls[]);
 void CalculateBalli (Ball balls[], int* balli);
 double CalculateDistance (Ball *b1, Ball *b2);
 int ReadFromFile (int* balli, int* level, Ball balls[], char* name_user);
 int WriteToFile (int* balli, int* level, Ball balls[], char* name_user);
-int DialogueWithUser(char* name_user);
+int DialogueWithUser(char* name_user, int* continue_game);
 
 //-----------------------------------------------------------------------------
 
@@ -41,11 +41,12 @@ int main ()
     txCreateWindow (900, 700);
 
     char name_user[100] = "user";
-    DialogueWithUser(name_user);
+    int continue_game = 0;
+    DialogueWithUser(name_user, &continue_game);
 
     txBegin ();
 
-    MoveBalls (name_user);
+    MoveBalls (name_user, &continue_game);
 
     txEnd ();
 
@@ -63,7 +64,7 @@ void DrawBackground ()
 
 //-----------------------------------------------------------------------------
 
-void MoveBalls (char* name_user)
+void MoveBalls (char* name_user, int* continue_game)
     {
     Ball balls[N_Ball] = {{320, 110, 0, 0, 20, RGB (0,   255, 50 ), RGB (0,   128, 0  ), 4},
                      {360, 150, 2, 2, 20, RGB (63,  72,  204), RGB (63,  0,   170), 6},
@@ -77,14 +78,10 @@ void MoveBalls (char* name_user)
     int  level = 1;
     int  dt = 2;
     int  counter = 0;
-    //int continue_game;
-    //char name_user[100] = "user";
 
     txSetTextAlign (TA_CENTER);
 
-    //DialogueWithUser(name_user);
-
-    ReadFromFile (&balli, &level, balls, name_user);
+    if (*continue_game == 1) ReadFromFile (&balli, &level, balls, name_user);
 
     while (!txGetAsyncKeyState (VK_ESCAPE))
         {
@@ -301,25 +298,38 @@ int WriteToFile (int* balli, int* level, Ball balls[], char* name_user)
 
 //-----------------------------------------------------------------------------
 
-int DialogueWithUser(char* name_user)
+int DialogueWithUser(char* name_user, int* continue_game)
     {
-    txSetFillColor (TX_BLACK);
-
     printf ("\nВведите ваше Имя\n");
     scanf ("%s", name_user);
     printf ("Приветствую тебя %s\n", name_user);
 
     strcat (name_user, ".txt");
 
-    //printf ("Если хочешь начать игру заново, нажми: 0, если продолжить: 1\n");
-    //scanf ("%d", &continue_game);
+    printf ("Если хочешь начать игру заново, нажми: 0, если продолжить: 1\n");
+    scanf ("%d", continue_game);
 
-    //if (continue_game == 0 || continue_game == 1)
-    //    printf ("Введено %d\n", continue_game);
-    //else
-     //   printf ("Ты ввел не верные символы, введи либо 1, либо 0");
+    if (*continue_game == 0)
+        printf ("Начинаем новую игру\n");
+    else
+        {
+        if (*continue_game == 1)
+            printf ("Продолжаем игру\n");
+        else
+            {
+            printf ("Ты ввел не верные символы, начинаем игру с начала\n");
 
-    txClear ();
+            *continue_game = 0;
+
+            txSleep (Global_Sleep);
+            txClearConsole ( );
+
+            return 1;
+            }
+        }
+
+    txSleep (Global_Sleep);
+    txClearConsole ( );
 
     return 0;
     }
