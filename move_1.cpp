@@ -32,7 +32,10 @@ void CalculateBalli (Ball balls[], int* balli);
 double CalculateDistance (Ball *b1, Ball *b2);
 int ReadFromFile (int* balli, int* level, Ball balls[], char* name_user);
 int WriteToFile (int* balli, int* level, Ball balls[], char* name_user);
-int DialogueWithUser(char* name_user, int* continue_game);
+int DialogueWithUser_Username(char* name_user, int* continue_game);
+int DialogueWithUser_BallColor(Ball balls[]);
+void Menu (char* name_user, int* continue_game);
+int Pause ();
 
 //-----------------------------------------------------------------------------
 
@@ -42,7 +45,7 @@ int main ()
 
     char name_user[100] = "user";
     int continue_game = 0;
-    DialogueWithUser(name_user, &continue_game);
+    Menu (name_user, &continue_game);
 
     txBegin ();
 
@@ -294,9 +297,9 @@ int WriteToFile (int* balli, int* level, Ball balls[], char* name_user)
 
 //-----------------------------------------------------------------------------
 
-int DialogueWithUser(char* name_user, int* continue_game)
+int DialogueWithUser_Username(char* name_user, int* continue_game)
     {
-    printf ("\nВведите ваше Имя\n");
+    printf ("\n\n\n\n\n\n\nВведите ваше Имя\n");
     scanf ("%90s", name_user);
     printf ("Приветствую тебя %s\n", name_user);
 
@@ -306,14 +309,14 @@ int DialogueWithUser(char* name_user, int* continue_game)
     scanf ("%d", continue_game);
 
     if (*continue_game == 0)
-        printf ("Начинаем новую игру\n");
+        printf ("Начинаем новую игру\n\n");
     else
         {
         if (*continue_game == 1)
-            printf ("Продолжаем игру\n");
+            printf ("Продолжаем игру\n\n");
         else
             {
-            printf ("Ты ввел не верные символы, начинаем игру с начала\n");
+            printf ("Ты ввел не верные символы, начинаем игру с начала\n\n");
 
             *continue_game = 0;
 
@@ -324,8 +327,71 @@ int DialogueWithUser(char* name_user, int* continue_game)
             }
         }
 
+    Pause ();
     txSleep (Global_Sleep);
     txClearConsole ( );
 
     return 0;
+    }
+//-----------------------------------------------------------------------------
+int DialogueWithUser_BallColor(Ball balls[])
+    {
+    printf ("\n\n\n\n\n\n\nВведите ваше Имя\n");
+    scanf ("%90s", balls[0].color_ball);
+
+    printf ("Если хочешь начать игру заново, нажми: 0, если продолжить: 1\n");
+
+
+    Pause ();
+    txSleep (Global_Sleep);
+    txClearConsole ( );
+
+    return 0;
+    }
+//-----------------------------------------------------------------------------
+int Pause ()
+    {
+    while (!txGetAsyncKeyState (VK_SPACE))
+        {
+        txTextCursor (false);
+        printf ("Для продолжения нажмите ПРОБЕЛ \r");
+        }
+    return 0;
+    }
+
+//-----------------------------------------------------------------------------
+void Menu (char* name_user, int* continue_game)
+    {
+    int end_of_dialogue = 0;
+    txSelectFont ("Comic Sans MS", 40);
+
+    txSetColor     (TX_ORANGE, 2);
+    txSetFillColor (RGB (255, 255, 128));
+
+    txRectangle (180, 70, 365, 115);
+    txRectangle (400, 70, 585, 115);
+
+    txTextOut (192, 70, "Username");
+    txTextOut (412, 70, "ball color");
+
+    while (!txGetAsyncKeyState (VK_SPACE))
+        {
+        RECT area = {180, 70, 365, 115};
+        if ((In (txMousePos(), area)) && (txMouseButtons() & 1))
+            DialogueWithUser_Username(name_user, continue_game);
+
+        RECT area1 = {400, 70, 585, 115};
+        if ((In (txMousePos(), area1)) && (txMouseButtons() & 1))
+            {
+            txSetFillColor (RGB (255, 255, 0));
+            txRectangle (400, 125, 585, 170);
+            txTextOut (412, 125, "yellow");
+
+            txSetFillColor (RGB (0, 0, 255));
+            txRectangle (400, 180, 585, 225);
+            txTextOut (412, 180, "blue");
+            }
+        }
+
+    txClearConsole ( );
     }
