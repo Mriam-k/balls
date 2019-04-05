@@ -35,6 +35,7 @@ int WriteToFile (int* balli, int* level, Ball balls[], char* name_user);
 int DialogueWithUser_Username(char* name_user, int* continue_game);
 void Menu (char* name_user, int* continue_game, COLORREF* ball_0_color);
 int Pause ();
+int In_area (RECT area, POINT mouse_pos);
 
 //-----------------------------------------------------------------------------
 
@@ -352,31 +353,41 @@ void Menu (char* name_user, int* continue_game, COLORREF* ball_0_color)
     int button_status = 0;
     txSelectFont ("Comic Sans MS", 40);
 
-    txSetColor     (TX_ORANGE, 2);
-    txSetFillColor (RGB (255, 255, 128));
-
-    txRectangle (180, 70, 365, 115);
-    txRectangle (400, 70, 585, 115);
-    txRectangle (620, 70, 805, 115);
-
-    txTextOut (200, 70, "Username");
-    txTextOut (426, 70, "Ball Color");
-    txTextOut (642, 70, "Game Start");
-
-    RECT area_start = {620, 70, 805, 115};
-    RECT area_name_user = {180, 70, 365, 115};
+    RECT area_start      = {620, 70, 805, 115};
+    RECT area_name_user  = {180, 70, 365, 115};
     RECT area_ball_color = {400, 70, 585, 115};
 
-    RECT area_red = {400, 125, 585, 170};
+    RECT area_red   = {400, 125, 585, 170};
     RECT area_green = {400, 180, 585, 225};
-    RECT area_blue = {400, 235, 585, 280};
+    RECT area_blue  = {400, 235, 585, 280};
 
-    while (!((In (txMousePos(), area_start)) && (txMouseButtons() == 1)))
+    txBegin ();
+
+    while (true)
         {
-        if ((In (txMousePos(), area_name_user)) && (txMouseButtons() == 1))
+        txSetColor     (TX_ORANGE, 2);
+        txSetFillColor (RGB (255, 255, 128));
+
+        txRectangle (180, 70, 365, 115);
+        txRectangle (400, 70, 585, 115);
+        txRectangle (620, 70, 805, 115);
+
+        txTextOut (200, 70, "Username");
+        txTextOut (426, 70, "Ball Color");
+        txTextOut (642, 70, "Game Start");
+
+        if ((In (txMousePos(), area_start)) && (txMouseButtons() == 1)) break;
+
+        txSleep (Global_Sleep);
+
+        if (txMouseButtons() != 1) continue;
+
+        POINT mouse_pos = txMousePos();
+
+        if (In (mouse_pos, area_name_user))
             DialogueWithUser_Username(name_user, continue_game);
 
-        if ((In (txMousePos(), area_ball_color)) && (txMouseButtons() == 1))
+        if (In (mouse_pos, area_ball_color))
             {
             button_status = 1;
 
@@ -393,15 +404,42 @@ void Menu (char* name_user, int* continue_game, COLORREF* ball_0_color)
             txTextOut (463, 235, "blue");
             }
 
-        if (button_status == 1 && (In (txMousePos(), area_red)) && (txMouseButtons() == 1))
+        if (button_status == 1 && (In (mouse_pos, area_red)))
+            {
             *ball_0_color = RGB (255, 0, 0);
+            printf ("red\n");
+            txSetFillColor (TX_BLACK);
+            txClear ();
+            button_status = 0;
+            }
 
-        if (button_status == 1 && (In (txMousePos(), area_green)) && (txMouseButtons() == 1))
+        if (button_status == 1 && (In (mouse_pos, area_green)))
+            {
             *ball_0_color = RGB (0, 255, 0);
+            printf ("green\n");
+            txSetFillColor (TX_BLACK);
+            txClear ();
+            button_status = 0;
+            }
 
-        if (button_status == 1 && (In (txMousePos(), area_blue)) && (txMouseButtons() == 1))
+        if (button_status == 1 && (In (mouse_pos, area_blue)))
+            {
             *ball_0_color = RGB (0, 0, 255);
+            printf ("blue\n");
+            txSetFillColor (TX_BLACK);
+            txClear ();
+            button_status = 0;
+            }
         }
 
+    txEnd ();
+
     txClearConsole ( );
+    }
+
+//-----------------------------------------------------------------------------
+
+int In_area (RECT area, POINT mouse_pos)
+    {
+
     }
