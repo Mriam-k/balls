@@ -1,0 +1,58 @@
+
+--------------------------------------------------
+TXLib соболезнует...
+
+Программа: C:\Mariya\Cpp\balls\mouse_test .exe, файл: C:\Program Files\CodeBlocks\TX\TXLib.h, строка: 11678, функция: unsigned int {anonymous}::TX::txMouseButtons(),
+
+Сообщение: Окно рисования не создано или не в порядке.
+
+#1: TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300], Instance: 0x004FE2D4 (32-bit), Flags: Cmdre0, Thread: 0x1768 (Main), GetLastError(): 13 (Недопустимые данные). 
+
+--------------------------------------------------
+Стек вызовов:
+
+# 0 0x004226BA in C:\Mariya\Cpp\balls\mouse_test .exe: txMouseButtons() at C:/Program Files/CodeBlocks/TX/TXLib.h (11678)
+
+# 1 0x0042670E in C:\Mariya\Cpp\balls\mouse_test .exe: main() at C:/Mariya/Cpp/balls/mouse_test .cpp (11):
+
+      9:     while (!txGetAsyncKeyState (VK_ESCAPE))
+     10:         {
+=>   11:         if (txMouseButtons() == 1) printf ("левая");
+     12:         if (txMouseButtons() == 2) printf ("правая");
+     13:         if (txMouseButtons() == 4) printf ("средняя");
+
+--------------------------------------------------
+Стек вызовов TX:
+
+# 0 in unsigned int {anonymous}::TX::txMouseButtons() at C:\Program Files\CodeBlocks\TX\TXLib.h (11678):
+
+  11676: inline unsigned txMouseButtons()
+  11677:     {
+=>11678: $1  if (_TX_TXWINDOW_FAILED()) return 0;
+  11679: 
+  11680: $   return _txMouseButtons;
+
+# 1 in int main() at C:\Mariya\Cpp\balls\mouse_test .cpp (11):
+
+      9:     while (!txGetAsyncKeyState (VK_ESCAPE))
+     10:         {
+=>   11:         if (txMouseButtons() == 1) printf ("левая");
+     12:         if (txMouseButtons() == 2) printf ("правая");
+     13:         if (txMouseButtons() == 4) printf ("средняя");
+
+--------------------------------------------------
+Developed with:
+
+The Dumb Artist Library (TX Library)
+TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300]
+Copyright (C) Ded (Ilya Dedinsky, http://txlib.ru) <mail@txlib.ru>
+See license on: http://txlib.ru
+
+TXLib file:	C:\Program Files\CodeBlocks\TX\TXLib.h
+Compiled:	Apr  2 2019 16:28:04, GNU g++ 4.8.1, std=201103L, MinGW Runtime 3.20, 32-bit, DEBUG
+Started:	Apr 02 2019 16:28:13
+
+Run file:	C:\Mariya\Cpp\balls\mouse_test .exe
+Directory:	C:\Mariya\Cpp\balls
+
+--------------------------------------------------

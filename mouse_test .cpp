@@ -1,0 +1,17 @@
+//(txMouseButtons() & 1)
+
+#include "TXLib.h"
+
+//-----------------------------------------------------------------------------
+
+int main ()
+    {
+    txCreateWindow (900, 700);
+
+    while (!txGetAsyncKeyState (VK_ESCAPE))
+        {
+        if (txMouseButtons() == 1) printf (" лева€");
+        if (txMouseButtons() == 2) printf (" права€");
+        if (txMouseButtons() == 4) printf (" средн€€");
+        }
+    }

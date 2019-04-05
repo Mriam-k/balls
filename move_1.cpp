@@ -25,7 +25,7 @@ struct Ball
 
 //-----------------------------------------------------------------------------
 
-void MoveBalls (char* name_user, int* continue_game);
+void MoveBalls (char* name_user, int* continue_game, COLORREF* ball_0_color);
 void DrawBackground ();
 void Count (int* balli, int* level, int* counter, Ball balls[]);
 void CalculateBalli (Ball balls[], int* balli);
@@ -33,8 +33,7 @@ double CalculateDistance (Ball *b1, Ball *b2);
 int ReadFromFile (int* balli, int* level, Ball balls[], char* name_user);
 int WriteToFile (int* balli, int* level, Ball balls[], char* name_user);
 int DialogueWithUser_Username(char* name_user, int* continue_game);
-int DialogueWithUser_BallColor(Ball balls[]);
-void Menu (char* name_user, int* continue_game);
+void Menu (char* name_user, int* continue_game, COLORREF* ball_0_color);
 int Pause ();
 
 //-----------------------------------------------------------------------------
@@ -45,11 +44,13 @@ int main ()
 
     char name_user[100] = "user";
     int continue_game = 0;
-    Menu (name_user, &continue_game);
+    COLORREF ball_0_color = RGB (0, 128, 0);
+
+    Menu (name_user, &continue_game, &ball_0_color);
 
     txBegin ();
 
-    MoveBalls (name_user, &continue_game);
+    MoveBalls (name_user, &continue_game, &ball_0_color);
 
     txEnd ();
 
@@ -67,9 +68,9 @@ void DrawBackground ()
 
 //-----------------------------------------------------------------------------
 
-void MoveBalls (char* name_user, int* continue_game)
+void MoveBalls (char* name_user, int* continue_game, COLORREF* ball_0_color)
     {
-    Ball balls[N_Ball] = {{320, 110, 0, 0, 20, RGB (0,   255, 50 ), RGB (0,   128, 0  ), 4},
+    Ball balls[N_Ball] = {{320, 110, 0, 0, 20, *ball_0_color, *ball_0_color, 4},
                      {360, 150, 2, 2, 20, RGB (63,  72,  204), RGB (63,  0,   170), 6},
                      {390, 190, 3, 6, 20, RGB (128, 0,   255), RGB (128, 0,   255)   },
                      {420, 230, 4, 1, 20, RGB (128, 0,   64 ), RGB (170, 0,   85 ), 4},
@@ -288,6 +289,7 @@ int WriteToFile (int* balli, int* level, Ball balls[], char* name_user)
         fprintf (file_uzer, "\n[%d] ", i);
         fprintf (file_uzer, "x  = %d, y  = %d, ", balls[i].x,  balls[i].y);
         fprintf (file_uzer, "vx = %d, vy = %d",   balls[i].vx, balls[i].vy);
+        //fprintf (file_uzer, "color_contour = %s, color_ball = %s",   balls[i].color_contour, balls[i].color_ball);
         }
 
     fclose  (file_uzer);
@@ -299,7 +301,7 @@ int WriteToFile (int* balli, int* level, Ball balls[], char* name_user)
 
 int DialogueWithUser_Username(char* name_user, int* continue_game)
     {
-    printf ("\n\n\n\n\n\n\nВведите ваше Имя\n");
+    printf ("\n\n\n\n\n\n\nВведи твое Имя\n");
     scanf ("%90s", name_user);
     printf ("Приветствую тебя %s\n", name_user);
 
@@ -309,11 +311,11 @@ int DialogueWithUser_Username(char* name_user, int* continue_game)
     scanf ("%d", continue_game);
 
     if (*continue_game == 0)
-        printf ("Начинаем новую игру\n\n");
+        printf ("Будет запущена новая игра\n\n");
     else
         {
         if (*continue_game == 1)
-            printf ("Продолжаем игру\n\n");
+            printf ("Игра будет продолжена\n\n");
         else
             {
             printf ("Ты ввел не верные символы, начинаем игру с начала\n\n");
@@ -334,35 +336,20 @@ int DialogueWithUser_Username(char* name_user, int* continue_game)
     return 0;
     }
 //-----------------------------------------------------------------------------
-int DialogueWithUser_BallColor(Ball balls[])
-    {
-    printf ("\n\n\n\n\n\n\nВведите ваше Имя\n");
-    scanf ("%90s", balls[0].color_ball);
-
-    printf ("Если хочешь начать игру заново, нажми: 0, если продолжить: 1\n");
-
-
-    Pause ();
-    txSleep (Global_Sleep);
-    txClearConsole ( );
-
-    return 0;
-    }
-//-----------------------------------------------------------------------------
 int Pause ()
     {
     while (!txGetAsyncKeyState (VK_SPACE))
         {
         txTextCursor (false);
-        printf ("Для продолжения нажмите ПРОБЕЛ \r");
+        printf ("Для продолжения работы с меню, нажми пробел\r");
         }
     return 0;
     }
 
 //-----------------------------------------------------------------------------
-void Menu (char* name_user, int* continue_game)
+void Menu (char* name_user, int* continue_game, COLORREF* ball_0_color)
     {
-    int end_of_dialogue = 0;
+    int button_status = 0;
     txSelectFont ("Comic Sans MS", 40);
 
     txSetColor     (TX_ORANGE, 2);
@@ -370,27 +357,50 @@ void Menu (char* name_user, int* continue_game)
 
     txRectangle (180, 70, 365, 115);
     txRectangle (400, 70, 585, 115);
+    txRectangle (620, 70, 805, 115);
 
-    txTextOut (192, 70, "Username");
-    txTextOut (412, 70, "ball color");
+    txTextOut (200, 70, "Username");
+    txTextOut (426, 70, "Ball Color");
+    txTextOut (642, 70, "Game Start");
 
-    while (!txGetAsyncKeyState (VK_SPACE))
+    RECT area_start = {620, 70, 805, 115};
+    RECT area_name_user = {180, 70, 365, 115};
+    RECT area_ball_color = {400, 70, 585, 115};
+
+    RECT area_red = {400, 125, 585, 170};
+    RECT area_green = {400, 180, 585, 225};
+    RECT area_blue = {400, 235, 585, 280};
+
+    while (!((In (txMousePos(), area_start)) && (txMouseButtons() == 1)))
         {
-        RECT area = {180, 70, 365, 115};
-        if ((In (txMousePos(), area)) && (txMouseButtons() & 1))
+        if ((In (txMousePos(), area_name_user)) && (txMouseButtons() == 1))
             DialogueWithUser_Username(name_user, continue_game);
 
-        RECT area1 = {400, 70, 585, 115};
-        if ((In (txMousePos(), area1)) && (txMouseButtons() & 1))
+        if ((In (txMousePos(), area_ball_color)) && (txMouseButtons() == 1))
             {
-            txSetFillColor (RGB (255, 255, 0));
+            button_status = 1;
+
+            txSetFillColor (RGB (255, 0, 0));
             txRectangle (400, 125, 585, 170);
-            txTextOut (412, 125, "yellow");
+            txTextOut (465, 125, "red");
+
+            txSetFillColor (RGB (0, 255, 0));
+            txRectangle (400, 180, 585, 225);
+            txTextOut (458, 180, "green");
 
             txSetFillColor (RGB (0, 0, 255));
-            txRectangle (400, 180, 585, 225);
-            txTextOut (412, 180, "blue");
+            txRectangle (400, 235, 585, 280);
+            txTextOut (463, 235, "blue");
             }
+
+        if (button_status == 1 && (In (txMousePos(), area_red)) && (txMouseButtons() == 1))
+            *ball_0_color = RGB (255, 0, 0);
+
+        if (button_status == 1 && (In (txMousePos(), area_green)) && (txMouseButtons() == 1))
+            *ball_0_color = RGB (0, 255, 0);
+
+        if (button_status == 1 && (In (txMousePos(), area_blue)) && (txMouseButtons() == 1))
+            *ball_0_color = RGB (0, 0, 255);
         }
 
     txClearConsole ( );
