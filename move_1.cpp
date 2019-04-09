@@ -23,6 +23,15 @@ struct Ball
     void Level_game ();
     };
 
+struct Button
+    {
+    RECT area;
+    COLORREF color;
+    char text[50];
+
+    void Drow_Button ();
+    };
+
 //-----------------------------------------------------------------------------
 
 void MoveBalls (char* name_user, int* continue_game, COLORREF* ball_0_color);
@@ -34,8 +43,11 @@ int ReadFromFile (int* balli, int* level, Ball balls[], char* name_user);
 int WriteToFile (int* balli, int* level, Ball balls[], char* name_user);
 int DialogueWithUser_Username(char* name_user, int* continue_game);
 void Menu (char* name_user, int* continue_game, COLORREF* ball_0_color);
+void Menu_test (char* name_user, int* continue_game, COLORREF* ball_0_color);
+void Menu_test2 (char* name_user, int* continue_game, COLORREF* ball_0_color);
 int Pause ();
 int In_area (RECT area, POINT mouse_pos);
+void Rect_Area_Button (RECT area, COLORREF color, char text[]);
 
 //-----------------------------------------------------------------------------
 
@@ -47,7 +59,7 @@ int main ()
     int continue_game = 0;
     COLORREF ball_0_color = RGB (0, 128, 0);
 
-    Menu (name_user, &continue_game, &ball_0_color);
+    Menu_test2 (name_user, &continue_game, &ball_0_color);
 
     txBegin ();
 
@@ -376,16 +388,20 @@ void Menu (char* name_user, int* continue_game, COLORREF* ball_0_color)
         txTextOut (426, 70, "Ball Color");
         txTextOut (642, 70, "Game Start");
 
-        if ((In (txMousePos(), area_start)) && (txMouseButtons() == 1)) break;
+        POINT mouse_pos = txMousePos();
 
         txSleep (Global_Sleep);
 
         if (txMouseButtons() != 1) continue;
 
-        POINT mouse_pos = txMousePos();
+        if (In (mouse_pos, area_start)) break;
 
         if (In (mouse_pos, area_name_user))
+            {
+            txUpdateWindow (true);
             DialogueWithUser_Username(name_user, continue_game);
+            txUpdateWindow (false);
+            }
 
         if (In (mouse_pos, area_ball_color))
             {
@@ -438,6 +454,168 @@ void Menu (char* name_user, int* continue_game, COLORREF* ball_0_color)
     }
 
 //-----------------------------------------------------------------------------
+
+void Menu_test (char* name_user, int* continue_game, COLORREF* ball_0_color)
+    {
+    int button_status = 0;
+    txSelectFont ("Comic Sans MS", 40);
+
+    RECT area_start      = {620, 70, 805, 115};
+    RECT area_name_user  = {180, 70, 365, 115};
+    RECT area_red        = {400, 125, 585, 170};
+    RECT area_green      = {400, 180, 585, 225};
+    RECT area_blue       = {400, 235, 585, 280};
+
+    txBegin ();
+
+    while (true)
+        {
+        txSetColor     (TX_ORANGE, 2);
+        txSetFillColor (RGB (255, 255, 128));
+
+        Rect_Area_Button (area_name_user, RGB (255, 255, 128), "Username");
+        Rect_Area_Button (area_start,     RGB (255, 255, 128), "Game Start");
+        Rect_Area_Button (area_red,       RGB (255, 0,   0),   "red");
+        Rect_Area_Button (area_green,     RGB (0,   255, 0),   "green");
+        Rect_Area_Button (area_blue,      RGB (0,   0,   255), "blue");
+
+        POINT mouse_pos = txMousePos();
+
+        txSleep (Global_Sleep);
+
+        if (txMouseButtons() != 1) continue;
+
+        if (In (mouse_pos, area_start)) break;
+
+        if (In (mouse_pos, area_name_user))
+            {
+            txUpdateWindow (true);
+            DialogueWithUser_Username(name_user, continue_game);
+            txUpdateWindow (false);
+            }
+
+        if (In (mouse_pos, area_red))
+            {
+            *ball_0_color = RGB (255, 0, 0);
+            printf ("red\n");
+            txSetFillColor (TX_BLACK);
+            txClear ();
+            }
+
+        if (In (mouse_pos, area_green))
+            {
+            *ball_0_color = RGB (0, 255, 0);
+            printf ("green\n");
+            txSetFillColor (TX_BLACK);
+            txClear ();
+            }
+
+        if (In (mouse_pos, area_blue))
+            {
+            *ball_0_color = RGB (0, 0, 255);
+            printf ("blue\n");
+            txSetFillColor (TX_BLACK);
+            txClear ();
+            }
+        }
+
+    txEnd ();
+
+    txClearConsole ( );
+    }
+
+//-----------------------------------------------------------------------------
+void Menu_test2 (char* name_user, int* continue_game, COLORREF* ball_0_color)
+    {
+    int button_status = 0;
+    txSelectFont ("Comic Sans MS", 40);
+
+    Button buttons[5]    = {{{620, 70,  805, 115}, RGB (255, 255, 128), "Username"  },
+                            {{180, 70,  365, 115}, RGB (255, 255, 128), "Game Start"},
+                            {{400, 125, 585, 170}, RGB (255, 0,   0  ), "red"       },
+                            {{400, 180, 585, 225}, RGB (0,   255, 0  ), "green"     },
+                            {{400, 235, 585, 280}, RGB (0,   0,   255), "blue"      }};
+
+    txBegin ();
+
+    while (true)
+        {
+        txSetColor     (TX_ORANGE, 2);
+
+        for (int i = 0; i < 5; i++) buttons[i].Drow_Button ();
+
+        POINT mouse_pos = txMousePos();
+
+        txSleep (Global_Sleep);
+
+        if (txMouseButtons() != 1) continue;
+
+        //if (In (mouse_pos, area_start)) break;
+
+        //if (In (mouse_pos, area_name_user))
+            //{
+            //txUpdateWindow (true);
+            //DialogueWithUser_Username(name_user, continue_game);
+            //txUpdateWindow (false);
+            //}
+
+        //if (In (mouse_pos, area_red))
+            //{
+            //*ball_0_color = RGB (255, 0, 0);
+            //printf ("red\n");
+            //txSetFillColor (TX_BLACK);
+            //txClear ();
+            //}
+
+        //if (In (mouse_pos, area_green))
+            //{
+            //*ball_0_color = RGB (0, 255, 0);
+            //printf ("green\n");
+            //txSetFillColor (TX_BLACK);
+            //txClear ();
+            //}
+
+        //if (In (mouse_pos, area_blue))
+            //{
+            //*ball_0_color = RGB (0, 0, 255);
+            //printf ("blue\n");
+            //txSetFillColor (TX_BLACK);
+            //txClear ();
+           // }
+        }
+
+    txEnd ();
+
+    txClearConsole ( );
+    }
+
+
+//-----------------------------------------------------------------------------
+
+void Button::Drow_Button ()
+    {
+    txSetFillColor (this->color);
+    txRectangle (this->area.left, this->area.top, this->area.right, this->area.bottom);
+
+    int centre = (this->area.right + this->area.left)/2;
+    txSetTextAlign (TA_CENTER);
+    txTextOut (centre, this->area.top, this->text);
+    }
+
+//-----------------------------------------------------------------------------
+
+void Rect_Area_Button (RECT area, COLORREF color, char text[])
+    {
+    txSetFillColor (color);
+    txRectangle (area.left, area.top, area.right, area.bottom);
+
+    int centre = (area.right + area.left)/2;
+    txSetTextAlign (TA_CENTER);
+    txTextOut (centre, area.top, text);
+    }
+
+//-----------------------------------------------------------------------------
+
 
 int In_area (RECT area, POINT mouse_pos)
     {
