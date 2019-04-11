@@ -3,8 +3,9 @@
 
 const double Global_Sleep = txQueryPerformance () * 100;
 const int Capture_Ball = 1;
-const int Free    = 0;
-const int N_Ball = 7;
+const int Free     = 0;
+const int N_Ball   = 7;
+const int N_Button = 5;
 
 //-----------------------------------------------------------------------------
 
@@ -44,7 +45,7 @@ int WriteToFile (int* balli, int* level, Ball balls[], char* name_user);
 int DialogueWithUser_Username(char* name_user, int* continue_game);
 void Menu (char* name_user, int* continue_game, COLORREF* ball_0_color);
 void Menu_test (char* name_user, int* continue_game, COLORREF* ball_0_color);
-void Menu_test2 (char* name_user, int* continue_game, COLORREF* ball_0_color);
+void Menu_test2 (Button buttons[]);
 int Pause ();
 int In_area (RECT area, POINT mouse_pos);
 void Rect_Area_Button (RECT area, COLORREF color, char text[]);
@@ -55,11 +56,18 @@ int main ()
     {
     txCreateWindow (900, 700);
 
+    Button buttons[N_Button] = {{{180, 70,  365, 115}, RGB (255, 255, 128), "Username"  },
+                                {{400, 125, 585, 170}, RGB (255, 0,   0  ), "red"       },
+                                {{400, 180, 585, 225}, RGB (0,   255, 0  ), "green"     },
+                                {{400, 235, 585, 280}, RGB (0,   0,   255), "blue"      },
+                                {{620, 70,  805, 115}, RGB (255, 255, 128), "Game Start"}};
+
     char name_user[100] = "user";
     int continue_game = 0;
     COLORREF ball_0_color = RGB (0, 128, 0);
 
-    Menu_test2 (name_user, &continue_game, &ball_0_color);
+    //Menu_test (name_user, &continue_game, &ball_0_color);
+    Menu_test2 (buttons);
 
     txBegin ();
 
@@ -525,24 +533,18 @@ void Menu_test (char* name_user, int* continue_game, COLORREF* ball_0_color)
     }
 
 //-----------------------------------------------------------------------------
-void Menu_test2 (char* name_user, int* continue_game, COLORREF* ball_0_color)
+void Menu_test2 (Button buttons[])
     {
     int button_status = 0;
     txSelectFont ("Comic Sans MS", 40);
-
-    Button buttons[5]    = {{{620, 70,  805, 115}, RGB (255, 255, 128), "Username"  },
-                            {{180, 70,  365, 115}, RGB (255, 255, 128), "Game Start"},
-                            {{400, 125, 585, 170}, RGB (255, 0,   0  ), "red"       },
-                            {{400, 180, 585, 225}, RGB (0,   255, 0  ), "green"     },
-                            {{400, 235, 585, 280}, RGB (0,   0,   255), "blue"      }};
 
     txBegin ();
 
     while (true)
         {
-        txSetColor     (TX_ORANGE, 2);
+        txSetColor (TX_ORANGE, 2);
 
-        for (int i = 0; i < 5; i++) buttons[i].Drow_Button ();
+        for (int i = 0; i < N_Button; i++) buttons[i].Drow_Button ();
 
         POINT mouse_pos = txMousePos();
 
@@ -550,38 +552,8 @@ void Menu_test2 (char* name_user, int* continue_game, COLORREF* ball_0_color)
 
         if (txMouseButtons() != 1) continue;
 
-        //if (In (mouse_pos, area_start)) break;
-
-        //if (In (mouse_pos, area_name_user))
-            //{
-            //txUpdateWindow (true);
-            //DialogueWithUser_Username(name_user, continue_game);
-            //txUpdateWindow (false);
-            //}
-
-        //if (In (mouse_pos, area_red))
-            //{
-            //*ball_0_color = RGB (255, 0, 0);
-            //printf ("red\n");
-            //txSetFillColor (TX_BLACK);
-            //txClear ();
-            //}
-
-        //if (In (mouse_pos, area_green))
-            //{
-            //*ball_0_color = RGB (0, 255, 0);
-            //printf ("green\n");
-            //txSetFillColor (TX_BLACK);
-            //txClear ();
-            //}
-
-        //if (In (mouse_pos, area_blue))
-            //{
-            //*ball_0_color = RGB (0, 0, 255);
-            //printf ("blue\n");
-            //txSetFillColor (TX_BLACK);
-            //txClear ();
-           // }
+        for (int i = 0; i < N_Button; i++)
+            if (In (mouse_pos, buttons[i].area)) printf ("%d\n", i);
         }
 
     txEnd ();

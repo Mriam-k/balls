@@ -530,11 +530,11 @@ void Menu_test2 (char* name_user, int* continue_game, COLORREF* ball_0_color)
     int button_status = 0;
     txSelectFont ("Comic Sans MS", 40);
 
-    Button buttons[5]    = {{{620, 70,  805, 115}, RGB (255, 255, 128), "Username"},
-                            {{180, 70,  365, 115}, RGB (255, 255, 128), "Game Start"}
-                            {400, 125, 585, 170},
-                            {400, 180, 585, 225},
-                            {400, 235, 585, 280}};
+    Button buttons[5]    = {{{180, 70,  365, 115}, RGB (255, 255, 128), "Username"   },
+                            {{400, 125, 585, 170}, RGB (255, 0,   0  ), "red"        },
+                            {{400, 180, 585, 225}, RGB (0,   255, 0  ), "green"      },
+                            {{400, 235, 585, 280}, RGB (0,   0,   255), "blue"       },
+                            {{620, 70,  805, 115}, RGB (255, 255, 128), "Game Start" }};
 
     txBegin ();
 
@@ -542,12 +542,7 @@ void Menu_test2 (char* name_user, int* continue_game, COLORREF* ball_0_color)
         {
         txSetColor     (TX_ORANGE, 2);
 
-        for (int i = 0; i < 5; i++) buttons[i].Drow_Button (); 
-        buttons.Drow_Button (area_name_user, RGB (255, 255, 128), "Username");
-        Rect_Area_Button (area_start,     RGB (255, 255, 128), "Game Start");
-        Rect_Area_Button (area_red,       RGB (255, 0,   0),   "red");
-        Rect_Area_Button (area_green,     RGB (0,   255, 0),   "green");
-        Rect_Area_Button (area_blue,      RGB (0,   0,   255), "blue");
+        for (int i = 0; i < 5; i++) buttons[i].Drow_Button ();
 
         POINT mouse_pos = txMousePos();
 
@@ -555,38 +550,8 @@ void Menu_test2 (char* name_user, int* continue_game, COLORREF* ball_0_color)
 
         if (txMouseButtons() != 1) continue;
 
-        if (In (mouse_pos, area_start)) break;
-
-        if (In (mouse_pos, area_name_user))
-            {
-            txUpdateWindow (true);
-            DialogueWithUser_Username(name_user, continue_game);
-            txUpdateWindow (false);
-            }
-
-        if (In (mouse_pos, area_red))
-            {
-            *ball_0_color = RGB (255, 0, 0);
-            printf ("red\n");
-            txSetFillColor (TX_BLACK);
-            txClear ();
-            }
-
-        if (In (mouse_pos, area_green))
-            {
-            *ball_0_color = RGB (0, 255, 0);
-            printf ("green\n");
-            txSetFillColor (TX_BLACK);
-            txClear ();
-            }
-
-        if (In (mouse_pos, area_blue))
-            {
-            *ball_0_color = RGB (0, 0, 255);
-            printf ("blue\n");
-            txSetFillColor (TX_BLACK);
-            txClear ();
-            }
+        for (int i = 0; i < 5; i++)
+            if (In (mouse_pos, buttons[i].area)) printf ("%d\n", i);
         }
 
     txEnd ();
