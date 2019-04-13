@@ -5,7 +5,6 @@ const double Global_Sleep = txQueryPerformance () * 100;
 const int Capture_Ball = 1;
 const int Free     = 0;
 const int N_Ball   = 7;
-const int N_Button = 5;
 
 //-----------------------------------------------------------------------------
 
@@ -45,9 +44,9 @@ int WriteToFile (int* balli, int* level, Ball balls[], char* name_user);
 int DialogueWithUser_Username(char* name_user, int* continue_game);
 void Menu (char* name_user, int* continue_game, COLORREF* ball_0_color);
 void Menu_test (char* name_user, int* continue_game, COLORREF* ball_0_color);
-void Menu_test2 (Button buttons[]);
+int Menu_test2 (Button buttons[], int N_Button);
 int Pause ();
-int In_area (RECT area, POINT mouse_pos);
+bool In_area (POINT mouse_pos, RECT area);
 void Rect_Area_Button (RECT area, COLORREF color, char text[]);
 
 //-----------------------------------------------------------------------------
@@ -56,20 +55,35 @@ int main ()
     {
     txCreateWindow (900, 700);
 
-    Button buttons[N_Button] = {{{180, 70,  365, 115}, RGB (255, 255, 128), "Username"  },
-                                {{400, 125, 585, 170}, RGB (255, 0,   0  ), "red"       },
-                                {{400, 180, 585, 225}, RGB (0,   255, 0  ), "green"     },
-                                {{400, 235, 585, 280}, RGB (0,   0,   255), "blue"      },
-                                {{620, 70,  805, 115}, RGB (255, 255, 128), "Game Start"}};
+    //const int N_Button = 5;
+
+    Button buttons[] = {{{180, 70,  365, 115}, RGB (255, 255, 128), "Username"  },
+                        {{400, 125, 585, 170}, RGB (255, 0,   0  ), "red"       },
+                        {{400, 180, 585, 225}, RGB (0,   255, 0  ), "green"     },
+                        {{400, 235, 585, 280}, RGB (0,   0,   255), "blue"      },
+                        {{620, 70,  805, 115}, RGB (255, 255, 128), "Game Start"}};
 
     char name_user[100] = "user";
     int continue_game = 0;
     COLORREF ball_0_color = RGB (0, 128, 0);
 
     //Menu_test (name_user, &continue_game, &ball_0_color);
-    Menu_test2 (buttons);
 
     txBegin ();
+
+    while (true)
+        {
+        int pressed_buttons = Menu_test2 (buttons, sizeof (buttons) / sizeof (buttons[0]));
+
+        printf ("pressed_buttons = %d\n", pressed_buttons);
+        if (pressed_buttons == 0)
+            {
+            txUpdateWindow (true);
+            printf ("кнопка работает!");
+            DialogueWithUser_Username(name_user, &continue_game);
+            txUpdateWindow (false);
+            }
+        }
 
     MoveBalls (name_user, &continue_game, &ball_0_color);
 
@@ -465,7 +479,6 @@ void Menu (char* name_user, int* continue_game, COLORREF* ball_0_color)
 
 void Menu_test (char* name_user, int* continue_game, COLORREF* ball_0_color)
     {
-    int button_status = 0;
     txSelectFont ("Comic Sans MS", 40);
 
     RECT area_start      = {620, 70, 805, 115};
@@ -533,9 +546,9 @@ void Menu_test (char* name_user, int* continue_game, COLORREF* ball_0_color)
     }
 
 //-----------------------------------------------------------------------------
-void Menu_test2 (Button buttons[])
+int Menu_test2 (Button buttons[], int N_Button)
     {
-    int button_status = 0;
+    int button_pressed = -1;
     txSelectFont ("Comic Sans MS", 40);
 
     txBegin ();
@@ -553,12 +566,18 @@ void Menu_test2 (Button buttons[])
         if (txMouseButtons() != 1) continue;
 
         for (int i = 0; i < N_Button; i++)
-            if (In (mouse_pos, buttons[i].area)) printf ("%d\n", i);
+            if (In_area (mouse_pos, buttons[i].area))
+                 {
+                 printf ("кнопка номер %d\n", i);
+                 button_pressed = i;
+
+                 txEnd ();
+
+                 txClearConsole ( );
+
+                 return button_pressed;
+                 }
         }
-
-    txEnd ();
-
-    txClearConsole ( );
     }
 
 
@@ -588,8 +607,18 @@ void Rect_Area_Button (RECT area, COLORREF color, char text[])
 
 //-----------------------------------------------------------------------------
 
-
-int In_area (RECT area, POINT mouse_pos)
+bool In_area (POINT mouse_pos, RECT area)
     {
+    if ((area.left <= mouse_pos.x) && (mouse_pos.x <= area.right ) &&
+        (area.top  <= mouse_pos.y) && (mouse_pos.y <= area.bottom))
+       return true;
+    else
+       return false;
+    }
 
+//-----------------------------------------------------------------------------
+bool In_area_ (POINT mouse_pos, RECT area)
+    {
+    return ((area.left <= mouse_pos.x) && (mouse_pos.x <= area.right ) &&
+            (area.top  <= mouse_pos.y) && (mouse_pos.y <= area.bottom));
     }
