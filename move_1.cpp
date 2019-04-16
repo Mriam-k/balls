@@ -19,7 +19,7 @@ struct Ball
 
     void Drow ();
     void Drive ();
-    void MoveStrategiya (int dt);
+    void MoveStrategiya (int dt, int r);
     void Level_game ();
     };
 
@@ -34,7 +34,7 @@ struct Button
 
 //-----------------------------------------------------------------------------
 
-void MoveBalls (char* name_user, int* continue_game, COLORREF* ball_0_color);
+void MoveBalls (char* name_user, int* continue_game, COLORREF* ball_0_color, int* r_ball);
 void DrawBackground ();
 void Count (int* balli, int* level, int* counter, Ball balls[]);
 void CalculateBalli (Ball balls[], int* balli);
@@ -57,14 +57,18 @@ int main ()
 
     //const int N_Button = 5;
 
-    Button buttons[] = {{{180, 70,  365, 115}, RGB (255, 255, 128), "Username"  },
-                        {{400, 125, 585, 170}, RGB (255, 0,   0  ), "red"       },
-                        {{400, 180, 585, 225}, RGB (0,   255, 0  ), "green"     },
-                        {{400, 235, 585, 280}, RGB (0,   0,   255), "blue"      },
-                        {{620, 70,  805, 115}, RGB (255, 255, 128), "Game Start"}};
+    Button buttons[] = {{{180, 70,  365, 115}, RGB (255, 255, 128), "Username"      },
+                        {{400, 70,  585, 115}, RGB (0  , 0  , 0  ), "Options balls:"},
+                        {{400, 125, 585, 170}, RGB (255, 0,   0  ), "red"           },
+                        {{400, 180, 585, 225}, RGB (0,   255, 0  ), "green"         },
+                        {{400, 235, 585, 280}, RGB (0,   0,   255), "blue"          },
+                        {{400, 290, 585, 335}, RGB (255, 255, 128), "radius 25"     },
+                        {{400, 345, 585, 390}, RGB (255, 255, 128), "radius 30"     },
+                        {{620, 70,  805, 115}, RGB (255, 255, 128), "Game Start"    }};
 
     char name_user[100] = "user";
     int continue_game = 0;
+    int r_ball = 20;
     COLORREF ball_0_color = RGB (0, 128, 0);
 
     //Menu_test (name_user, &continue_game, &ball_0_color);
@@ -75,17 +79,57 @@ int main ()
         {
         int pressed_buttons = Menu_test2 (buttons, sizeof (buttons) / sizeof (buttons[0]));
 
-        printf ("pressed_buttons = %d\n", pressed_buttons);
         if (pressed_buttons == 0)
             {
             txUpdateWindow (true);
-            printf ("кнопка работает!");
             DialogueWithUser_Username(name_user, &continue_game);
             txUpdateWindow (false);
             }
+
+        if (pressed_buttons == 2)
+            {
+            ball_0_color = RGB (255, 0, 0);
+            printf ("red\n");
+            txSetFillColor (TX_BLACK);
+            txClear ();
+            }
+
+        if (pressed_buttons == 3)
+            {
+            ball_0_color = RGB (0, 255, 0);
+            printf ("green\n");
+            txSetFillColor (TX_BLACK);
+            txClear ();
+            }
+
+        if (pressed_buttons == 4)
+            {
+            ball_0_color = RGB (0, 0, 255);
+            printf ("blue\n");
+            txSetFillColor (TX_BLACK);
+            txClear ();
+            }
+
+        if (pressed_buttons == 5)
+            {
+            r_ball = 25;
+            printf ("radius balls = 25\n");
+            txSetFillColor (TX_BLACK);
+            txClear ();
+            }
+
+        if (pressed_buttons == 6)
+            {
+            r_ball = 30;
+            printf ("radius balls = 30\n");
+            txSetFillColor (TX_BLACK);
+            txClear ();
+            }
+
+        if (pressed_buttons == 7) break;
         }
 
-    MoveBalls (name_user, &continue_game, &ball_0_color);
+    MoveBalls (name_user, &continue_game, &ball_0_color, &r_ball);
 
     txEnd ();
 
@@ -103,15 +147,15 @@ void DrawBackground ()
 
 //-----------------------------------------------------------------------------
 
-void MoveBalls (char* name_user, int* continue_game, COLORREF* ball_0_color)
+void MoveBalls (char* name_user, int* continue_game, COLORREF* ball_0_color, int* r_ball)
     {
-    Ball balls[N_Ball] = {{320, 110, 0, 0, 20, *ball_0_color, *ball_0_color, 4},
-                     {360, 150, 2, 2, 20, RGB (63,  72,  204), RGB (63,  0,   170), 6},
-                     {390, 190, 3, 6, 20, RGB (128, 0,   255), RGB (128, 0,   255)   },
-                     {420, 230, 4, 1, 20, RGB (128, 0,   64 ), RGB (170, 0,   85 ), 4},
-                     {450, 260, 5, 7, 20, RGB (255, 255, 0  ), RGB (255, 255, 100), 5},
-                     {490, 300, 3, 2, 20, RGB (255, 255, 255), RGB (255, 255, 255)   },
-                     {510, 600, 2, 5, 20, RGB (240, 96,  0  ), RGB (255, 127, 39 ), 3}};
+    Ball balls[N_Ball] = {{320, 110, 0, 0, *r_ball, *ball_0_color,       *ball_0_color,       4},
+                          {360, 150, 2, 2, *r_ball, RGB (63,  72,  204), RGB (63,  0,   170), 6},
+                          {390, 190, 3, 6, *r_ball, RGB (128, 0,   255), RGB (128, 0,   255)   },
+                          {420, 230, 4, 1, *r_ball, RGB (128, 0,   64 ), RGB (170, 0,   85 ), 4},
+                          {450, 260, 5, 7, *r_ball, RGB (255, 255, 0  ), RGB (255, 255, 100), 5},
+                          {490, 300, 3, 2, *r_ball, RGB (255, 255, 255), RGB (255, 255, 255)   },
+                          {510, 600, 2, 5, *r_ball, RGB (240, 96,  0  ), RGB (255, 127, 39 ), 3}};
 
     int  balli = 0;
     int  level = 1;
@@ -133,7 +177,7 @@ void MoveBalls (char* name_user, int* continue_game, COLORREF* ball_0_color)
 
         Count (&balli, &level, &counter, balls);
 
-        for (int i = 0; i < N_Ball; i++) balls[i].MoveStrategiya (dt);
+        for (int i = 0; i < N_Ball; i++) balls[i].MoveStrategiya (dt, *r_ball);
 
         CalculateBalli (balls, &balli);
 
@@ -186,15 +230,15 @@ void Ball::Drow ()
 
 //-----------------------------------------------------------------------------
 
-void Ball::MoveStrategiya (int dt)
+void Ball::MoveStrategiya (int dt, int r)
     {
     this->x  = (this->x) + (this->vx) * dt;
     this->y  = (this->y) + (this->vy) * dt;
 
-    if (this->x >= 675)   this->vx = -this->vx,   this->x = 675;
-    if (this->y >= 575)   this->vy = -this->vy,   this->y = 575;
-    if (this->x <= 205)   this->vx = -this->vx,   this->x = 205;
-    if (this->y <= 95)    this->vy = -this->vy,   this->y = 95;
+    if (this->x >= (695 - r))   this->vx = -this->vx,   this->x = (695 - r);
+    if (this->y >= (595 - r))   this->vy = -this->vy,   this->y = (595 - r);
+    if (this->x <= (185 + r))   this->vx = -this->vx,   this->x = (185 + r);
+    if (this->y <= (75  + r))   this->vy = -this->vy,   this->y = (75  + r);
     }
 
 //-----------------------------------------------------------------------------
