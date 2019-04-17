@@ -79,51 +79,48 @@ int main ()
         {
         int pressed_buttons = Menu_test2 (buttons, sizeof (buttons) / sizeof (buttons[0]));
 
-        if (pressed_buttons == 0)
+        switch (pressed_buttons)
             {
-            txUpdateWindow (true);
-            DialogueWithUser_Username(name_user, &continue_game);
-            txUpdateWindow (false);
-            }
+            case 0:
+                txUpdateWindow (true);
+                DialogueWithUser_Username(name_user, &continue_game);
+                txUpdateWindow (false);
+                break;
 
-        if (pressed_buttons == 2)
-            {
-            ball_0_color = RGB (255, 0, 0);
-            printf ("red\n");
-            txSetFillColor (TX_BLACK);
-            txClear ();
-            }
+            case 2:
+                ball_0_color = RGB (255, 0, 0);
+                printf ("red\n");
+                txSetFillColor (TX_BLACK);
+                txClear ();
+                break;
 
-        if (pressed_buttons == 3)
-            {
-            ball_0_color = RGB (0, 255, 0);
-            printf ("green\n");
-            txSetFillColor (TX_BLACK);
-            txClear ();
-            }
+            case 3:
+                ball_0_color = RGB (0, 255, 0);
+                printf ("green\n");
+                txSetFillColor (TX_BLACK);
+                txClear ();
+                break;
 
-        if (pressed_buttons == 4)
-            {
-            ball_0_color = RGB (0, 0, 255);
-            printf ("blue\n");
-            txSetFillColor (TX_BLACK);
-            txClear ();
-            }
+            case 4:
+                ball_0_color = RGB (0, 0, 255);
+                printf ("blue\n");
+                txSetFillColor (TX_BLACK);
+                txClear ();
+                break;
 
-        if (pressed_buttons == 5)
-            {
-            r_ball = 25;
-            printf ("radius balls = 25\n");
-            txSetFillColor (TX_BLACK);
-            txClear ();
-            }
+            case 5:
+                r_ball = 25;
+                printf ("radius balls = 25\n");
+                txSetFillColor (TX_BLACK);
+                txClear ();
+                break;
 
-        if (pressed_buttons == 6)
-            {
-            r_ball = 30;
-            printf ("radius balls = 30\n");
-            txSetFillColor (TX_BLACK);
-            txClear ();
+            case 6:
+                r_ball = 30;
+                printf ("radius balls = 30\n");
+                txSetFillColor (TX_BLACK);
+                txClear ();
+                break;
             }
 
         if (pressed_buttons == 7) break;
