@@ -1,0 +1,232 @@
+
+--------------------------------------------------
+TXLib предупреждает:
+
+Программа: C:\Cpp\games\move_1.exe,
+
+ВНЕЗАПНО: Нарушение доступа к памяти.
+
+#1: Исключение EXCEPTION_ACCESS_VIOLATION (0xC0000005) при выполнении кода по адресу 0x00426EF4 в функции main() в файле C:/Cpp/games/move_1.cpp на строке 118. Попытка записать данные по адресу 0x00000011. Спасибо _txVectoredExceptionHandler(), что сообщил. Люблю его <3
+
+#1: TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300], Instance: 0x005032D4 (32-bit), Flags: CMdRe0, Thread: 0x14F8 (Main). 
+
+--------------------------------------------------
+Стек вызовов:
+
+# 0 0x00426EF4 in C:\Cpp\games\move_1.exe: main() at C:/Cpp/games/move_1.cpp (118):
+
+    116: 
+    117:             case 6:
+=>  118:                 for (int i = 0; i < N_Ball; i++) balls[i].r = 30;
+    119:                 printf ("radius balls = 30\n");
+    120:                 txSetFillColor (TX_BLACK);
+
+--------------------------------------------------
+Стек вызовов TX:
+
+# 0 in int Menu_test2(Button*, int) at C:\Cpp\games\move_1.cpp (619):
+
+    617:                  txEnd ();
+    618: 
+=>  619:                  txClearConsole ( );
+    620: 
+    621:                  return button_pressed;
+
+--------------------------------------------------
+Developed with:
+
+The Dumb Artist Library (TX Library)
+TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300]
+Copyright (C) Ded (Ilya Dedinsky, http://txlib.ru) <mail@txlib.ru>
+See license on: http://txlib.ru
+
+TXLib file:	C:\Users\Home\Downloads\CodeBlocks\TX\TXLib.h
+Compiled:	Apr 18 2019 00:21:35, GNU g++ 4.8.1, std=201103L, MinGW Runtime 3.20, 32-bit, DEBUG
+Started:	Apr 18 2019 00:21:40
+
+Run file:	C:\Cpp\games\move_1.exe
+Directory:	C:\Cpp\games
+
+--------------------------------------------------
+
+--------------------------------------------------
+TXLib соболезнует...
+
+Программа: C:\Cpp\games\move_1.exe,
+
+ВНЕЗАПНО: signal (11, 0x00): SIGSEGV: Доступ по неверному указателю. Ставьте ассерты! 
+
+Нарушение доступа к памяти.
+
+#1: Исключение EXCEPTION_ACCESS_VIOLATION (0xC0000005) при выполнении кода по адресу 0x00426EF4 в функции main() в файле C:/Cpp/games/move_1.cpp на строке 118. Попытка записать данные по адресу 0x00000011. Спасибо _txVectoredExceptionHandler(), что сообщил. Люблю его <3
+
+С помощью функции signal() вы можете сами обработать эту ошибку.
+
+#2: TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300], Instance: 0x005032D4 (32-bit), Flags: CMdRe0, Thread: 0x14F8 (Main). 
+
+--------------------------------------------------
+Стек вызовов:
+
+# 0 0x00426EF4 in C:\Cpp\games\move_1.exe: main() at C:/Cpp/games/move_1.cpp (118):
+
+    116: 
+    117:             case 6:
+=>  118:                 for (int i = 0; i < N_Ball; i++) balls[i].r = 30;
+    119:                 printf ("radius balls = 30\n");
+    120:                 txSetFillColor (TX_BLACK);
+
+--------------------------------------------------
+Стек вызовов TX:
+
+# 0 in int Menu_test2(Button*, int) at C:\Cpp\games\move_1.cpp (619):
+
+    617:                  txEnd ();
+    618: 
+=>  619:                  txClearConsole ( );
+    620: 
+    621:                  return button_pressed;
+
+--------------------------------------------------
+Developed with:
+
+The Dumb Artist Library (TX Library)
+TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300]
+Copyright (C) Ded (Ilya Dedinsky, http://txlib.ru) <mail@txlib.ru>
+See license on: http://txlib.ru
+
+TXLib file:	C:\Users\Home\Downloads\CodeBlocks\TX\TXLib.h
+Compiled:	Apr 18 2019 00:21:35, GNU g++ 4.8.1, std=201103L, MinGW Runtime 3.20, 32-bit, DEBUG
+Started:	Apr 18 2019 00:21:40
+
+Run file:	C:\Cpp\games\move_1.exe
+Directory:	C:\Cpp\games
+
+--------------------------------------------------
+
+--------------------------------------------------
+TXLib предупреждает:
+
+Программа: C:\Cpp\games\move_1.exe,
+
+ВНЕЗАПНО: Нарушение доступа к памяти.
+
+#1: Исключение EXCEPTION_ACCESS_VIOLATION (0xC0000005) при выполнении кода по адресу 0x7498ECC0 в функции strxfrm_l(). Попытка записать данные по адресу NULL. Спасибо _txVectoredExceptionHandler(), что сообщил. Люблю его <3
+
+#1: TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300], Instance: 0x005022D4 (32-bit), Flags: CMdRe0, Thread: 0x14C8 (Main). 
+
+--------------------------------------------------
+Стек вызовов:
+
+# 0 0x7498ECC0 in C:\Windows\syswow64\msvcrt.dll: strxfrm_l()
+# 1 0x749E5864 in C:\Windows\syswow64\msvcrt.dll: putwchar()
+# 2 0x749E58D4 in C:\Windows\syswow64\msvcrt.dll: fscanf()
+
+# 3 0x00427B1E in C:\Cpp\games\move_1.exe: ReadFromFile_Color() at C:/Cpp/games/move_1.cpp (375):
+
+    373:     char color[50] = "";
+    374: 
+=>  375:     if (fscanf (file_uzer, "color = RGB(%d, %d, %d", r_color, g_color, b_color) == 3)
+    376:         {
+    377:         printf ("Цвет = RGB(%d, %d, %d)", r_color, g_color, b_color);
+
+# 4 0x00426BFC in C:\Cpp\games\move_1.exe: main() at C:/Cpp/games/move_1.cpp (74):
+
+     72: 
+     73:     FILE *file_uzer1 = fopen ("q.txt", "r");
+=>   74:     ReadFromFile_Color (file_uzer);
+     75:     fclose (file_uzer);
+     76:     return 0;
+
+--------------------------------------------------
+Стек вызовов TX:
+
+# 0 in int WriteToFile_Color(COLORREF, FILE*) at C:\Cpp\games\move_1.cpp (451):
+
+    449:             break;
+    450:         default:
+=>  451:             fprintf (file_uzer, "color = RGB(%d, %d, %d)", txExtractColor (color, TX_RED),
+    452:                                                            txExtractColor (color, TX_GREEN),
+    453:                                                            txExtractColor (color, TX_BLUE));
+
+--------------------------------------------------
+Developed with:
+
+The Dumb Artist Library (TX Library)
+TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300]
+Copyright (C) Ded (Ilya Dedinsky, http://txlib.ru) <mail@txlib.ru>
+See license on: http://txlib.ru
+
+TXLib file:	C:\Users\Home\Downloads\CodeBlocks\TX\TXLib.h
+Compiled:	Apr 19 2019 02:44:19, GNU g++ 4.8.1, std=201103L, MinGW Runtime 3.20, 32-bit, DEBUG
+Started:	Apr 19 2019 02:44:25
+
+Run file:	C:\Cpp\games\move_1.exe
+Directory:	C:\Cpp\games
+
+--------------------------------------------------
+
+--------------------------------------------------
+TXLib соболезнует...
+
+Программа: C:\Cpp\games\move_1.exe,
+
+ВНЕЗАПНО: signal (11, 0x00): SIGSEGV: Доступ по неверному указателю. Ставьте ассерты! 
+
+Нарушение доступа к памяти.
+
+#1: Исключение EXCEPTION_ACCESS_VIOLATION (0xC0000005) при выполнении кода по адресу 0x7498ECC0 в функции strxfrm_l(). Попытка записать данные по адресу NULL. Спасибо _txVectoredExceptionHandler(), что сообщил. Люблю его <3
+
+С помощью функции signal() вы можете сами обработать эту ошибку.
+
+#2: TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300], Instance: 0x005022D4 (32-bit), Flags: CMdRe0, Thread: 0x14C8 (Main). 
+
+--------------------------------------------------
+Стек вызовов:
+
+# 0 0x7498ECC0 in C:\Windows\syswow64\msvcrt.dll: strxfrm_l()
+# 1 0x749E5864 in C:\Windows\syswow64\msvcrt.dll: putwchar()
+# 2 0x749E58D4 in C:\Windows\syswow64\msvcrt.dll: fscanf()
+
+# 3 0x00427B1E in C:\Cpp\games\move_1.exe: ReadFromFile_Color() at C:/Cpp/games/move_1.cpp (375):
+
+    373:     char color[50] = "";
+    374: 
+=>  375:     if (fscanf (file_uzer, "color = RGB(%d, %d, %d", r_color, g_color, b_color) == 3)
+    376:         {
+    377:         printf ("Цвет = RGB(%d, %d, %d)", r_color, g_color, b_color);
+
+# 4 0x00426BFC in C:\Cpp\games\move_1.exe: main() at C:/Cpp/games/move_1.cpp (74):
+
+     72: 
+     73:     FILE *file_uzer1 = fopen ("q.txt", "r");
+=>   74:     ReadFromFile_Color (file_uzer);
+     75:     fclose (file_uzer);
+     76:     return 0;
+
+--------------------------------------------------
+Стек вызовов TX:
+
+# 0 in int WriteToFile_Color(COLORREF, FILE*) at C:\Cpp\games\move_1.cpp (451):
+
+    449:             break;
+    450:         default:
+=>  451:             fprintf (file_uzer, "color = RGB(%d, %d, %d)", txExtractColor (color, TX_RED),
+    452:                                                            txExtractColor (color, TX_GREEN),
+    453:                                                            txExtractColor (color, TX_BLUE));
+
+--------------------------------------------------
+Developed with:
+
+The Dumb Artist Library (TX Library)
+TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300]
+Copyright (C) Ded (Ilya Dedinsky, http://txlib.ru) <mail@txlib.ru>
+See license on: http://txlib.ru
+
+TXLib file:	C:\Users\Home\Downloads\CodeBlocks\TX\TXLib.h
+Compiled:	Apr 19 2019 02:44:19, GNU g++ 4.8.1, std=201103L, MinGW Runtime 3.20, 32-bit, DEBUG
+Started:	Apr 19 2019 02:44:24
+
+Run file:	C:\Cpp\games\move_1.exe
+Directory:	C:\Cpp\games
+
+--------------------------------------------------
