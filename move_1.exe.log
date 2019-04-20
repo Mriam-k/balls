@@ -230,3 +230,449 @@ Run file:	C:\Cpp\games\move_1.exe
 Directory:	C:\Cpp\games
 
 --------------------------------------------------
+
+--------------------------------------------------
+TXLib предупреждает:
+
+Программа: C:\Cpp\games\move_1.exe,
+
+ВНЕЗАПНО: Нарушение доступа к памяти.
+
+#1: Исключение EXCEPTION_ACCESS_VIOLATION (0xC0000005) при выполнении кода по адресу 0x756CCDBF в функции ungetwc(). Попытка записать данные по адресу NULL. Спасибо _txVectoredExceptionHandler(), что сообщил. Люблю его <3
+
+#1: TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300], Instance: 0x005022D4 (32-bit), Flags: CMdRe0, Thread: 0x948 (Main). 
+
+--------------------------------------------------
+Стек вызовов:
+
+# 0 0x756CCDBF in C:\Windows\syswow64\msvcrt.dll: ungetwc()
+# 1 0x7569C413 in C:\Windows\syswow64\msvcrt.dll: ftol2_sse_excpt()
+# 2 0x756C5864 in C:\Windows\syswow64\msvcrt.dll: putwchar()
+# 3 0x756C58D4 in C:\Windows\syswow64\msvcrt.dll: fscanf()
+
+# 4 0x00427BA5 in C:\Cpp\games\move_1.exe: ReadFromFile_Color() at C:/Cpp/games/move_1.cpp (384):
+
+    382:         }
+    383: 
+=>  384:     fscanf (file_uzer, "%s", color[10]);
+    385:     printf ("%s\n", color);
+    386:     if (fscanf (file_uzer, "color = %s", color) == 1)
+
+# 5 0x00426BFC in C:\Cpp\games\move_1.exe: main() at C:/Cpp/games/move_1.cpp (74):
+
+     72: 
+     73:     FILE *file_uzer1 = fopen ("q.txt", "r");
+=>   74:     ReadFromFile_Color (file_uzer1);
+     75:     fclose (file_uzer1);
+     76:     return 0;
+
+--------------------------------------------------
+Стек вызовов TX:
+
+# 0 in int main() at C:\Cpp\games\move_1.cpp (67):
+
+     65: int main ()
+     66:     {
+=>   67:     txCreateWindow (900, 700);
+     68: 
+     69:     FILE *file_uzer = fopen ("q.txt", "w");
+
+--------------------------------------------------
+Developed with:
+
+The Dumb Artist Library (TX Library)
+TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300]
+Copyright (C) Ded (Ilya Dedinsky, http://txlib.ru) <mail@txlib.ru>
+See license on: http://txlib.ru
+
+TXLib file:	C:\Users\Home\Downloads\CodeBlocks\TX\TXLib.h
+Compiled:	Apr 20 2019 17:15:13, GNU g++ 4.8.1, std=201103L, MinGW Runtime 3.20, 32-bit, DEBUG
+Started:	Apr 20 2019 17:15:17
+
+Run file:	C:\Cpp\games\move_1.exe
+Directory:	C:\Cpp\games
+
+--------------------------------------------------
+
+--------------------------------------------------
+TXLib соболезнует...
+
+Программа: C:\Cpp\games\move_1.exe,
+
+ВНЕЗАПНО: signal (11, 0x00): SIGSEGV: Доступ по неверному указателю. Ставьте ассерты! 
+
+Нарушение доступа к памяти.
+
+#1: Исключение EXCEPTION_ACCESS_VIOLATION (0xC0000005) при выполнении кода по адресу 0x756CCDBF в функции ungetwc(). Попытка записать данные по адресу NULL. Спасибо _txVectoredExceptionHandler(), что сообщил. Люблю его <3
+
+С помощью функции signal() вы можете сами обработать эту ошибку.
+
+#2: TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300], Instance: 0x005022D4 (32-bit), Flags: CMdRe0, Thread: 0x948 (Main). 
+
+--------------------------------------------------
+Стек вызовов:
+
+# 0 0x756CCDBF in C:\Windows\syswow64\msvcrt.dll: ungetwc()
+# 1 0x7569C413 in C:\Windows\syswow64\msvcrt.dll: ftol2_sse_excpt()
+# 2 0x756C5864 in C:\Windows\syswow64\msvcrt.dll: putwchar()
+# 3 0x756C58D4 in C:\Windows\syswow64\msvcrt.dll: fscanf()
+
+# 4 0x00427BA5 in C:\Cpp\games\move_1.exe: ReadFromFile_Color() at C:/Cpp/games/move_1.cpp (384):
+
+    382:         }
+    383: 
+=>  384:     fscanf (file_uzer, "%s", color[10]);
+    385:     printf ("%s\n", color);
+    386:     if (fscanf (file_uzer, "color = %s", color) == 1)
+
+# 5 0x00426BFC in C:\Cpp\games\move_1.exe: main() at C:/Cpp/games/move_1.cpp (74):
+
+     72: 
+     73:     FILE *file_uzer1 = fopen ("q.txt", "r");
+=>   74:     ReadFromFile_Color (file_uzer1);
+     75:     fclose (file_uzer1);
+     76:     return 0;
+
+--------------------------------------------------
+Стек вызовов TX:
+
+# 0 in int main() at C:\Cpp\games\move_1.cpp (67):
+
+     65: int main ()
+     66:     {
+=>   67:     txCreateWindow (900, 700);
+     68: 
+     69:     FILE *file_uzer = fopen ("q.txt", "w");
+
+--------------------------------------------------
+Developed with:
+
+The Dumb Artist Library (TX Library)
+TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300]
+Copyright (C) Ded (Ilya Dedinsky, http://txlib.ru) <mail@txlib.ru>
+See license on: http://txlib.ru
+
+TXLib file:	C:\Users\Home\Downloads\CodeBlocks\TX\TXLib.h
+Compiled:	Apr 20 2019 17:15:13, GNU g++ 4.8.1, std=201103L, MinGW Runtime 3.20, 32-bit, DEBUG
+Started:	Apr 20 2019 17:15:17
+
+Run file:	C:\Cpp\games\move_1.exe
+Directory:	C:\Cpp\games
+
+--------------------------------------------------
+
+--------------------------------------------------
+TXLib предупреждает:
+
+Программа: C:\Cpp\games\move_1.exe,
+
+ВНЕЗАПНО: Нарушение доступа к памяти.
+
+#1: Исключение EXCEPTION_ACCESS_VIOLATION (0xC0000005) при выполнении кода по адресу 0x774B22E2 в функции RtlEnterCriticalSection(). Попытка записать данные по адресу 0x70707094. Спасибо _txVectoredExceptionHandler(), что сообщил. Люблю его <3
+
+#1: TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300], Instance: 0x005022D4 (32-bit), Flags: CMdRe0, Thread: 0x12F0 (Main), errno: 2 (No such file or directory), _doserrno: 3 (No such process). 
+
+--------------------------------------------------
+Стек вызовов:
+
+# 0 0x774B22E2 in C:\Windows\SysWOW64\ntdll.dll: RtlEnterCriticalSection()
+# 1 0x7569AAD9 in C:\Windows\syswow64\msvcrt.dll: ftol2_sse_excpt()
+# 2 0x756C579E in C:\Windows\syswow64\msvcrt.dll: putwchar()
+# 3 0x756C58D4 in C:\Windows\syswow64\msvcrt.dll: fscanf()
+
+# 4 0x00427B84 in C:\Cpp\games\move_1.exe: ReadFromFile_Color() at C:/Cpp/games/move_1.cpp (386):
+
+    384:     fscanf (file_uzer, "%s", color);
+    385:     printf ("%s\n", color);
+=>  386:     if (fscanf (file_uzer, "color = %s", color) == 1)
+    387:         {
+    388:         printf ("второй if, color = %s\n", color);
+
+# 5 0x7565EF88 in C:\Windows\syswow64\msvcrt.dll: CIcos()
+# 6 0x00437D7E in C:\Cpp\games\move_1.exe: __emutls_get_address() at c:/temp/gcc/build/i686-pc-mingw32/libgcc/./gthr-default.h (620)
+# 7 0x00437D7E in C:\Cpp\games\move_1.exe: __emutls_get_address() at c:/temp/gcc/build/i686-pc-mingw32/libgcc/./gthr-default.h (620)
+
+# 8 0x00401846 in C:\Cpp\games\move_1.exe at C:/Users/Home/Downloads/CodeBlocks/TX/TXLib.h (5228):
+
+   5226:         {
+   5227: $1      if (!cs_) return;
+=> 5228: $       LeaveCriticalSection (cs_); cs_ = NULL;
+   5229:         }
+   5230: 
+
+# 9 0x7565F0EA in C:\Windows\syswow64\msvcrt.dll: CIcos()
+#10 0x0042474F in C:\Cpp\games\move_1.exe: txQueryPerformance() at C:/Users/Home/Downloads/CodeBlocks/TX/TXLib.h (11950)
+#11 0x75661162 in C:\Windows\syswow64\msvcrt.dll: onexit()
+#12 0x75661162 in C:\Windows\syswow64\msvcrt.dll: onexit()
+#13 0x756B5BC4 in C:\Windows\syswow64\msvcrt.dll: atexit()
+#14 0x00434CE8 in C:\Cpp\games\move_1.exe: __main()
+#15 0x004012A5 in C:\Cpp\games\move_1.exe: mainCRTStartup()
+#16 0x774C98F2 in C:\Windows\SysWOW64\ntdll.dll: RtlInitializeExceptionChain()
+#17 0x774C98C5 in C:\Windows\SysWOW64\ntdll.dll: RtlInitializeExceptionChain()
+
+--------------------------------------------------
+Стек вызовов TX:
+
+# 0 in int main() at C:\Cpp\games\move_1.cpp (67):
+
+     65: int main ()
+     66:     {
+=>   67:     txCreateWindow (900, 700);
+     68: 
+     69:     //FILE *file_uzer = fopen ("q.txt", "w");
+
+--------------------------------------------------
+Developed with:
+
+The Dumb Artist Library (TX Library)
+TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300]
+Copyright (C) Ded (Ilya Dedinsky, http://txlib.ru) <mail@txlib.ru>
+See license on: http://txlib.ru
+
+TXLib file:	C:\Users\Home\Downloads\CodeBlocks\TX\TXLib.h
+Compiled:	Apr 20 2019 18:09:13, GNU g++ 4.8.1, std=201103L, MinGW Runtime 3.20, 32-bit, DEBUG
+Started:	Apr 20 2019 18:09:18
+
+Run file:	C:\Cpp\games\move_1.exe
+Directory:	C:\Cpp\games
+
+--------------------------------------------------
+
+--------------------------------------------------
+TXLib соболезнует...
+
+Программа: C:\Cpp\games\move_1.exe,
+
+ВНЕЗАПНО: signal (11, 0x00): SIGSEGV: Доступ по неверному указателю. Ставьте ассерты! 
+
+Нарушение доступа к памяти.
+
+#1: Исключение EXCEPTION_ACCESS_VIOLATION (0xC0000005) при выполнении кода по адресу 0x774B22E2 в функции RtlEnterCriticalSection(). Попытка записать данные по адресу 0x70707094. Спасибо _txVectoredExceptionHandler(), что сообщил. Люблю его <3
+
+С помощью функции signal() вы можете сами обработать эту ошибку.
+
+#2: TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300], Instance: 0x005022D4 (32-bit), Flags: CMdRe0, Thread: 0x12F0 (Main), errno: 2 (No such file or directory), _doserrno: 3 (No such process). 
+
+--------------------------------------------------
+Стек вызовов:
+
+# 0 0x774B22E2 in C:\Windows\SysWOW64\ntdll.dll: RtlEnterCriticalSection()
+# 1 0x7569AAD9 in C:\Windows\syswow64\msvcrt.dll: ftol2_sse_excpt()
+# 2 0x756C579E in C:\Windows\syswow64\msvcrt.dll: putwchar()
+# 3 0x756C58D4 in C:\Windows\syswow64\msvcrt.dll: fscanf()
+
+# 4 0x00427B84 in C:\Cpp\games\move_1.exe: ReadFromFile_Color() at C:/Cpp/games/move_1.cpp (386):
+
+    384:     fscanf (file_uzer, "%s", color);
+    385:     printf ("%s\n", color);
+=>  386:     if (fscanf (file_uzer, "color = %s", color) == 1)
+    387:         {
+    388:         printf ("второй if, color = %s\n", color);
+
+# 5 0x7565EF88 in C:\Windows\syswow64\msvcrt.dll: CIcos()
+# 6 0x00437D7E in C:\Cpp\games\move_1.exe: __emutls_get_address() at c:/temp/gcc/build/i686-pc-mingw32/libgcc/./gthr-default.h (620)
+# 7 0x00437D7E in C:\Cpp\games\move_1.exe: __emutls_get_address() at c:/temp/gcc/build/i686-pc-mingw32/libgcc/./gthr-default.h (620)
+
+# 8 0x00401846 in C:\Cpp\games\move_1.exe at C:/Users/Home/Downloads/CodeBlocks/TX/TXLib.h (5228):
+
+   5226:         {
+   5227: $1      if (!cs_) return;
+=> 5228: $       LeaveCriticalSection (cs_); cs_ = NULL;
+   5229:         }
+   5230: 
+
+# 9 0x7565F0EA in C:\Windows\syswow64\msvcrt.dll: CIcos()
+#10 0x0042474F in C:\Cpp\games\move_1.exe: txQueryPerformance() at C:/Users/Home/Downloads/CodeBlocks/TX/TXLib.h (11950)
+#11 0x75661162 in C:\Windows\syswow64\msvcrt.dll: onexit()
+#12 0x75661162 in C:\Windows\syswow64\msvcrt.dll: onexit()
+#13 0x756B5BC4 in C:\Windows\syswow64\msvcrt.dll: atexit()
+#14 0x00434CE8 in C:\Cpp\games\move_1.exe: __main()
+#15 0x004012A5 in C:\Cpp\games\move_1.exe: mainCRTStartup()
+#16 0x774C98F2 in C:\Windows\SysWOW64\ntdll.dll: RtlInitializeExceptionChain()
+#17 0x774C98C5 in C:\Windows\SysWOW64\ntdll.dll: RtlInitializeExceptionChain()
+
+--------------------------------------------------
+Стек вызовов TX:
+
+# 0 in int main() at C:\Cpp\games\move_1.cpp (67):
+
+     65: int main ()
+     66:     {
+=>   67:     txCreateWindow (900, 700);
+     68: 
+     69:     //FILE *file_uzer = fopen ("q.txt", "w");
+
+--------------------------------------------------
+Developed with:
+
+The Dumb Artist Library (TX Library)
+TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300]
+Copyright (C) Ded (Ilya Dedinsky, http://txlib.ru) <mail@txlib.ru>
+See license on: http://txlib.ru
+
+TXLib file:	C:\Users\Home\Downloads\CodeBlocks\TX\TXLib.h
+Compiled:	Apr 20 2019 18:09:13, GNU g++ 4.8.1, std=201103L, MinGW Runtime 3.20, 32-bit, DEBUG
+Started:	Apr 20 2019 18:09:18
+
+Run file:	C:\Cpp\games\move_1.exe
+Directory:	C:\Cpp\games
+
+--------------------------------------------------
+
+--------------------------------------------------
+TXLib предупреждает:
+
+Программа: C:\Cpp\games\move_1.exe,
+
+ВНЕЗАПНО: Нарушение доступа к памяти.
+
+#1: Исключение EXCEPTION_ACCESS_VIOLATION (0xC0000005) при выполнении кода по адресу 0x774B22E2 в функции RtlEnterCriticalSection(). Попытка записать данные по адресу 0x70707094. Спасибо _txVectoredExceptionHandler(), что сообщил. Люблю его <3
+
+#1: TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300], Instance: 0x005022D4 (32-bit), Flags: CMdRe0, Thread: 0xBA8 (Main), errno: 2 (No such file or directory), _doserrno: 3 (No such process). 
+
+--------------------------------------------------
+Стек вызовов:
+
+# 0 0x774B22E2 in C:\Windows\SysWOW64\ntdll.dll: RtlEnterCriticalSection()
+# 1 0x7569AAD9 in C:\Windows\syswow64\msvcrt.dll: ftol2_sse_excpt()
+# 2 0x756C579E in C:\Windows\syswow64\msvcrt.dll: putwchar()
+# 3 0x756C58D4 in C:\Windows\syswow64\msvcrt.dll: fscanf()
+
+# 4 0x00427B84 in C:\Cpp\games\move_1.exe: ReadFromFile_Color() at C:/Cpp/games/move_1.cpp (386):
+
+    384:     fscanf (file_uzer, "%s", color);
+    385:     printf ("%s\n", color);
+=>  386:     if (fscanf (file_uzer, "color = %s", color) == 1)
+    387:         {
+    388:         printf ("второй if, color = %s\n", color);
+
+# 5 0x7565EF88 in C:\Windows\syswow64\msvcrt.dll: CIcos()
+# 6 0x00437D7E in C:\Cpp\games\move_1.exe: __emutls_get_address() at c:/temp/gcc/build/i686-pc-mingw32/libgcc/./gthr-default.h (620)
+# 7 0x00437D7E in C:\Cpp\games\move_1.exe: __emutls_get_address() at c:/temp/gcc/build/i686-pc-mingw32/libgcc/./gthr-default.h (620)
+
+# 8 0x00401846 in C:\Cpp\games\move_1.exe at C:/Users/Home/Downloads/CodeBlocks/TX/TXLib.h (5228):
+
+   5226:         {
+   5227: $1      if (!cs_) return;
+=> 5228: $       LeaveCriticalSection (cs_); cs_ = NULL;
+   5229:         }
+   5230: 
+
+# 9 0x7565F0EA in C:\Windows\syswow64\msvcrt.dll: CIcos()
+#10 0x0042474F in C:\Cpp\games\move_1.exe: txQueryPerformance() at C:/Users/Home/Downloads/CodeBlocks/TX/TXLib.h (11950)
+#11 0x75661162 in C:\Windows\syswow64\msvcrt.dll: onexit()
+#12 0x75661162 in C:\Windows\syswow64\msvcrt.dll: onexit()
+#13 0x756B5BC4 in C:\Windows\syswow64\msvcrt.dll: atexit()
+#14 0x00434CE8 in C:\Cpp\games\move_1.exe: __main()
+#15 0x004012A5 in C:\Cpp\games\move_1.exe: mainCRTStartup()
+#16 0x774C98F2 in C:\Windows\SysWOW64\ntdll.dll: RtlInitializeExceptionChain()
+#17 0x774C98C5 in C:\Windows\SysWOW64\ntdll.dll: RtlInitializeExceptionChain()
+
+--------------------------------------------------
+Стек вызовов TX:
+
+# 0 in int main() at C:\Cpp\games\move_1.cpp (67):
+
+     65: int main ()
+     66:     {
+=>   67:     txCreateWindow (900, 700);
+     68: 
+     69:     //FILE *file_uzer = fopen ("q.txt", "w");
+
+--------------------------------------------------
+Developed with:
+
+The Dumb Artist Library (TX Library)
+TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300]
+Copyright (C) Ded (Ilya Dedinsky, http://txlib.ru) <mail@txlib.ru>
+See license on: http://txlib.ru
+
+TXLib file:	C:\Users\Home\Downloads\CodeBlocks\TX\TXLib.h
+Compiled:	Apr 20 2019 18:11:45, GNU g++ 4.8.1, std=201103L, MinGW Runtime 3.20, 32-bit, DEBUG
+Started:	Apr 20 2019 18:11:49
+
+Run file:	C:\Cpp\games\move_1.exe
+Directory:	C:\Cpp\games
+
+--------------------------------------------------
+
+--------------------------------------------------
+TXLib соболезнует...
+
+Программа: C:\Cpp\games\move_1.exe,
+
+ВНЕЗАПНО: signal (11, 0x00): SIGSEGV: Доступ по неверному указателю. Ставьте ассерты! 
+
+Нарушение доступа к памяти.
+
+#1: Исключение EXCEPTION_ACCESS_VIOLATION (0xC0000005) при выполнении кода по адресу 0x774B22E2 в функции RtlEnterCriticalSection(). Попытка записать данные по адресу 0x70707094. Спасибо _txVectoredExceptionHandler(), что сообщил. Люблю его <3
+
+С помощью функции signal() вы можете сами обработать эту ошибку.
+
+#2: TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300], Instance: 0x005022D4 (32-bit), Flags: CMdRe0, Thread: 0xBA8 (Main), errno: 2 (No such file or directory), _doserrno: 3 (No such process). 
+
+--------------------------------------------------
+Стек вызовов:
+
+# 0 0x774B22E2 in C:\Windows\SysWOW64\ntdll.dll: RtlEnterCriticalSection()
+# 1 0x7569AAD9 in C:\Windows\syswow64\msvcrt.dll: ftol2_sse_excpt()
+# 2 0x756C579E in C:\Windows\syswow64\msvcrt.dll: putwchar()
+# 3 0x756C58D4 in C:\Windows\syswow64\msvcrt.dll: fscanf()
+
+# 4 0x00427B84 in C:\Cpp\games\move_1.exe: ReadFromFile_Color() at C:/Cpp/games/move_1.cpp (386):
+
+    384:     fscanf (file_uzer, "%s", color);
+    385:     printf ("%s\n", color);
+=>  386:     if (fscanf (file_uzer, "color = %s", color) == 1)
+    387:         {
+    388:         printf ("второй if, color = %s\n", color);
+
+# 5 0x7565EF88 in C:\Windows\syswow64\msvcrt.dll: CIcos()
+# 6 0x00437D7E in C:\Cpp\games\move_1.exe: __emutls_get_address() at c:/temp/gcc/build/i686-pc-mingw32/libgcc/./gthr-default.h (620)
+# 7 0x00437D7E in C:\Cpp\games\move_1.exe: __emutls_get_address() at c:/temp/gcc/build/i686-pc-mingw32/libgcc/./gthr-default.h (620)
+
+# 8 0x00401846 in C:\Cpp\games\move_1.exe at C:/Users/Home/Downloads/CodeBlocks/TX/TXLib.h (5228):
+
+   5226:         {
+   5227: $1      if (!cs_) return;
+=> 5228: $       LeaveCriticalSection (cs_); cs_ = NULL;
+   5229:         }
+   5230: 
+
+# 9 0x7565F0EA in C:\Windows\syswow64\msvcrt.dll: CIcos()
+#10 0x0042474F in C:\Cpp\games\move_1.exe: txQueryPerformance() at C:/Users/Home/Downloads/CodeBlocks/TX/TXLib.h (11950)
+#11 0x75661162 in C:\Windows\syswow64\msvcrt.dll: onexit()
+#12 0x75661162 in C:\Windows\syswow64\msvcrt.dll: onexit()
+#13 0x756B5BC4 in C:\Windows\syswow64\msvcrt.dll: atexit()
+#14 0x00434CE8 in C:\Cpp\games\move_1.exe: __main()
+#15 0x004012A5 in C:\Cpp\games\move_1.exe: mainCRTStartup()
+#16 0x774C98F2 in C:\Windows\SysWOW64\ntdll.dll: RtlInitializeExceptionChain()
+#17 0x774C98C5 in C:\Windows\SysWOW64\ntdll.dll: RtlInitializeExceptionChain()
+
+--------------------------------------------------
+Стек вызовов TX:
+
+# 0 in int main() at C:\Cpp\games\move_1.cpp (67):
+
+     65: int main ()
+     66:     {
+=>   67:     txCreateWindow (900, 700);
+     68: 
+     69:     //FILE *file_uzer = fopen ("q.txt", "w");
+
+--------------------------------------------------
+Developed with:
+
+The Dumb Artist Library (TX Library)
+TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300]
+Copyright (C) Ded (Ilya Dedinsky, http://txlib.ru) <mail@txlib.ru>
+See license on: http://txlib.ru
+
+TXLib file:	C:\Users\Home\Downloads\CodeBlocks\TX\TXLib.h
+Compiled:	Apr 20 2019 18:11:45, GNU g++ 4.8.1, std=201103L, MinGW Runtime 3.20, 32-bit, DEBUG
+Started:	Apr 20 2019 18:11:49
+
+Run file:	C:\Cpp\games\move_1.exe
+Directory:	C:\Cpp\games
+
+--------------------------------------------------

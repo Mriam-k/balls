@@ -1,16 +1,20 @@
 #include "TXLib.h"
 #include <stdio.h>
 
-const double Global_Sleep = txQueryPerformance () * 100;
-const int Capture_Ball = 1;
-const int Free     = 0;
-const int N_Ball   = 7;
-const int Button_Username        = 0;
-const int Button_Color_red       = 2;
-const int Button_Color_green     = 3;
-const int Button_Color_blue      = 4;
-const int Button_radius_balls_25 = 5;
-const int Button_radius_balls_30 = 6;
+const double GLOBAL_SLEEP = txQueryPerformance () * 100;
+
+const int CAPTURE_BALL = 1;
+const int FREE_BALL    = 0;
+
+const int N_BALLS = 7;
+
+const int BUTTON_USERNAME        = 0;
+const int BUTTON_COLOR_RED       = 2;
+const int BUTTON_COLOR_GREEN     = 3;
+const int BUTTON_COLOR_BLUE      = 4;
+const int BUTTON_RADIUS_BALLS_25 = 5;
+const int BUTTON_RADIUS_BALLS_30 = 6;
+
 const COLORREF RED_COLOR   = RGB (225, 0, 0);
 const COLORREF GREEN_COLOR = RGB (0, 225, 0);
 const COLORREF BLUE_COLOR  = RGB (0, 0, 225);
@@ -43,22 +47,22 @@ struct Button
 
 //-----------------------------------------------------------------------------
 
-void MoveBalls (char* name_user, int* continue_game, COLORREF* ball_0_color, int* r_ball);
-void DrawBackground ();
-void Count (int* balli, int* level, int* counter, Ball balls[]);
-void CalculateBalli (Ball balls[], int* balli);
-double CalculateDistance (Ball *b1, Ball *b2);
-int ReadFromFile (int* balli, int* level, Ball balls[], char* name_user);
-int WriteToFile (int* balli, int* level, Ball balls[], char* name_user);
-int DialogueWithUser_Username(char* name_user, int* continue_game);
-void Menu (char* name_user, int* continue_game, COLORREF* ball_0_color);
-void Menu_test (char* name_user, int* continue_game, COLORREF* ball_0_color);
-int Menu_test2 (Button buttons[], int N_Button);
-int Pause ();
-bool In_area (POINT mouse_pos, RECT area);
-void Rect_Area_Button (RECT area, COLORREF color, const char text[]);
-int WriteToFile_Color (COLORREF color, FILE *file_uzer);
-COLORREF ReadFromFile_Color (FILE *file_uzer);
+void     MoveBalls                (char* name_user, int* continue_game, COLORREF* ball_0_color, int* r_ball);
+void     DrawBackground           ();
+void     Count                    (int* balli, int* level, int* counter, Ball balls[]);
+void     CalculateBalli           (Ball balls[], int* balli);
+double   CalculateDistance        (Ball *b1, Ball *b2);
+int      ReadFromFile             (int* balli, int* level, Ball balls[], char* name_user);
+int      WriteToFile              (int* balli, int* level, Ball balls[], char* name_user);
+int      DialogueWithUser_Username(char* name_user, int* continue_game);
+void     Menu                     (char* name_user, int* continue_game, COLORREF* ball_0_color);
+void     Menu_test                (char* name_user, int* continue_game, COLORREF* ball_0_color);
+int      Menu_test2               (Button buttons[], int N_Button);
+int      Pause                    ();
+bool     In_area                  (POINT mouse_pos, RECT area);
+void     Rect_Area_Button         (RECT area, COLORREF color, const char text[]);
+int      WriteToFile_Color        (COLORREF color, FILE *file_uzer);
+COLORREF ReadFromFile_Color       (FILE *file_uzer);
 
 //-----------------------------------------------------------------------------
 
@@ -91,7 +95,7 @@ int main ()
     int r_ball = 20;
     COLORREF ball_0_color = RGB (0, 128, 0);
 
-    //Menu_test (name_user, &continue_game, &ball_0_color);
+    //Menu (name_user, &continue_game, &ball_0_color);
 
     txBegin ();
 
@@ -101,41 +105,41 @@ int main ()
 
         switch (pressed_buttons)
             {
-            case Button_Username:
+            case BUTTON_USERNAME:
                 txUpdateWindow (true);
                 DialogueWithUser_Username(name_user, &continue_game);
                 txUpdateWindow (false);
                 break;
 
-            case Button_Color_red:
+            case BUTTON_COLOR_RED:
                 ball_0_color = RGB (255, 0, 0);
                 printf ("red\n");
                 txSetFillColor (TX_BLACK);
                 txClear ();
                 break;
 
-            case Button_Color_green:
+            case BUTTON_COLOR_GREEN:
                 ball_0_color = RGB (0, 255, 0);
                 printf ("green\n");
                 txSetFillColor (TX_BLACK);
                 txClear ();
                 break;
 
-            case Button_Color_blue:
+            case BUTTON_COLOR_BLUE:
                 ball_0_color = RGB (0, 0, 255);
                 printf ("blue\n");
                 txSetFillColor (TX_BLACK);
                 txClear ();
                 break;
 
-            case Button_radius_balls_25:
+            case BUTTON_RADIUS_BALLS_25:
                 r_ball = 25;
                 printf ("radius balls = 25\n");
                 txSetFillColor (TX_BLACK);
                 txClear ();
                 break;
 
-            case Button_radius_balls_30:
+            case BUTTON_RADIUS_BALLS_30:
                 r_ball = 30;
                 printf ("radius balls = 30\n");
                 txSetFillColor (TX_BLACK);
@@ -169,7 +173,7 @@ void DrawBackground ()
 
 void MoveBalls (char* name_user, int* continue_game, COLORREF* ball_0_color, int* r_ball)
     {
-    Ball balls[N_Ball] = {{320, 110, 0, 0, *r_ball, *ball_0_color,       *ball_0_color,       4},
+    Ball balls[N_BALLS] = {{320, 110, 0, 0, *r_ball, *ball_0_color,       *ball_0_color,       4},
                           {360, 150, 2, 2, *r_ball, RGB (63,  72,  204), RGB (63,  0,   170), 6},
                           {390, 190, 3, 6, *r_ball, RGB (128, 0,   255), RGB (128, 0,   255)   },
                           {420, 230, 4, 1, *r_ball, RGB (128, 0,   64 ), RGB (170, 0,   85 ), 4},
@@ -197,18 +201,18 @@ void MoveBalls (char* name_user, int* continue_game, COLORREF* ball_0_color, int
 
         Count (&balli, &level, &counter, balls);
 
-        for (int i = 0; i < N_Ball; i++) balls[i].MoveStrategiya (dt);
+        for (int i = 0; i < N_BALLS; i++) balls[i].MoveStrategiya (dt);
 
         CalculateBalli (balls, &balli);
 
-        for (int i = 0; i < N_Ball; i++) balls[i].Drow ();
+        for (int i = 0; i < N_BALLS; i++) balls[i].Drow ();
 
         char print [100] = "";
         txSetColor (RGB(128, 255, 39), 10);
         sprintf (print, "Общая сумма баллов = %d, уровень игры %d       \r", balli, level);
         txTextOut (txGetExtentX()/2, 5, print);
 
-        txSleep (Global_Sleep);
+        txSleep (GLOBAL_SLEEP);
         }
 
     WriteToFile (&balli, &level, balls, name_user);
@@ -292,7 +296,7 @@ void CalculateBalli (Ball balls[], int* balli)
         {
         if (CalculateDistance (&balls[0], &balls[i]) <= balls[0].r + balls[i].r)
             {
-            if (balls[0].state_ball == Free)
+            if (balls[0].state_ball == FREE_BALL)
                 {
                 balls[0].vx = 0;
                 balls[0].vy = 0;
@@ -300,13 +304,13 @@ void CalculateBalli (Ball balls[], int* balli)
                 *balli = *balli - 10;
                 if (*balli < 0) *balli = 0;
                 }
-            balls[0].state_ball = Capture_Ball;
+            balls[0].state_ball = CAPTURE_BALL;
             return;
             }
         }
 
     *balli = *balli + 1;
-    balls[0].state_ball = Free;
+    balls[0].state_ball = FREE_BALL;
     }
 
 //-----------------------------------------------------------------------------
@@ -343,7 +347,7 @@ int ReadFromFile (int* balli, int* level, Ball balls[], char* name_user)
                 break;
                 }
 
-            if (!(0 <= n && n < N_Ball))
+            if (!(0 <= n && n < N_BALLS))
                 {
                 printf ("\n Не допустимый номер шарика %d в файле uzer.txt в строке %d\n", n, str);
                 break;
@@ -375,11 +379,11 @@ COLORREF ReadFromFile_Color (FILE *file_uzer)
     int r_color = 0, g_color = 0, b_color =0;
     char color[50] = "";
 
-    if (fscanf (file_uzer, "color = RGB(%d, %d, %d", &r_color, &g_color, &b_color) == 3)
-        {
-        printf ("Цвет = RGB(%d, %d, %d)", r_color, g_color, b_color);
-        return RGB(r_color, g_color, b_color);
-        }
+   // if (fscanf (file_uzer, "color = RGB(%d, %d, %d)", &r_color, &g_color, &b_color) == 3)
+   //     {
+   //     printf ("Цвет = RGB(%d, %d, %d)", r_color, g_color, b_color);
+   //     return RGB(r_color, g_color, b_color);
+   //     }
 
     if (fscanf (file_uzer, "color = %s", color) == 1)
         {
@@ -400,6 +404,7 @@ COLORREF ReadFromFile_Color (FILE *file_uzer)
             }
         return CLR_INVALID;
         }
+
     else
         {
         printf ("Данные цвета в файле записаны не корректно");
@@ -422,7 +427,7 @@ int WriteToFile (int* balli, int* level, Ball balls[], char* name_user)
     fprintf (file_uzer, "Баллы = %d\n"
                         "Уровень игры = %d", *balli, *level);
 
-    for (int i = 0; i < N_Ball; i++)
+    for (int i = 0; i < N_BALLS; i++)
         {
         fprintf (file_uzer, "\n[%d] ", i);
         fprintf (file_uzer, "x  = %d, y  = %d, ", balls[i].x,  balls[i].y);
@@ -484,7 +489,7 @@ int DialogueWithUser_Username(char* name_user, int* continue_game)
 
             *continue_game = 0;
 
-            txSleep (Global_Sleep);
+            txSleep (GLOBAL_SLEEP);
             txClearConsole ( );
 
             return 1;
@@ -492,7 +497,7 @@ int DialogueWithUser_Username(char* name_user, int* continue_game)
         }
 
     Pause ();
-    txSleep (Global_Sleep);
+    txSleep (GLOBAL_SLEEP);
     txClearConsole ( );
 
     return 0;
@@ -539,20 +544,21 @@ void Menu (char* name_user, int* continue_game, COLORREF* ball_0_color)
 
         POINT mouse_pos = txMousePos();
 
-        txSleep (Global_Sleep);
+        txSleep (GLOBAL_SLEEP);
 
         if (txMouseButtons() != 1) continue;
 
-        if (In (mouse_pos, area_start)) break;
+        if (In_area (mouse_pos, area_start)) break;
+        //(In_area (mouse_pos, buttons[i].area))
 
-        if (In (mouse_pos, area_name_user))
+        if (In_area (mouse_pos, area_name_user))
             {
             txUpdateWindow (true);
             DialogueWithUser_Username(name_user, continue_game);
             txUpdateWindow (false);
             }
 
-        if (In (mouse_pos, area_ball_color))
+        if (In_area (mouse_pos, area_ball_color))
             {
             button_status = 1;
 
@@ -569,7 +575,7 @@ void Menu (char* name_user, int* continue_game, COLORREF* ball_0_color)
             txTextOut (463, 235, "blue");
             }
 
-        if (button_status == 1 && (In (mouse_pos, area_red)))
+        if (button_status == 1 && (In_area (mouse_pos, area_red)))
             {
             *ball_0_color = RGB (255, 0, 0);
             printf ("red\n");
@@ -578,7 +584,7 @@ void Menu (char* name_user, int* continue_game, COLORREF* ball_0_color)
             button_status = 0;
             }
 
-        if (button_status == 1 && (In (mouse_pos, area_green)))
+        if (button_status == 1 && (In_area (mouse_pos, area_green)))
             {
             *ball_0_color = RGB (0, 255, 0);
             printf ("green\n");
@@ -587,7 +593,7 @@ void Menu (char* name_user, int* continue_game, COLORREF* ball_0_color)
             button_status = 0;
             }
 
-        if (button_status == 1 && (In (mouse_pos, area_blue)))
+        if (button_status == 1 && (In_area (mouse_pos, area_blue)))
             {
             *ball_0_color = RGB (0, 0, 255);
             printf ("blue\n");
@@ -629,20 +635,20 @@ void Menu_test (char* name_user, int* continue_game, COLORREF* ball_0_color)
 
         POINT mouse_pos = txMousePos();
 
-        txSleep (Global_Sleep);
+        txSleep (GLOBAL_SLEEP);
 
         if (txMouseButtons() != 1) continue;
 
-        if (In (mouse_pos, area_start)) break;
+        if (In_area (mouse_pos, area_start)) break;
 
-        if (In (mouse_pos, area_name_user))
+        if (In_area (mouse_pos, area_name_user))
             {
             txUpdateWindow (true);
             DialogueWithUser_Username(name_user, continue_game);
             txUpdateWindow (false);
             }
 
-        if (In (mouse_pos, area_red))
+        if (In_area (mouse_pos, area_red))
             {
             *ball_0_color = RGB (255, 0, 0);
             printf ("red\n");
@@ -650,7 +656,7 @@ void Menu_test (char* name_user, int* continue_game, COLORREF* ball_0_color)
             txClear ();
             }
 
-        if (In (mouse_pos, area_green))
+        if (In_area (mouse_pos, area_green))
             {
             *ball_0_color = RGB (0, 255, 0);
             printf ("green\n");
@@ -658,7 +664,7 @@ void Menu_test (char* name_user, int* continue_game, COLORREF* ball_0_color)
             txClear ();
             }
 
-        if (In (mouse_pos, area_blue))
+        if (In_area (mouse_pos, area_blue))
             {
             *ball_0_color = RGB (0, 0, 255);
             printf ("blue\n");
@@ -688,7 +694,7 @@ int Menu_test2 (Button buttons[], int N_Button)
 
         POINT mouse_pos = txMousePos();
 
-        txSleep (Global_Sleep);
+        txSleep (GLOBAL_SLEEP);
 
         if (txMouseButtons() != 1) continue;
 
@@ -733,19 +739,7 @@ void Rect_Area_Button (RECT area, COLORREF color, const char text[])
     }
 
 //-----------------------------------------------------------------------------
-
 bool In_area (POINT mouse_pos, RECT area)
-    {
-    if ((area.left <= mouse_pos.x) && (mouse_pos.x <= area.right ) &&
-        (area.top  <= mouse_pos.y) && (mouse_pos.y <= area.bottom))
-       return true;
-    else
-       return false;
-    }
-
-//-----------------------------------------------------------------------------
-bool In_area_ (POINT mouse_pos, RECT area);
-bool In_area_ (POINT mouse_pos, RECT area)
     {
     return ((area.left <= mouse_pos.x) && (mouse_pos.x <= area.right ) &&
             (area.top  <= mouse_pos.y) && (mouse_pos.y <= area.bottom));
