@@ -1,0 +1,56 @@
+COLORREF ReadFromFile_Color (FILE *file_uzer)
+    {
+    int r_color = 0, g_color = 0, b_color =0;
+    char color[50] = "";
+
+
+    char c = 0;
+    if (!((fscanf (file_uzer, "color %c", &c) == 1) && (c == '=')))
+        {
+        printf ("Данные цвета в файле записаны не корректно");
+        return CLR_INVALID;
+        }
+
+    //printf("остаток строки после color = (%s)\n", fgets (color, sizeof(color) - 1, file_uzer));
+
+    if (fscanf (file_uzer, " RGB ( %d , %d , %d )", &r_color, &g_color, &b_color) == 3)
+        {
+        if ((r_color < 0) || (r_color > 225) ||
+            (g_color < 0) || (g_color > 225) ||
+            (b_color < 0) || (b_color > 225))
+           {
+           printf ("Цвет RGB(%d, %d, %d) - задан не корректно", r_color, g_color, b_color);
+           return CLR_INVALID;
+           }
+
+        return RGB(r_color, g_color, b_color);
+        }
+
+    if (fscanf (file_uzer, "%s", color) == 1)
+        {
+        if (strcmp (color, "RED_COLOR") == 0)
+            {
+            printf ("Цвет = RGB(225, 0 ,0)");
+            return RGB(225, 0 ,0);
+            }
+        if (strcmp (color, "GREEN_COLOR") == 0)
+            {
+            printf ("Цвет = RGB(0, 225 ,0)");
+            return RGB(0, 225 ,0);
+            }
+        if (strcmp (color, "BLUE_COLOR") == 0)
+            {
+            printf ("Цвет = RGB(0, 0 ,225)");
+            return RGB(0, 0 ,225);
+            }
+
+        printf ("Цвет %s не найден", color);
+        return CLR_INVALID;
+        }
+
+    else
+        {
+        printf ("Название цвета в файле отсутствует");
+        return CLR_INVALID;
+        }
+    }

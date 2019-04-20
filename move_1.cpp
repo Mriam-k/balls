@@ -1,5 +1,6 @@
 #include "TXLib.h"
 #include <stdio.h>
+#include "R_W_Color_in_from_file.h"
 
 const double GLOBAL_SLEEP = txQueryPerformance () * 100;
 
@@ -14,10 +15,6 @@ const int BUTTON_COLOR_GREEN     = 3;
 const int BUTTON_COLOR_BLUE      = 4;
 const int BUTTON_RADIUS_BALLS_25 = 5;
 const int BUTTON_RADIUS_BALLS_30 = 6;
-
-const COLORREF RED_COLOR   = RGB (225, 0, 0);
-const COLORREF GREEN_COLOR = RGB (0, 225, 0);
-const COLORREF BLUE_COLOR  = RGB (0, 0, 225);
 
 //-----------------------------------------------------------------------------
 
@@ -52,17 +49,20 @@ void     DrawBackground           ();
 void     Count                    (int* balli, int* level, int* counter, Ball balls[]);
 void     CalculateBalli           (Ball balls[], int* balli);
 double   CalculateDistance        (Ball *b1, Ball *b2);
+
 int      ReadFromFile             (int* balli, int* level, Ball balls[], char* name_user);
 int      WriteToFile              (int* balli, int* level, Ball balls[], char* name_user);
-int      DialogueWithUser_Username(char* name_user, int* continue_game);
-void     Menu                     (char* name_user, int* continue_game, COLORREF* ball_0_color);
-void     Menu_test                (char* name_user, int* continue_game, COLORREF* ball_0_color);
+
 int      Menu_test2               (Button buttons[], int N_Button);
+
+int      DialogueWithUser_Username(char* name_user, int* continue_game);
+
+//void     Menu                     (char* name_user, int* continue_game, COLORREF* ball_0_color);
+//void     Menu_test                (char* name_user, int* continue_game, COLORREF* ball_0_color);
+
 int      Pause                    ();
 bool     In_area                  (POINT mouse_pos, RECT area);
 void     Rect_Area_Button         (RECT area, COLORREF color, const char text[]);
-int      WriteToFile_Color        (COLORREF color, FILE *file_uzer);
-COLORREF ReadFromFile_Color       (FILE *file_uzer);
 
 //-----------------------------------------------------------------------------
 
@@ -70,14 +70,10 @@ int main ()
     {
     txCreateWindow (900, 700);
 
-    FILE *file_uzer = fopen ("q.txt", "w");
-    WriteToFile_Color (RED_COLOR, file_uzer);
-    fclose (file_uzer);
-
-    FILE *file_uzer1 = fopen ("q.txt", "r");
-    ReadFromFile_Color (file_uzer1);
-    fclose (file_uzer1);
-    return 0;
+    //FILE *file_uzer1 = fopen ("q.txt", "r");
+    //ReadFromFile_Color (file_uzer1);
+    //fclose (file_uzer1);
+    //return 0;
 
     //const int N_Button = 5;
 
@@ -374,46 +370,6 @@ int ReadFromFile (int* balli, int* level, Ball balls[], char* name_user)
 
 //-----------------------------------------------------------------------------
 
-COLORREF ReadFromFile_Color (FILE *file_uzer)
-    {
-    int r_color = 0, g_color = 0, b_color =0;
-    char color[50] = "";
-
-   // if (fscanf (file_uzer, "color = RGB(%d, %d, %d)", &r_color, &g_color, &b_color) == 3)
-   //     {
-   //     printf ("Цвет = RGB(%d, %d, %d)", r_color, g_color, b_color);
-   //     return RGB(r_color, g_color, b_color);
-   //     }
-
-    if (fscanf (file_uzer, "color = %s", color) == 1)
-        {
-        if (strcmp (color, "RED_COLOR") == 0)
-            {
-            printf ("Цвет = RGB(225, 0 ,0)");
-            return RGB(225, 0 ,0);
-            }
-        if (strcmp (color, "GREEN_COLOR") == 0)
-            {
-            printf ("Цвет = RGB(0, 225 ,0)");
-            return RGB(0, 225 ,0);
-            }
-        if (strcmp (color, "BLUE_COLOR") == 0)
-            {
-            printf ("Цвет = RGB(0, 0 ,225)");
-            return RGB(0, 0 ,225);
-            }
-        return CLR_INVALID;
-        }
-
-    else
-        {
-        printf ("Данные цвета в файле записаны не корректно");
-        return CLR_INVALID;
-        }
-    }
-
-//-----------------------------------------------------------------------------
-
 int WriteToFile (int* balli, int* level, Ball balls[], char* name_user)
     {
     FILE *file_uzer = fopen (name_user, "w");
@@ -430,8 +386,8 @@ int WriteToFile (int* balli, int* level, Ball balls[], char* name_user)
     for (int i = 0; i < N_BALLS; i++)
         {
         fprintf (file_uzer, "\n[%d] ", i);
-        fprintf (file_uzer, "x  = %d, y  = %d, ", balls[i].x,  balls[i].y);
-        fprintf (file_uzer, "vx = %d, vy = %d",   balls[i].vx, balls[i].vy);
+        fprintf (file_uzer, "x  = %4d, y  = %4d, ", balls[i].x,  balls[i].y);
+        fprintf (file_uzer, "vx = %4d, vy = %4d,",   balls[i].vx, balls[i].vy);
         WriteToFile_Color (balls[i].color_ball, file_uzer);
         }
 
@@ -441,30 +397,6 @@ int WriteToFile (int* balli, int* level, Ball balls[], char* name_user)
     }
 
 //-----------------------------------------------------------------------------
-
-int WriteToFile_Color (COLORREF color, FILE *file_uzer)
-    {
-    switch (color)
-        {
-        case RED_COLOR:
-            fprintf (file_uzer, "color = %s", "RED_COLOR");
-            break;
-        case GREEN_COLOR:
-            fprintf (file_uzer, "color = %s", "GREEN_COLOR");
-            break;
-        case BLUE_COLOR:
-            fprintf (file_uzer, "color = %s", "BLUE_COLOR");
-            break;
-        default:
-            fprintf (file_uzer, "color = RGB(%d, %d, %d)", txExtractColor (color, TX_RED),
-                                                           txExtractColor (color, TX_GREEN),
-                                                           txExtractColor (color, TX_BLUE));
-        }
-    return 1;
-    }
-
-//-----------------------------------------------------------------------------
-
 
 int DialogueWithUser_Username(char* name_user, int* continue_game)
     {
