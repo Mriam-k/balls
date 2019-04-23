@@ -44,7 +44,7 @@ struct Button
 
 //-----------------------------------------------------------------------------
 
-void     MoveBalls                (char* name_user, int* continue_game, COLORREF* ball_0_color, int* r_ball);
+void     MoveBalls                (char* name_user, int* continue_game, COLORREF* ball_0_color, int* r_ball, int* sign_color_change);
 void     DrawBackground           ();
 void     Count                    (int* balli, int* level, int* counter, Ball balls[]);
 void     CalculateBalli           (Ball balls[], int* balli);
@@ -57,8 +57,10 @@ int      Menu_test2               (Button buttons[], int N_Button);
 
 int      DialogueWithUser_Username(char* name_user, int* continue_game);
 
-//void     Menu                     (char* name_user, int* continue_game, COLORREF* ball_0_color);
-//void     Menu_test                (char* name_user, int* continue_game, COLORREF* ball_0_color);
+//---
+void     Menu                     (char* name_user, int* continue_game, COLORREF* ball_0_color);
+void     Menu_test                (char* name_user, int* continue_game, COLORREF* ball_0_color);
+//--
 
 int      Pause                    ();
 bool     In_area                  (POINT mouse_pos, RECT area);
@@ -69,11 +71,6 @@ void     Rect_Area_Button         (RECT area, COLORREF color, const char text[])
 int main ()
     {
     txCreateWindow (900, 700);
-
-    //FILE *file_uzer1 = fopen ("q.txt", "r");
-    //ReadFromFile_Color (file_uzer1);
-    //fclose (file_uzer1);
-    //return 0;
 
     //const int N_Button = 5;
 
@@ -90,6 +87,7 @@ int main ()
     int continue_game = 0;
     int r_ball = 20;
     COLORREF ball_0_color = RGB (0, 128, 0);
+    int sign_color_change = 0;
 
     //Menu (name_user, &continue_game, &ball_0_color);
 
@@ -109,6 +107,7 @@ int main ()
 
             case BUTTON_COLOR_RED:
                 ball_0_color = RGB (255, 0, 0);
+                sign_color_change = 1;
                 printf ("red\n");
                 txSetFillColor (TX_BLACK);
                 txClear ();
@@ -116,6 +115,7 @@ int main ()
 
             case BUTTON_COLOR_GREEN:
                 ball_0_color = RGB (0, 255, 0);
+                sign_color_change = 1;
                 printf ("green\n");
                 txSetFillColor (TX_BLACK);
                 txClear ();
@@ -123,6 +123,7 @@ int main ()
 
             case BUTTON_COLOR_BLUE:
                 ball_0_color = RGB (0, 0, 255);
+                sign_color_change = 1;
                 printf ("blue\n");
                 txSetFillColor (TX_BLACK);
                 txClear ();
@@ -143,13 +144,13 @@ int main ()
                 break;
 
             default:
-                printf ("Для запуска игры, нажмите кнопку Game Start\n");
+                break;
             }
 
         if (pressed_buttons == 7) break;
         }
 
-    MoveBalls (name_user, &continue_game, &ball_0_color, &r_ball);
+    MoveBalls (name_user, &continue_game, &ball_0_color, &r_ball, &sign_color_change);
 
     txEnd ();
 
@@ -167,7 +168,7 @@ void DrawBackground ()
 
 //-----------------------------------------------------------------------------
 
-void MoveBalls (char* name_user, int* continue_game, COLORREF* ball_0_color, int* r_ball)
+void MoveBalls (char* name_user, int* continue_game, COLORREF* ball_0_color, int* r_ball, int* sign_color_change)
     {
     Ball balls[N_BALLS] = {{320, 110, 0, 0, *r_ball, *ball_0_color,       *ball_0_color,       4},
                           {360, 150, 2, 2, *r_ball, RGB (63,  72,  204), RGB (63,  0,   170), 6},
@@ -184,7 +185,15 @@ void MoveBalls (char* name_user, int* continue_game, COLORREF* ball_0_color, int
 
     txSetTextAlign (TA_CENTER);
 
-    if (*continue_game == 1) ReadFromFile (&balli, &level, balls, name_user);
+    if (*continue_game == 1)
+        {
+        ReadFromFile (&balli, &level, balls, name_user);
+        if (*sign_color_change == 1)
+            {
+            balls[0].color_ball    = *ball_0_color;
+            balls[0].color_contour = *ball_0_color;
+            }
+        }
 
     while (!txGetAsyncKeyState (VK_ESCAPE))
         {
@@ -325,7 +334,7 @@ int ReadFromFile (int* balli, int* level, Ball balls[], char* name_user)
 
     if (file_uzer == NULL) return 1;
 
-    if (fscanf (file_uzer, "Баллы = %d\n Уровень игры = %d", balli, level) != 2)
+    if (fscanf (file_uzer, "Баллы = %d\n Уровень игры = %d\n", balli, level) != 2)
             {
             printf ("\n Ошибка при чтении баллов или уровня в файле uzer.txt\n");
 
@@ -333,13 +342,13 @@ int ReadFromFile (int* balli, int* level, Ball balls[], char* name_user)
             return 0;
             }
 
-        for (int str = 3; !feof (file_uzer); str++)
+    for (int str = 3; !feof (file_uzer); str++)
             {
-            int n = 0;
+            int n = -1;
 
             if (fscanf (file_uzer, " [%d] ", &n) != 1)
                 {
-                printf ("\n Ошибка при чтении номера шарика в файле uzer.txt в строке %d\n", str);
+                printf ("\n Ошибка при чтении номера шарика (%d) в файле uzer.txt в строке %d\n", n, str);
                 break;
                 }
 
@@ -349,11 +358,18 @@ int ReadFromFile (int* balli, int* level, Ball balls[], char* name_user)
                 break;
                 }
 
-            if (fscanf (file_uzer, "x = %d, y = %d, vx = %d, vy = %d", &balls[n].x, &balls[n].y, &balls[n].vx, &balls[n].vy) != 4)
+            if (fscanf (file_uzer, "x = %d, y = %d, vx = %d, vy = %d, ", &balls[n].x, &balls[n].y, &balls[n].vx, &balls[n].vy) != 4)
                 {
                 printf ("\n Ошибка при чтении координат или скоростей в файле uzer.txt в строке %d\n", str);
                 break;
                 }
+
+            if (n == 0)
+                {
+                balls[0].color_ball = ReadFromFile_Color (file_uzer);
+                balls[0].color_contour = balls[0].color_ball;
+                }
+            else ReadFromFile_Color (file_uzer);
 
             if (balls[n].x < 205) balls[n].x = 205;
             if (balls[n].x > 675) balls[n].x = 675;
