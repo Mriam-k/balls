@@ -23,6 +23,7 @@ struct Ball
     int x, y;
     int vx, vy;
     int r;
+    HDC picture;
     COLORREF color_contour, color_ball;
     int thickness_contour;
     int state_ball;
@@ -53,7 +54,7 @@ double   CalculateDistance        (Ball *b1, Ball *b2);
 int      ReadFromFile             (int* balli, int* level, Ball balls[], char* name_user);
 int      WriteToFile              (int* balli, int* level, Ball balls[], char* name_user);
 
-int      Menu_test2               (Button buttons[], int N_Button);
+int      Menu_test2               (Button buttons[], int N_Button = 0);
 
 int      DialogueWithUser_Username(char* name_user, int* continue_game);
 
@@ -81,7 +82,9 @@ int main ()
                         {{400, 235, 585, 280}, RGB (0,   0,   255), "blue"          },
                         {{400, 290, 585, 335}, RGB (255, 255, 128), "radius 25"     },
                         {{400, 345, 585, 390}, RGB (255, 255, 128), "radius 30"     },
-                        {{620, 70,  805, 115}, RGB (255, 255, 128), "Game Start"    }};
+                        {{620, 70,  805, 115}, RGB (255, 255, 128), "Game Start"    }//,
+                        //{                                                           }
+                        };
 
     char name_user[100] = "user";
     int continue_game = 0;
@@ -96,6 +99,7 @@ int main ()
     while (true)
         {
         int pressed_buttons = Menu_test2 (buttons, sizeof (buttons) / sizeof (buttons[0]));
+        //int pressed_buttons = Menu_test2 (buttons);
 
         switch (pressed_buttons)
             {
@@ -170,13 +174,16 @@ void DrawBackground ()
 
 void MoveBalls (char* name_user, int* continue_game, COLORREF* ball_0_color, int* r_ball, int* sign_color_change)
     {
-    Ball balls[N_BALLS] = {{320, 110, 0, 0, *r_ball, *ball_0_color,       *ball_0_color,       4},
-                          {360, 150, 2, 2, *r_ball, RGB (63,  72,  204), RGB (63,  0,   170), 6},
-                          {390, 190, 3, 6, *r_ball, RGB (128, 0,   255), RGB (128, 0,   255)   },
-                          {420, 230, 4, 1, *r_ball, RGB (128, 0,   64 ), RGB (170, 0,   85 ), 4},
-                          {450, 260, 5, 7, *r_ball, RGB (255, 255, 0  ), RGB (255, 255, 100), 5},
-                          {490, 300, 3, 2, *r_ball, RGB (255, 255, 255), RGB (255, 255, 255)   },
-                          {510, 600, 2, 5, *r_ball, RGB (240, 96,  0  ), RGB (255, 127, 39 ), 3}};
+    HDC frog = txLoadImage ("frog.bmp");
+    if (!frog) printf ("Не заружается картинка управляемого шарика");
+
+    Ball balls[N_BALLS] = {{320, 110, 0, 0, *r_ball, frog, *ball_0_color,       *ball_0_color,       4},
+                           {360, 150, 2, 2, *r_ball, NULL, RGB (63,  72,  204), RGB (63,  0,   170), 6},
+                           {390, 190, 3, 6, *r_ball, NULL, RGB (128, 0,   255), RGB (128, 0,   255)   },
+                           {420, 230, 4, 1, *r_ball, NULL, RGB (128, 0,   64 ), RGB (170, 0,   85 ), 4},
+                           {450, 260, 5, 7, *r_ball, NULL, RGB (255, 255, 0  ), RGB (255, 255, 100), 5},
+                           {490, 300, 3, 2, *r_ball, NULL, RGB (255, 255, 255), RGB (255, 255, 255)   },
+                           {510, 600, 2, 5, *r_ball, NULL, RGB (240, 96,  0  ), RGB (255, 127, 39 ), 3}};
 
     int  balli = 0;
     int  level = 1;
@@ -210,7 +217,8 @@ void MoveBalls (char* name_user, int* continue_game, COLORREF* ball_0_color, int
 
         CalculateBalli (balls, &balli);
 
-        for (int i = 0; i < N_BALLS; i++) balls[i].Drow ();
+        for (int i = 1; i < N_BALLS; i++) balls[i].Drow ();
+        txTransparentBlt (txDC(), balls[0].x, balls[0].y, 0, 0, frog);
 
         char print [100] = "";
         txSetColor (RGB(128, 255, 39), 10);
@@ -219,6 +227,8 @@ void MoveBalls (char* name_user, int* continue_game, COLORREF* ball_0_color, int
 
         txSleep (GLOBAL_SLEEP);
         }
+
+        txDeleteDC (frog);
 
     WriteToFile (&balli, &level, balls, name_user);
 
@@ -346,7 +356,11 @@ int ReadFromFile (int* balli, int* level, Ball balls[], char* name_user)
             {
             int n = -1;
 
-            if (fscanf (file_uzer, " [%d] ", &n) != 1)
+            int end_file = fscanf (file_uzer, " [%d] ", &n);
+
+            if (end_file == EOF) break;
+
+            if (end_file != 1)
                 {
                 printf ("\n Ошибка при чтении номера шарика (%d) в файле uzer.txt в строке %d\n", n, str);
                 break;
@@ -397,14 +411,15 @@ int WriteToFile (int* balli, int* level, Ball balls[], char* name_user)
         }
 
     fprintf (file_uzer, "Баллы = %d\n"
-                        "Уровень игры = %d", *balli, *level);
+                        "Уровень игры = %d\n", *balli, *level);
 
     for (int i = 0; i < N_BALLS; i++)
         {
-        fprintf (file_uzer, "\n[%d] ", i);
+        fprintf (file_uzer, "[%d] ", i);
         fprintf (file_uzer, "x  = %4d, y  = %4d, ", balls[i].x,  balls[i].y);
         fprintf (file_uzer, "vx = %4d, vy = %4d,",   balls[i].vx, balls[i].vy);
         WriteToFile_Color (balls[i].color_ball, file_uzer);
+        fprintf (file_uzer, "\n");
         }
 
     fclose  (file_uzer);
@@ -638,7 +653,11 @@ int Menu_test2 (Button buttons[], int N_Button)
         {
         txSetColor (TX_ORANGE, 2);
 
-        for (int i = 0; i < N_Button; i++) buttons[i].Drow_Button ();
+        for (int i = 0; i < N_Button; i++)  // цикл работает постоянно
+            {
+            if (buttons[i].area.left == 0) break; // как только дойдём до нулевой кнопки, цикл должен завершиться
+            buttons[i].Drow_Button ();
+            }
 
         POINT mouse_pos = txMousePos();
 
@@ -646,7 +665,7 @@ int Menu_test2 (Button buttons[], int N_Button)
 
         if (txMouseButtons() != 1) continue;
 
-        for (int i = 0; i < N_Button; i++)
+        for (int i = 0; buttons[i].area.left != 0 || i < N_Button; i++)
             if (In_area (mouse_pos, buttons[i].area))
                  {
                  printf ("кнопка номер %d\n", i);
