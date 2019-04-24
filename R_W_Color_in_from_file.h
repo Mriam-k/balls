@@ -49,9 +49,9 @@ COLORREF ReadFromFile_Color (FILE *file_uzer)
 
     if (fscanf (file_uzer, " RGB ( %d , %d , %d )", &r_color, &g_color, &b_color) == 3)
         {
-        if ((r_color < 0) || (r_color > 225) ||
-            (g_color < 0) || (g_color > 225) ||
-            (b_color < 0) || (b_color > 225))
+        if ((r_color < 0) || (r_color > 255) ||
+            (g_color < 0) || (g_color > 255) ||
+            (b_color < 0) || (b_color > 255))
            {
            printf ("÷вет RGB(%d, %d, %d) - задан не корректно", r_color, g_color, b_color);
            return CLR_INVALID;

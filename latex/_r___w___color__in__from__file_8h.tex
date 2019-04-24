@@ -1,0 +1,191 @@
+\hypertarget{_r___w___color__in__from__file_8h}{}\section{Файл R\+\_\+\+W\+\_\+\+Color\+\_\+in\+\_\+from\+\_\+file.\+h}
+\label{_r___w___color__in__from__file_8h}\index{R\_W\_Color\_in\_from\_file.h@{R\_W\_Color\_in\_from\_file.h}}
+\subsection*{Функции}
+\begin{DoxyCompactItemize}
+\item 
+C\+O\+L\+O\+R\+R\+EF \mbox{\hyperlink{_r___w___color__in__from__file_8h_affd1cb1740571ed7d67f7836cf808f47}{Read\+From\+File\+\_\+\+Color}} (F\+I\+LE $\ast$file\+\_\+uzer)
+\item 
+int \mbox{\hyperlink{_r___w___color__in__from__file_8h_a1db05b30e5d8ae2934bb8cdcbab7af78}{Write\+To\+File\+\_\+\+Color}} (C\+O\+L\+O\+R\+R\+EF color, F\+I\+LE $\ast$file\+\_\+uzer)
+\end{DoxyCompactItemize}
+\subsection*{Переменные}
+\begin{DoxyCompactItemize}
+\item 
+const C\+O\+L\+O\+R\+R\+EF \mbox{\hyperlink{_r___w___color__in__from__file_8h_a0669d87f4b6b90e58bacdf5a15e4be56}{R\+E\+D\+\_\+\+C\+O\+L\+OR}} = R\+GB (225, 0, 0)
+\item 
+const C\+O\+L\+O\+R\+R\+EF \mbox{\hyperlink{_r___w___color__in__from__file_8h_ade4327e23a96b11cab7a36946de56f01}{G\+R\+E\+E\+N\+\_\+\+C\+O\+L\+OR}} = R\+GB (0, 225, 0)
+\item 
+const C\+O\+L\+O\+R\+R\+EF \mbox{\hyperlink{_r___w___color__in__from__file_8h_a8139080b916785f96c37f39f2e7c9a6d}{B\+L\+U\+E\+\_\+\+C\+O\+L\+OR}} = R\+GB (0, 0, 225)
+\end{DoxyCompactItemize}
+
+
+\subsection{Функции}
+\mbox{\Hypertarget{_r___w___color__in__from__file_8h_affd1cb1740571ed7d67f7836cf808f47}\label{_r___w___color__in__from__file_8h_affd1cb1740571ed7d67f7836cf808f47}} 
+\index{R\_W\_Color\_in\_from\_file.h@{R\_W\_Color\_in\_from\_file.h}!ReadFromFile\_Color@{ReadFromFile\_Color}}
+\index{ReadFromFile\_Color@{ReadFromFile\_Color}!R\_W\_Color\_in\_from\_file.h@{R\_W\_Color\_in\_from\_file.h}}
+\subsubsection{\texorpdfstring{ReadFromFile\_Color()}{ReadFromFile\_Color()}}
+{\footnotesize\ttfamily C\+O\+L\+O\+R\+R\+EF Read\+From\+File\+\_\+\+Color (\begin{DoxyParamCaption}\item[{F\+I\+LE $\ast$}]{file\+\_\+uzer }\end{DoxyParamCaption})}
+
+Чтение значения цвета из файла
+
+
+\begin{DoxyParams}{Аргументы}
+{\em file\+\_\+uzer} & Имя файла, из которого читается значение цвета.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Возвращает}
+Цвет.
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{См. также}
+\mbox{\hyperlink{_r___w___color__in__from__file_8h_a1db05b30e5d8ae2934bb8cdcbab7af78}{Write\+To\+File\+\_\+\+Color()}}
+\end{DoxySeeAlso}
+{\ttfamily Пример} использования
+\begin{DoxyCode}{0}
+\DoxyCodeLine{FILE *file = fopen (\textcolor{stringliteral}{"color.txt"}, \textcolor{stringliteral}{"r"});}
+\DoxyCodeLine{COLORREF color = \mbox{\hyperlink{_r___w___color__in__from__file_8h_affd1cb1740571ed7d67f7836cf808f47}{ReadFromFile\_Color}} (file);}
+\DoxyCodeLine{fclose (file);}
+\end{DoxyCode}
+ 
+
+См. определение в файле R\+\_\+\+W\+\_\+\+Color\+\_\+in\+\_\+from\+\_\+file.\+h строка 35
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{36     \{}
+\DoxyCodeLine{37     \textcolor{keywordtype}{int} r\_color = 0, g\_color = 0, b\_color =0;}
+\DoxyCodeLine{38     \textcolor{keywordtype}{char} color[50] = \textcolor{stringliteral}{""};}
+\DoxyCodeLine{39 }
+\DoxyCodeLine{40 }
+\DoxyCodeLine{41     \textcolor{keywordtype}{char} c = 0;}
+\DoxyCodeLine{42     \textcolor{keywordflow}{if} (!((fscanf (file\_uzer, \textcolor{stringliteral}{"color \%c"}, \&c) == 1) \&\& (c == \textcolor{charliteral}{'='})))}
+\DoxyCodeLine{43         \{}
+\DoxyCodeLine{44         printf (\textcolor{stringliteral}{"Данные цвета в файле записаны не корректно"});}
+\DoxyCodeLine{45         \textcolor{keywordflow}{return} CLR\_INVALID;}
+\DoxyCodeLine{46         \}}
+\DoxyCodeLine{47 }
+\DoxyCodeLine{48     \textcolor{comment}{//printf("остаток строки после color = (\%s)\(\backslash\)n", fgets (color, sizeof(color) - 1, file\_uzer));}}
+\DoxyCodeLine{49 }
+\DoxyCodeLine{50     \textcolor{keywordflow}{if} (fscanf (file\_uzer, \textcolor{stringliteral}{" RGB ( \%d , \%d , \%d )"}, \&r\_color, \&g\_color, \&b\_color) == 3)}
+\DoxyCodeLine{51         \{}
+\DoxyCodeLine{52         \textcolor{keywordflow}{if} ((r\_color < 0) || (r\_color > 225) ||}
+\DoxyCodeLine{53             (g\_color < 0) || (g\_color > 225) ||}
+\DoxyCodeLine{54             (b\_color < 0) || (b\_color > 225))}
+\DoxyCodeLine{55            \{}
+\DoxyCodeLine{56            printf (\textcolor{stringliteral}{"Цвет RGB(\%d, \%d, \%d) - задан не корректно"}, r\_color, g\_color, b\_color);}
+\DoxyCodeLine{57            \textcolor{keywordflow}{return} CLR\_INVALID;}
+\DoxyCodeLine{58            \}}
+\DoxyCodeLine{59 }
+\DoxyCodeLine{60         \textcolor{keywordflow}{return} RGB(r\_color, g\_color, b\_color);}
+\DoxyCodeLine{61         \}}
+\DoxyCodeLine{62 }
+\DoxyCodeLine{63     \textcolor{keywordflow}{if} (fscanf (file\_uzer, \textcolor{stringliteral}{"\%s"}, color) == 1)}
+\DoxyCodeLine{64         \{}
+\DoxyCodeLine{65         \textcolor{keywordflow}{if} (strcmp (color, \textcolor{stringliteral}{"RED\_COLOR"}) == 0)}
+\DoxyCodeLine{66             \{}
+\DoxyCodeLine{67             printf (\textcolor{stringliteral}{"Цвет = RGB(225, 0 ,0)"});}
+\DoxyCodeLine{68             \textcolor{keywordflow}{return} RGB(225, 0 ,0);}
+\DoxyCodeLine{69             \}}
+\DoxyCodeLine{70         \textcolor{keywordflow}{if} (strcmp (color, \textcolor{stringliteral}{"GREEN\_COLOR"}) == 0)}
+\DoxyCodeLine{71             \{}
+\DoxyCodeLine{72             printf (\textcolor{stringliteral}{"Цвет = RGB(0, 225 ,0)"});}
+\DoxyCodeLine{73             \textcolor{keywordflow}{return} RGB(0, 225 ,0);}
+\DoxyCodeLine{74             \}}
+\DoxyCodeLine{75         \textcolor{keywordflow}{if} (strcmp (color, \textcolor{stringliteral}{"BLUE\_COLOR"}) == 0)}
+\DoxyCodeLine{76             \{}
+\DoxyCodeLine{77             printf (\textcolor{stringliteral}{"Цвет = RGB(0, 0 ,225)"});}
+\DoxyCodeLine{78             \textcolor{keywordflow}{return} RGB(0, 0 ,225);}
+\DoxyCodeLine{79             \}}
+\DoxyCodeLine{80 }
+\DoxyCodeLine{81         printf (\textcolor{stringliteral}{"Цвет \%s не найден"}, color);}
+\DoxyCodeLine{82         \textcolor{keywordflow}{return} CLR\_INVALID;}
+\DoxyCodeLine{83         \}}
+\DoxyCodeLine{84 }
+\DoxyCodeLine{85     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{86         \{}
+\DoxyCodeLine{87         printf (\textcolor{stringliteral}{"Название цвета в файле отсутствует"});}
+\DoxyCodeLine{88         \textcolor{keywordflow}{return} CLR\_INVALID;}
+\DoxyCodeLine{89         \}}
+\DoxyCodeLine{90     \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{_r___w___color__in__from__file_8h_a1db05b30e5d8ae2934bb8cdcbab7af78}\label{_r___w___color__in__from__file_8h_a1db05b30e5d8ae2934bb8cdcbab7af78}} 
+\index{R\_W\_Color\_in\_from\_file.h@{R\_W\_Color\_in\_from\_file.h}!WriteToFile\_Color@{WriteToFile\_Color}}
+\index{WriteToFile\_Color@{WriteToFile\_Color}!R\_W\_Color\_in\_from\_file.h@{R\_W\_Color\_in\_from\_file.h}}
+\subsubsection{\texorpdfstring{WriteToFile\_Color()}{WriteToFile\_Color()}}
+{\footnotesize\ttfamily int Write\+To\+File\+\_\+\+Color (\begin{DoxyParamCaption}\item[{C\+O\+L\+O\+R\+R\+EF}]{color,  }\item[{F\+I\+LE $\ast$}]{file\+\_\+uzer }\end{DoxyParamCaption})}
+
+
+
+См. определение в файле R\+\_\+\+W\+\_\+\+Color\+\_\+in\+\_\+from\+\_\+file.\+h строка 94
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{95     \{}
+\DoxyCodeLine{96     \textcolor{keywordflow}{switch} (color)}
+\DoxyCodeLine{97         \{}
+\DoxyCodeLine{98         \textcolor{keywordflow}{case} \mbox{\hyperlink{_r___w___color__in__from__file_8h_a0669d87f4b6b90e58bacdf5a15e4be56}{RED\_COLOR}}:}
+\DoxyCodeLine{99             fprintf (file\_uzer, \textcolor{stringliteral}{" color = \%s"}, \textcolor{stringliteral}{"RED\_COLOR"});}
+\DoxyCodeLine{100             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{101         \textcolor{keywordflow}{case} \mbox{\hyperlink{_r___w___color__in__from__file_8h_ade4327e23a96b11cab7a36946de56f01}{GREEN\_COLOR}}:}
+\DoxyCodeLine{102             fprintf (file\_uzer, \textcolor{stringliteral}{" color = \%s"}, \textcolor{stringliteral}{"GREEN\_COLOR"});}
+\DoxyCodeLine{103             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{104         \textcolor{keywordflow}{case} \mbox{\hyperlink{_r___w___color__in__from__file_8h_a8139080b916785f96c37f39f2e7c9a6d}{BLUE\_COLOR}}:}
+\DoxyCodeLine{105             fprintf (file\_uzer, \textcolor{stringliteral}{" color = \%s"}, \textcolor{stringliteral}{"BLUE\_COLOR"});}
+\DoxyCodeLine{106             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{107         \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{108             fprintf (file\_uzer, \textcolor{stringliteral}{" color = RGB (\%3d, \%3d, \%3d)"}, txExtractColor (color, TX\_RED),}
+\DoxyCodeLine{109                                                                 txExtractColor (color, TX\_GREEN),}
+\DoxyCodeLine{110                                                                 txExtractColor (color, TX\_BLUE));}
+\DoxyCodeLine{111         \}}
+\DoxyCodeLine{112     \textcolor{keywordflow}{return} 1;}
+\DoxyCodeLine{113     \}}
+
+\end{DoxyCode}
+
+
+Перекрестные ссылки B\+L\+U\+E\+\_\+\+C\+O\+L\+OR, G\+R\+E\+E\+N\+\_\+\+C\+O\+L\+OR и R\+E\+D\+\_\+\+C\+O\+L\+OR.
+
+
+
+\subsection{Переменные}
+\mbox{\Hypertarget{_r___w___color__in__from__file_8h_a8139080b916785f96c37f39f2e7c9a6d}\label{_r___w___color__in__from__file_8h_a8139080b916785f96c37f39f2e7c9a6d}} 
+\index{R\_W\_Color\_in\_from\_file.h@{R\_W\_Color\_in\_from\_file.h}!BLUE\_COLOR@{BLUE\_COLOR}}
+\index{BLUE\_COLOR@{BLUE\_COLOR}!R\_W\_Color\_in\_from\_file.h@{R\_W\_Color\_in\_from\_file.h}}
+\subsubsection{\texorpdfstring{BLUE\_COLOR}{BLUE\_COLOR}}
+{\footnotesize\ttfamily const C\+O\+L\+O\+R\+R\+EF B\+L\+U\+E\+\_\+\+C\+O\+L\+OR = R\+GB (0, 0, 225)}
+
+
+
+См. определение в файле R\+\_\+\+W\+\_\+\+Color\+\_\+in\+\_\+from\+\_\+file.\+h строка 31
+
+
+
+Используется в Write\+To\+File\+\_\+\+Color().
+
+\mbox{\Hypertarget{_r___w___color__in__from__file_8h_ade4327e23a96b11cab7a36946de56f01}\label{_r___w___color__in__from__file_8h_ade4327e23a96b11cab7a36946de56f01}} 
+\index{R\_W\_Color\_in\_from\_file.h@{R\_W\_Color\_in\_from\_file.h}!GREEN\_COLOR@{GREEN\_COLOR}}
+\index{GREEN\_COLOR@{GREEN\_COLOR}!R\_W\_Color\_in\_from\_file.h@{R\_W\_Color\_in\_from\_file.h}}
+\subsubsection{\texorpdfstring{GREEN\_COLOR}{GREEN\_COLOR}}
+{\footnotesize\ttfamily const C\+O\+L\+O\+R\+R\+EF G\+R\+E\+E\+N\+\_\+\+C\+O\+L\+OR = R\+GB (0, 225, 0)}
+
+
+
+См. определение в файле R\+\_\+\+W\+\_\+\+Color\+\_\+in\+\_\+from\+\_\+file.\+h строка 30
+
+
+
+Используется в Write\+To\+File\+\_\+\+Color().
+
+\mbox{\Hypertarget{_r___w___color__in__from__file_8h_a0669d87f4b6b90e58bacdf5a15e4be56}\label{_r___w___color__in__from__file_8h_a0669d87f4b6b90e58bacdf5a15e4be56}} 
+\index{R\_W\_Color\_in\_from\_file.h@{R\_W\_Color\_in\_from\_file.h}!RED\_COLOR@{RED\_COLOR}}
+\index{RED\_COLOR@{RED\_COLOR}!R\_W\_Color\_in\_from\_file.h@{R\_W\_Color\_in\_from\_file.h}}
+\subsubsection{\texorpdfstring{RED\_COLOR}{RED\_COLOR}}
+{\footnotesize\ttfamily const C\+O\+L\+O\+R\+R\+EF R\+E\+D\+\_\+\+C\+O\+L\+OR = R\+GB (225, 0, 0)}
+
+
+
+См. определение в файле R\+\_\+\+W\+\_\+\+Color\+\_\+in\+\_\+from\+\_\+file.\+h строка 29
+
+
+
+Используется в Write\+To\+File\+\_\+\+Color().
+

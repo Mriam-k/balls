@@ -676,3 +676,277 @@ Run file:	C:\Cpp\games\move_1.exe
 Directory:	C:\Cpp\games
 
 --------------------------------------------------
+
+--------------------------------------------------
+TXLib предупреждает:
+
+Программа: C:\Cpp\games\move_1.exe,
+
+ВНЕЗАПНО: Нарушение доступа к памяти.
+
+#1: Исключение EXCEPTION_ACCESS_VIOLATION (0xC0000005) при выполнении кода по адресу 0x74DCD193 в функции wtoi(). Попытка прочесть данные по адресу 0x00008000. Спасибо _txVectoredExceptionHandler(), что сообщил. Люблю его <3
+
+#1: TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300], Instance: 0x005032D4 (32-bit), Flags: CMdRe0, Thread: 0x1350 (Main). 
+
+--------------------------------------------------
+Стек вызовов:
+
+# 0 0x74DCD193 in C:\Windows\syswow64\msvcrt.dll: wtoi()
+# 1 0x74DDC5FF in C:\Windows\syswow64\msvcrt.dll: printf()
+
+# 2 0x00427E63 in C:\Cpp\games\move_1.exe: ReadFromFile() at C:/Cpp/games/move_1.cpp (361):
+
+    359:                 {
+    360:                 *ball_0_color = ReadFromFile_Color (file_uzer);
+=>  361:                 printf ("%s", *ball_0_color);
+    362:                 }
+    363:             else ReadFromFile_Color (file_uzer);
+
+# 3 0x004274BB in C:\Cpp\games\move_1.exe: MoveBalls() at C:/Cpp/games/move_1.cpp (187):
+
+    185:     txSetTextAlign (TA_CENTER);
+    186: 
+=>  187:     if (*continue_game == 1) ReadFromFile (&balli, &level, balls, name_user, ball_0_color);
+    188: 
+    189:     while (!txGetAsyncKeyState (VK_ESCAPE))
+
+# 4 0x00427138 in C:\Cpp\games\move_1.exe: main() at C:/Cpp/games/move_1.cpp (152):
+
+    150:         }
+    151: 
+=>  152:     MoveBalls (name_user, &continue_game, &ball_0_color, &r_ball);
+    153: 
+    154:     txEnd ();
+
+--------------------------------------------------
+Стек вызовов TX:
+
+# 0 in void MoveBalls(char*, int*, COLORREF*, int*) at C:\Cpp\games\move_1.cpp (185):
+
+    183:     int  counter = 0;
+    184: 
+=>  185:     txSetTextAlign (TA_CENTER);
+    186: 
+    187:     if (*continue_game == 1) ReadFromFile (&balli, &level, balls, name_user, ball_0_color);
+
+--------------------------------------------------
+Developed with:
+
+The Dumb Artist Library (TX Library)
+TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300]
+Copyright (C) Ded (Ilya Dedinsky, http://txlib.ru) <mail@txlib.ru>
+See license on: http://txlib.ru
+
+TXLib file:	C:\Users\Home\Downloads\CodeBlocks\TX\TXLib.h
+Compiled:	Apr 23 2019 20:45:01, GNU g++ 4.8.1, std=201103L, MinGW Runtime 3.20, 32-bit, DEBUG
+Started:	Apr 23 2019 20:45:04
+
+Run file:	C:\Cpp\games\move_1.exe
+Directory:	C:\Cpp\games
+
+--------------------------------------------------
+
+--------------------------------------------------
+TXLib соболезнует...
+
+Программа: C:\Cpp\games\move_1.exe,
+
+ВНЕЗАПНО: signal (11, 0x00): SIGSEGV: Доступ по неверному указателю. Ставьте ассерты! 
+
+Нарушение доступа к памяти.
+
+#1: Исключение EXCEPTION_ACCESS_VIOLATION (0xC0000005) при выполнении кода по адресу 0x74DCD193 в функции wtoi(). Попытка прочесть данные по адресу 0x00008000. Спасибо _txVectoredExceptionHandler(), что сообщил. Люблю его <3
+
+С помощью функции signal() вы можете сами обработать эту ошибку.
+
+#2: TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300], Instance: 0x005032D4 (32-bit), Flags: CMdRe0, Thread: 0x1350 (Main). 
+
+--------------------------------------------------
+Стек вызовов:
+
+# 0 0x74DCD193 in C:\Windows\syswow64\msvcrt.dll: wtoi()
+# 1 0x74DDC5FF in C:\Windows\syswow64\msvcrt.dll: printf()
+
+# 2 0x00427E63 in C:\Cpp\games\move_1.exe: ReadFromFile() at C:/Cpp/games/move_1.cpp (361):
+
+    359:                 {
+    360:                 *ball_0_color = ReadFromFile_Color (file_uzer);
+=>  361:                 printf ("%s", *ball_0_color);
+    362:                 }
+    363:             else ReadFromFile_Color (file_uzer);
+
+# 3 0x004274BB in C:\Cpp\games\move_1.exe: MoveBalls() at C:/Cpp/games/move_1.cpp (187):
+
+    185:     txSetTextAlign (TA_CENTER);
+    186: 
+=>  187:     if (*continue_game == 1) ReadFromFile (&balli, &level, balls, name_user, ball_0_color);
+    188: 
+    189:     while (!txGetAsyncKeyState (VK_ESCAPE))
+
+# 4 0x00427138 in C:\Cpp\games\move_1.exe: main() at C:/Cpp/games/move_1.cpp (152):
+
+    150:         }
+    151: 
+=>  152:     MoveBalls (name_user, &continue_game, &ball_0_color, &r_ball);
+    153: 
+    154:     txEnd ();
+
+--------------------------------------------------
+Стек вызовов TX:
+
+# 0 in void MoveBalls(char*, int*, COLORREF*, int*) at C:\Cpp\games\move_1.cpp (185):
+
+    183:     int  counter = 0;
+    184: 
+=>  185:     txSetTextAlign (TA_CENTER);
+    186: 
+    187:     if (*continue_game == 1) ReadFromFile (&balli, &level, balls, name_user, ball_0_color);
+
+--------------------------------------------------
+Developed with:
+
+The Dumb Artist Library (TX Library)
+TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300]
+Copyright (C) Ded (Ilya Dedinsky, http://txlib.ru) <mail@txlib.ru>
+See license on: http://txlib.ru
+
+TXLib file:	C:\Users\Home\Downloads\CodeBlocks\TX\TXLib.h
+Compiled:	Apr 23 2019 20:45:01, GNU g++ 4.8.1, std=201103L, MinGW Runtime 3.20, 32-bit, DEBUG
+Started:	Apr 23 2019 20:45:04
+
+Run file:	C:\Cpp\games\move_1.exe
+Directory:	C:\Cpp\games
+
+--------------------------------------------------
+
+--------------------------------------------------
+TXLib сообщает:
+
+Программа: C:\Cpp\games\move_1.exe, файл: C:\Users\Home\Downloads\CodeBlocks\TX\TXLib.h, строка: 11342, функция: bool {anonymous}::TX::txBitBlt(HDC, double, double, double, double, HDC, double, double),
+
+Сообщение: Параметр "sourceImage" неверен. Возможно, этот холст не создан, или уже уничтожен, или не загрузилась картинка.
+
+#1: TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300], Instance: 0x005032D4 (32-bit), Flags: CMdRe0, Thread: 0x12D0 (Main), GetLastError(): 13 (Недопустимые данные). 
+
+--------------------------------------------------
+Стек вызовов:
+
+# 0 0x0041F4D9 in C:\Cpp\games\move_1.exe: txBitBlt() at C:/Users/Home/Downloads/CodeBlocks/TX/TXLib.h (11342)
+
+# 1 0x004276EA in C:\Cpp\games\move_1.exe: MoveBalls() at C:/Cpp/games/move_1.cpp (220):
+
+    218:         for (int i = 0; i < N_BALLS; i++) balls[i].Drow ();
+    219:         if (!ball_frog) printf ("Не заружается картинка управляемого шарика");
+=>  220:         txBitBlt (txDC(), 320, 110, 0, 0, ball_frog);
+    221:         txDeleteDC (ball_frog);
+    222: 
+
+# 2 0x0042716F in C:\Cpp\games\move_1.exe: main() at C:/Cpp/games/move_1.cpp (156):
+
+    154:         }
+    155: 
+=>  156:     MoveBalls (name_user, &continue_game, &ball_0_color, &r_ball, &sign_color_change);
+    157: 
+    158:     txEnd ();
+
+--------------------------------------------------
+Стек вызовов TX:
+
+# 0 in bool {anonymous}::TX::txBitBlt(HDC, double, double, double, double, HDC, double, double) at C:\Users\Home\Downloads\CodeBlocks\TX\TXLib.h (11342):
+
+  11340:     {
+  11341: $1  if (_TX_HDC_FAILED (destImage))   return false;
+=>11342: $   if (_TX_HDC_FAILED (sourceImage)) return false;
+  11343: 
+  11344: $   POINT size = txGetExtent (sourceImage);
+
+# 1 in void MoveBalls(char*, int*, COLORREF*, int*, int*) at C:\Cpp\games\move_1.cpp (220):
+
+    218:         for (int i = 0; i < N_BALLS; i++) balls[i].Drow ();
+    219:         if (!ball_frog) printf ("Не заружается картинка управляемого шарика");
+=>  220:         txBitBlt (txDC(), 320, 110, 0, 0, ball_frog);
+    221:         txDeleteDC (ball_frog);
+    222: 
+
+--------------------------------------------------
+Developed with:
+
+The Dumb Artist Library (TX Library)
+TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300]
+Copyright (C) Ded (Ilya Dedinsky, http://txlib.ru) <mail@txlib.ru>
+See license on: http://txlib.ru
+
+TXLib file:	C:\Users\Home\Downloads\CodeBlocks\TX\TXLib.h
+Compiled:	Apr 24 2019 01:37:29, GNU g++ 4.8.1, std=201103L, MinGW Runtime 3.20, 32-bit, DEBUG
+Started:	Apr 24 2019 01:37:33
+
+Run file:	C:\Cpp\games\move_1.exe
+Directory:	C:\Cpp\games
+
+--------------------------------------------------
+
+--------------------------------------------------
+TXLib сообщает:
+
+Программа: C:\Cpp\games\move_1.exe, файл: C:\Users\Home\Downloads\CodeBlocks\TX\TXLib.h, строка: 11342, функция: bool {anonymous}::TX::txBitBlt(HDC, double, double, double, double, HDC, double, double),
+
+Сообщение: Параметр "sourceImage" неверен. Возможно, этот холст не создан, или уже уничтожен, или не загрузилась картинка.
+
+#1: TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300], Instance: 0x005032D4 (32-bit), Flags: CMdRe0, Thread: 0x1450 (Main), GetLastError(): 13 (Недопустимые данные). 
+
+--------------------------------------------------
+Стек вызовов:
+
+# 0 0x0041F4D9 in C:\Cpp\games\move_1.exe: txBitBlt() at C:/Users/Home/Downloads/CodeBlocks/TX/TXLib.h (11342)
+
+# 1 0x004276EA in C:\Cpp\games\move_1.exe: MoveBalls() at C:/Cpp/games/move_1.cpp (220):
+
+    218:         for (int i = 1; i < N_BALLS; i++) balls[i].Drow ();
+    219:         if (!ball_frog) printf ("Не заружается картинка управляемого шарика");
+=>  220:         txBitBlt (txDC(), 320, 110, 0, 0, ball_frog);
+    221:         txDeleteDC (ball_frog);
+    222: 
+
+# 2 0x0042716F in C:\Cpp\games\move_1.exe: main() at C:/Cpp/games/move_1.cpp (156):
+
+    154:         }
+    155: 
+=>  156:     MoveBalls (name_user, &continue_game, &ball_0_color, &r_ball, &sign_color_change);
+    157: 
+    158:     txEnd ();
+
+--------------------------------------------------
+Стек вызовов TX:
+
+# 0 in bool {anonymous}::TX::txBitBlt(HDC, double, double, double, double, HDC, double, double) at C:\Users\Home\Downloads\CodeBlocks\TX\TXLib.h (11342):
+
+  11340:     {
+  11341: $1  if (_TX_HDC_FAILED (destImage))   return false;
+=>11342: $   if (_TX_HDC_FAILED (sourceImage)) return false;
+  11343: 
+  11344: $   POINT size = txGetExtent (sourceImage);
+
+# 1 in void MoveBalls(char*, int*, COLORREF*, int*, int*) at C:\Cpp\games\move_1.cpp (220):
+
+    218:         for (int i = 1; i < N_BALLS; i++) balls[i].Drow ();
+    219:         if (!ball_frog) printf ("Не заружается картинка управляемого шарика");
+=>  220:         txBitBlt (txDC(), 320, 110, 0, 0, ball_frog);
+    221:         txDeleteDC (ball_frog);
+    222: 
+
+--------------------------------------------------
+Developed with:
+
+The Dumb Artist Library (TX Library)
+TXLib [Ver: 00173a, Rev: 105, Date: 2018-12-19 00:00:00 +0300]
+Copyright (C) Ded (Ilya Dedinsky, http://txlib.ru) <mail@txlib.ru>
+See license on: http://txlib.ru
+
+TXLib file:	C:\Users\Home\Downloads\CodeBlocks\TX\TXLib.h
+Compiled:	Apr 24 2019 01:38:29, GNU g++ 4.8.1, std=201103L, MinGW Runtime 3.20, 32-bit, DEBUG
+Started:	Apr 24 2019 01:38:33
+
+Run file:	C:\Cpp\games\move_1.exe
+Directory:	C:\Cpp\games
+
+--------------------------------------------------
